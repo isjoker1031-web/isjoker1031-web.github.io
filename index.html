@@ -126,6 +126,31 @@
     .soon  { background: rgba(251,191,36,.1); color: var(--amber); }  .soon .dot { background: var(--amber); }
     .price { background: rgba(255,144,232,.1); color: var(--pink); }  .price .dot { background: var(--pink); }
 
+    /* 価格カード・受注フロー */
+    .price-card { cursor: default; }
+    .price-tag { margin-top: 14px; font-size: 15px; }
+    .price-tag s { color: #565d75; font-size: 13px; margin-right: 8px; }
+    .price-tag b { font-size: 24px; font-weight: 800; background: linear-gradient(90deg, var(--pink), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .price-tag small { font-size: 13px; }
+    .flow { margin-top: 44px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 32px 28px; }
+    .flow-title { font-size: 19px; font-weight: 800; margin-bottom: 22px; }
+    .flow-steps { display: grid; gap: 18px; }
+    .flow-step { display: flex; gap: 16px; align-items: flex-start; }
+    .flow-num {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      color: #0a0c14; font-weight: 900; font-size: 14px;
+      display: grid; place-items: center;
+    }
+    .flow-step b { display: block; font-size: 14.5px; margin-bottom: 3px; }
+    .flow-step p { font-size: 13px; color: var(--muted); }
+    .cta-btn {
+      display: block; text-align: center; margin-top: 28px; padding: 16px;
+      border-radius: 14px; text-decoration: none; font-weight: 800; font-size: 15.5px;
+      color: #0a0c14; background: linear-gradient(90deg, var(--pink), var(--violet));
+      transition: transform .15s, box-shadow .15s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -12px rgba(255,144,232,.5); }
     /* フッター */
     footer { margin-top: 72px; padding: 52px 0 60px; border-top: 1px solid var(--line); text-align: center; background: var(--bg2); }
     footer .mark { width: 40px; height: 40px; border-radius: 11px; margin: 0 auto 16px; background: linear-gradient(135deg, var(--pink), var(--violet)); display: grid; place-items: center; font-weight: 900; font-size: 19px; color: #0a0c14; }
@@ -288,6 +313,77 @@
         <p data-ja>リジェクト理由の本当の在り処と頻出5パターンの対処。まずは無料でどうぞ。</p>
         <p data-en>The core rejection fixes, free. See where Apple hides the real reason.</p>
         <span class="badge live"><span class="dot"></span>FREE</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="webwork">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><div class="sec-line"></div></div>
+    <h2 data-ja>HP・LP制作、承ります</h2><h2 data-en>Web Design Services</h2>
+    <p class="sub" data-ja>このサイトも自作です。AI駆動開発だから、高品質を相場より安く・速く。個人店・スタートアップ・個人事業主の方、お気軽にどうぞ。</p>
+    <p class="sub" data-en>I built this site myself. AI-driven development means high quality, faster and cheaper than agencies. Small businesses and startups welcome.</p>
+
+    <div class="grid">
+      <div class="card price-card">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 13h6M7 16h10"/></svg></div>
+        <h3 data-ja>LP制作（1ページ）</h3><h3 data-en>Landing Page</h3>
+        <p data-ja>商品・サービスの魅力を1枚に凝縮。スマホ対応・アニメーション・お問い合わせ導線込み。</p>
+        <p data-en>One powerful page for your product. Responsive, animated, with contact flow built in.</p>
+        <div class="price-tag"><s>¥100,000</s> <b>¥69,800</b></div>
+        <span class="badge live"><span class="dot"></span><span data-ja>納品目安 7日</span><span data-en>~7 days</span></span>
+      </div>
+      <div class="card price-card">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3 data-ja>HP制作（〜5ページ）</h3><h3 data-en>Full Website (up to 5 pages)</h3>
+        <p data-ja>会社・店舗の顔になるサイトを一式。トップ＋下層ページ、スマホ対応、基本SEO込み。</p>
+        <p data-en>A complete site for your business. Top + subpages, responsive, basic SEO included.</p>
+        <div class="price-tag"><s>¥300,000</s> <b>¥198,000</b></div>
+        <span class="badge live"><span class="dot"></span><span data-ja>納品目安 14日</span><span data-en>~14 days</span></span>
+      </div>
+      <div class="card price-card">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8"/><path d="M20 4v5h-5"/></svg></div>
+        <h3 data-ja>更新・保守（任意）</h3><h3 data-en>Updates & Maintenance</h3>
+        <p data-ja>テキスト・画像の差し替え、お知らせ更新など、月2回まで対応。いつでも解約OK。</p>
+        <p data-en>Text/image swaps and updates, up to twice a month. Cancel anytime.</p>
+        <div class="price-tag"><b>¥9,800<small data-ja>/月</small><small data-en>/mo</small></b></div>
+        <span class="badge price"><span class="dot"></span><span data-ja>契約は納品後でOK</span><span data-en>Optional add-on</span></span>
+      </div>
+    </div>
+
+    <!-- 受注フロー -->
+    <div class="flow">
+      <h3 class="flow-title" data-ja>ご依頼の流れ</h3><h3 class="flow-title" data-en>How it works</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><span class="flow-num">1</span>
+          <div><b data-ja>無料相談</b><b data-en>Free consultation</b>
+          <p data-ja>メールでご要望をヒアリング。目的・参考サイト・素材の有無を伺います。</p>
+          <p data-en>Tell me your goals, reference sites, and available materials by email.</p></div>
+        </div>
+        <div class="flow-step"><span class="flow-num">2</span>
+          <div><b data-ja>お見積り・ご契約</b><b data-en>Quote & agreement</b>
+          <p data-ja>内容確定後にお見積り。着手金50%のご入金で制作開始します。</p>
+          <p data-en>Fixed quote up front. Work starts after a 50% deposit.</p></div>
+        </div>
+        <div class="flow-step"><span class="flow-num">3</span>
+          <div><b data-ja>デザイン案のご提示</b><b data-en>Design preview</b>
+          <p data-ja>3営業日以内に実際に動くプレビューURLをお送りします。</p>
+          <p data-en>A live preview URL within 3 business days.</p></div>
+        </div>
+        <div class="flow-step"><span class="flow-num">4</span>
+          <div><b data-ja>修正（2回まで無料）</b><b data-en>Revisions (2 rounds free)</b>
+          <p data-ja>フィードバックを反映。大幅な仕様変更は別途お見積りです。</p>
+          <p data-en>Your feedback applied. Major scope changes quoted separately.</p></div>
+        </div>
+        <div class="flow-step"><span class="flow-num">5</span>
+          <div><b data-ja>公開・納品</b><b data-en>Launch</b>
+          <p data-ja>残金50%のご入金後、公開作業まで代行。納品後30日間は不具合修正無料。</p>
+          <p data-en>Balance due at launch. Free bug fixes for 30 days after delivery.</p></div>
+        </div>
+      </div>
+      <a class="cta-btn" href="mailto:is.joker1031@gmail.com?subject=%E3%80%90HP%E3%83%BBLP%E5%88%B6%E4%BD%9C%E3%80%91%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87&body=%E3%81%94%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%EF%BC%9A%0A%0A%E2%96%A0%E3%81%94%E5%B8%8C%E6%9C%9B%EF%BC%88LP%20%2F%20HP%20%2F%20%E3%81%9D%E3%81%AE%E4%BB%96%EF%BC%89%EF%BC%9A%0A%E2%96%A0%E3%81%94%E4%BA%88%E7%AE%97%EF%BC%9A%0A%E2%96%A0%E7%B4%8D%E6%9C%9F%EF%BC%9A%0A%E2%96%A0%E5%8F%82%E8%80%83%E3%82%B5%E3%82%A4%E3%83%88%EF%BC%88%E3%81%82%E3%82%8C%E3%81%B0%EF%BC%89%EF%BC%9A">
+        <span data-ja>無料相談をはじめる →</span><span data-en>Start a free consultation →</span>
       </a>
     </div>
   </div>
