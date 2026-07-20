@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>いしはら製作所 — ISHIHARA WORKS | HP・LP制作 / iOSアプリ / AI SaaS</title>
-  <meta name="description" content="いしはら製作所（石原亮）は、iOSアプリ・AI SaaS・HP／LP制作を手がける個人開発の工房です。相場より安く・速く、高品質なホームページ制作を承ります。LP ¥69,800〜／HP ¥198,000〜。">
-  <meta name="keywords" content="HP制作,ホームページ制作,LP制作,ランディングページ,Web制作,個人開発,iOSアプリ開発,AI SaaS,フリーランス,苫小牧,北海道,いしはら製作所">
+  <title>いしはら製作所 — ISHIHARA WORKS | 動くTRPG・配信素材 / HP・LP制作</title>
+  <meta name="description" content="いしはら製作所（石原亮）は、配信・TRPGで使える"動く演出素材"の制作販売と、HP／LP制作を手がける個人開発の工房です。透過・完全ループのAPNG素材を全8シリーズ・95種、BOOTHにて販売中。OBS・ココフォリアに置くだけ。">
+  <meta name="keywords" content="配信素材,配信オーバーレイ,OBS素材,TRPG素材,ココフォリア素材,APNG,動く素材,エフェクト素材,HP制作,ホームページ制作,LP制作,Web制作,個人開発,いしはら製作所">
   <meta name="author" content="Ryo Ishihara / 石原亮">
   <link rel="canonical" href="https://isjoker1031-web.github.io/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="いしはら製作所 — HP・LP制作 / iOSアプリ / AI SaaS">
-  <meta property="og:description" content="個人開発の工房。相場より安く・速く、高品質なホームページ制作を承ります。LP ¥69,800〜／HP ¥198,000〜。">
+  <meta property="og:title" content="いしはら製作所 — 動くTRPG・配信素材 / HP・LP制作">
+  <meta property="og:description" content="配信・TRPGで使える"動く演出素材"を制作・販売。透過・完全ループのAPNG、全8シリーズ95種。HP／LP制作も承ります。">
   <meta property="og:url" content="https://isjoker1031-web.github.io/">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:site_name" content="いしはら製作所 ISHIHARA WORKS">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="いしはら製作所 — HP・LP制作 / iOSアプリ / AI SaaS">
-  <meta name="twitter:description" content="個人開発の工房。相場より安く・速く、高品質なホームページ制作を承ります。">
+  <meta name="twitter:title" content="いしはら製作所 — 動くTRPG・配信素材 / HP・LP制作">
+  <meta name="twitter:description" content="配信・TRPGで使える"動く演出素材"を制作・販売。HP／LP制作も承ります。">
 
   <!-- 構造化データ (JSON-LD) -->
   <script type="application/ld+json">
@@ -26,15 +26,12 @@
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "いしはら製作所 ISHIHARA WORKS",
-    "description": "iOSアプリ・AI SaaS・HP／LP制作を手がける個人開発の工房",
+    "description": "配信・TRPGで使える動く演出素材の制作販売と、HP／LP制作を手がける個人開発の工房",
     "url": "https://isjoker1031-web.github.io/",
     "email": "is.joker1031@gmail.com",
     "founder": { "@type": "Person", "name": "Ryo Ishihara" },
     "areaServed": "JP",
-    "makesOffer": [
-      { "@type": "Offer", "name": "LP制作", "price": "69800", "priceCurrency": "JPY" },
-      { "@type": "Offer", "name": "HP制作", "price": "198000", "priceCurrency": "JPY" }
-    ]
+    "sameAs": [ "https://isjoker1031.booth.pm/" ]
   }
   </script>
   <style>
@@ -93,6 +90,8 @@
     [data-en], [data-ja] { display: none; }
     html.en [data-en] { display: revert; }
     html.ja [data-ja] { display: revert; }
+    /* 非表示言語は詳細度の高いルールでも確実に隠す（.flow-step b 等の display 上書き対策） */
+    html.ja [data-en], html.en [data-ja] { display: none; }
 
     /* ヒーロー */
     /* スクロール進捗バー */
@@ -158,12 +157,7 @@
     .soon  { background: rgba(251,191,36,.1); color: var(--amber); }  .soon .dot { background: var(--amber); }
     .price { background: rgba(255,144,232,.1); color: var(--pink); }  .price .dot { background: var(--pink); }
 
-    /* 価格カード・受注フロー */
-    .price-card { cursor: default; }
-    .price-tag { margin-top: 14px; font-size: 15px; }
-    .price-tag s { color: #565d75; font-size: 13px; margin-right: 8px; }
-    .price-tag b { font-size: 24px; font-weight: 800; background: linear-gradient(90deg, var(--pink), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .price-tag small { font-size: 13px; }
+    /* 受注フロー */
     .flow { margin-top: 44px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 32px 28px; }
     .flow-title { font-size: 19px; font-weight: 800; margin-bottom: 22px; }
     .flow-steps { display: grid; gap: 18px; }
@@ -183,6 +177,14 @@
       transition: transform .15s, box-shadow .15s;
     }
     .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -12px rgba(255,144,232,.5); }
+    .cta-ghost {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; padding: 13px 26px;
+      border-radius: 999px; text-decoration: none; font-weight: 800; font-size: 14.5px;
+      color: var(--text); border: 1px solid rgba(124,108,255,.5); background: rgba(124,108,255,.06);
+      transition: transform .15s, border-color .15s, background .15s;
+    }
+    .cta-ghost:hover { transform: translateY(-2px); border-color: var(--pink); background: rgba(255,144,232,.08); }
+    .shop-cta { text-align: center; margin-top: 28px; }
     /* フッター */
     footer { margin-top: 72px; padding: 52px 0 60px; border-top: 1px solid var(--line); text-align: center; background: var(--bg2); }
     footer .mark { width: 40px; height: 40px; border-radius: 11px; margin: 0 auto 16px; background: linear-gradient(135deg, var(--pink), var(--violet)); display: grid; place-items: center; font-weight: 900; font-size: 19px; color: #0a0c14; }
@@ -223,11 +225,11 @@
     <div class="hero-tag">SOLO MAKER STUDIO</div>
     <h1 data-ja>ひとりで、つくって、<br><span class="grad">世に出す。</span></h1>
     <h1 data-en>I build and ship things,<br><span class="grad">solo.</span></h1>
-    <p class="tagline" data-ja>いしはら（石原亮）の個人開発工房。iOSアプリ、AI SaaS、そして個人開発者の出荷を速くするツールを、ぜんぶ一人で作っています。</p>
-    <p class="tagline" data-en>The one-person studio of Ryo Ishihara. iOS apps, AI SaaS products, and tools that help fellow indie developers ship faster.</p>
+    <p class="tagline" data-ja>いしはら（石原亮）の個人開発工房。配信・TRPGで使える"動く演出素材"の制作・販売と、HP／LP制作を、ぜんぶ一人でやっています。</p>
+    <p class="tagline" data-en>The one-person studio of Ryo Ishihara. I create animated overlay assets for streaming and TRPG, and build websites — all solo.</p>
     <div class="stats">
-      <div class="stat"><b class="count" data-count="11">0</b><span data-ja>iOSアプリ</span><span data-en>iOS APPS</span></div>
-      <div class="stat"><b class="count" data-count="3">0</b><span data-ja>AI SaaS</span><span data-en>AI SAAS</span></div>
+      <div class="stat"><b class="count" data-count="95">0</b><span data-ja>動く素材</span><span data-en>ANIMATED ASSETS</span></div>
+      <div class="stat"><b class="count" data-count="8">0</b><span data-ja>シリーズ</span><span data-en>SERIES</span></div>
       <div class="stat"><b class="count" data-count="1">0</b><span data-ja>人で運営</span><span data-en>PERSON</span></div>
     </div>
   </div>
@@ -236,115 +238,77 @@
 <section>
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">01</span><div class="sec-line"></div></div>
-    <h2 data-ja>AI SaaS</h2><h2 data-en>AI SaaS</h2>
-    <p class="sub" data-ja>Claudeを頭脳にした、ビジネス向けAIプロダクト。すべて本番稼働中。</p>
-    <p class="sub" data-en>Production AI tools for business — powered by Claude.</p>
+    <h2 data-ja>動く演出素材ショップ</h2><h2 data-en>Animated Overlay Assets</h2>
+    <p class="sub" data-ja>配信・実況・TRPGで使える"置くだけで動く"演出素材。すべて透過背景・完全ループのAPNG。OBSやココフォリアに重ねるだけ。BOOTHで販売中です。</p>
+    <p class="sub" data-en>"Drop-in" animated effects for streaming and TRPG. Transparent, perfectly looping APNG — just overlay them in OBS or Cocofolia. On sale at BOOTH.</p>
     <div class="grid">
-      <a class="card" href="https://meetnote.jp" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg></div>
-        <h3>MeetNote AI</h3>
-        <p data-ja>会議音声を数秒で議事録に。要約・決定事項・アクションアイテムを自動抽出。</p>
-        <p data-en>Turn meeting audio into summaries, decisions, and action items in seconds.</p>
-        <span class="badge live"><span class="dot"></span>meetnote.jp</span>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8619237" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 16.2A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><path d="M8 19v2M8 13v2M16 19v2M16 13v2M12 21v2M12 15v2"/></svg></div>
+        <h3 data-ja>vol.1 気象・自然編</h3><h3 data-en>vol.1 Weather & Nature</h3>
+        <p data-ja>雨・雪・桜・落ち葉・霧・蛍・星空。天気と季節を演出する12種。</p>
+        <p data-en>Rain, snow, sakura, fog, fireflies, stars — 12 weather & season effects.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
       </a>
-      <a class="card" href="https://proposalai.jp" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
-        <h3>ProposalAI</h3>
-        <p data-ja>箇条書きから提案書・見積書を自動生成。営業資料づくりを分単位に。</p>
-        <p data-en>Generate polished proposals and quotes from a few bullet points.</p>
-        <span class="badge live"><span class="dot"></span>proposalai.jp</span>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8619758" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></div>
+        <h3 data-ja>vol.2 ホラー・怪異編</h3><h3 data-en>vol.2 Horror</h3>
+        <p data-ja>血の雨・瘴気・心音・砂嵐・亡霊。クトゥルフ神話TRPGに。11種。</p>
+        <p data-en>Blood rain, miasma, heartbeat, static, spirits — 11 effects for CoC.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
       </a>
-      <a class="card" href="https://supportbot.jp" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.4 8.5 8.5 0 0 1-3.4-.7L3 21l1.8-5.6a8.38 8.38 0 0 1-.7-3.4 8.5 8.5 0 0 1 8.4-9 8.38 8.38 0 0 1 8.5 8.5z"/></svg></div>
-        <h3>SupportBot AI</h3>
-        <p data-ja>自社ドキュメントで学習するAIサポートチャット。24時間、あなたの代わりに回答。</p>
-        <p data-en>An AI support chatbot trained on your docs — answering 24/7.</p>
-        <span class="badge live"><span class="dot"></span>supportbot.jp</span>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8621958" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
+        <h3 data-ja>vol.3 ファンタジー戦闘編</h3><h3 data-en>vol.3 Fantasy Battle</h3>
+        <p data-ja>魔法陣・斬撃・爆発・衝撃波・稲妻・オーラ。戦闘シーンに。12種。</p>
+        <p data-en>Magic circles, slashes, explosions, lightning, auras — 12 battle effects.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
+      </a>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8622319" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div>
+        <h3 data-ja>vol.4 SF・サイバー編</h3><h3 data-en>vol.4 Sci-fi / Cyber</h3>
+        <p data-ja>ネオングリッド・デジタルレイン・HUD・ワープ・グリッチ。12種。</p>
+        <p data-en>Neon grid, digital rain, HUD, warp, glitch — 12 cyber effects.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
+      </a>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8629895" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+        <h3 data-ja>vol.5 魔法・状態編</h3><h3 data-en>vol.5 Magic & Status</h3>
+        <p data-ja>回復・バフ・デバフ・召喚・毒・睡眠・混乱。RPGの状態演出12種。</p>
+        <p data-en>Heal, buff, debuff, summon, poison, sleep — 12 RPG status effects.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
+      </a>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8629948" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+        <h3 data-ja>vol.6 実況・リアクション編</h3><h3 data-en>vol.6 Reaction</h3>
+        <p data-ja>集中線・！マーク・紙吹雪・キラキラ・炎の縁取り。配信の盛り上げに。12種。</p>
+        <p data-en>Speed lines, marks, confetti, sparkles, flames — 12 hype overlays.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
+      </a>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8629984" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A4.5 4.5 0 0 0 12 22a5 5 0 0 0 5-5c0-2.2-1.3-3.7-2.6-5.6-.5 1.6-1.6 2.1-2.6 2.1.6-2.3 0-4.8-2.2-6.9 0 2.8-1.6 3.9-1.6 6.4z"/></svg></div>
+        <h3 data-ja>vol.7 激アツ・スロット演出編</h3><h3 data-en>vol.7 Slot Hype</h3>
+        <p data-ja>7揃い風・レバーON・虹/赤/金フラッシュ・コインシャワー。配信の"激アツ"に。12種。</p>
+        <p data-en>Lucky 7s, lever-on, rainbow/red/gold flash, coin shower — 12 hype effects.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
+      </a>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8630083" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></div>
+        <h3 data-ja>vol.8 極アツ・プレミアム虹編</h3><h3 data-en>vol.8 Premium Rainbow</h3>
+        <p data-ja>虹バースト・確定フラッシュ・虹スパイラル・激アツ虹テロップ。最上級の12種。</p>
+        <p data-en>Rainbow burst, confirm-flash, spiral, hype text — 12 premium effects.</p>
+        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
+      </a>
+      <a class="card" href="https://isjoker1031.booth.pm/items/8619016" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></div>
+        <h3 data-ja>無料サンプル（3種）</h3><h3 data-en>Free Sample (3 effects)</h3>
+        <p data-ja>小雨・静かな雪・蛍の3種を無料で。まずは動作をお試しください。</p>
+        <p data-en>Soft rain, snow, and fireflies — free. Try the real thing first.</p>
+        <span class="badge live"><span class="dot"></span>FREE · BOOTH</span>
       </a>
     </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-head"><span class="sec-num">02</span><div class="sec-line"></div></div>
-    <h2 data-ja>iOSアプリ</h2><h2 data-en>iOS Apps</h2>
-    <p class="sub" data-ja>ユーティリティから習慣化、パズルまで。AI駆動開発で一人で量産しています。</p>
-    <p class="sub" data-en>Utilities, wellness, and puzzles — all built solo with AI-assisted development.</p>
-    <div class="grid">
-      <a class="card" href="https://apps.apple.com/app/id6770191501" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-        <h3 data-ja>きろく — AI日記</h3><h3 data-en>Kiroku — AI Journal</h3>
-        <p data-ja>1行書くだけのAIジャーナリング。書いた分だけ、自分がわかる。</p>
-        <p data-en>One-line journaling with AI reflections that help you understand yourself.</p>
-        <span class="badge live"><span class="dot"></span>App Store</span>
-      </a>
-      <a class="card" href="https://apps.apple.com/app/id6770011887" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-        <h3>JogLink</h3>
-        <p data-ja>シンプルに徹したランニング記録。走って、記録して、続ける。</p>
-        <p data-en>A running tracker that keeps it simple — log runs, see progress, keep moving.</p>
-        <span class="badge live"><span class="dot"></span>App Store</span>
-      </a>
-      <a class="card" href="https://apps.apple.com/app/id6785179825" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.2"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 7h5M17 17h5"/></svg></div>
-        <h3>GrainCraft</h3>
-        <p data-ja>写真に本物のフィルム粒子を。買い切りのフィルムテクスチャ加工。</p>
-        <p data-en>Add authentic analog film grain to your photos. One-time purchase.</p>
-        <span class="badge live"><span class="dot"></span>App Store</span>
-      </a>
-      <a class="card" href="https://apps.apple.com/app/id6785178615" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg></div>
-        <h3>FlatScan</h3>
-        <p data-ja>撮った書類をまっすぐ・くっきり。ドキュメントクリーナー。</p>
-        <p data-en>Flatten, sharpen, and clean up photographed documents.</p>
-        <span class="badge live"><span class="dot"></span>App Store</span>
-      </a>
-      <a class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-        <h3>Habit Squad</h3>
-        <p data-ja>仲間と続ける習慣トラッカー。AIコーチAlexが毎日伴走。</p>
-        <p data-en>Group habit tracking with an AI coach. Build streaks with your crew.</p>
-        <span class="badge soon"><span class="dot"></span><span data-ja>審査中</span><span data-en>In review</span></span>
-      </a>
-      <a class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
-        <h3 data-ja>パズル・コレクション</h3><h3 data-en>Puzzle Collection</h3>
-        <p data-ja>TileShuffle・ColorTubes・WordFind・MemoPairs・NumLink。広告控えめな脳トレ5本。</p>
-        <p data-en>TileShuffle · ColorTubes · WordFind · MemoPairs · NumLink — five clean brain games.</p>
-        <span class="badge soon"><span class="dot"></span><span data-ja>審査中</span><span data-en>In review</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-head"><span class="sec-num">03</span><div class="sec-line"></div></div>
-    <h2 data-ja>開発者向けツール＆ガイド</h2><h2 data-en>Tools & Guides for Indie Devs</h2>
-    <p class="sub" data-ja>11本のアプリを出荷して踏んだ地雷を、あなたが踏まないためのツールと実録ガイド。</p>
-    <p class="sub" data-en>Automation and playbooks born from shipping 11 apps — so you can skip my mistakes.</p>
-    <div class="grid">
-      <a class="card" href="https://shipwithryo.gumroad.com/l/zxzcne" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg></div>
-        <h3>ASC Screenshot Uploader</h3>
-        <p data-ja>App Storeスクショの生成→一括アップロードをPythonで自動化。fastlane不要。</p>
-        <p data-en>Generate App Store screenshots with Python and bulk-upload via the ASC API.</p>
-        <span class="badge price"><span class="dot"></span>$19 · Gumroad</span>
-      </a>
-      <a class="card" href="https://shipwithryo.gumroad.com" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M19.1 4.9l-4.2 4.2M9.1 14.9l-4.2 4.2"/><circle cx="12" cy="12" r="4"/></svg></div>
-        <h3 data-ja>審査リジェクト復旧プレイブック</h3><h3 data-en>Rejection Recovery Playbook</h3>
-        <p data-ja>ある朝6本同時リジェクト→48時間で全復旧。その全手順とAPIスクリプト3本。</p>
-        <p data-en>6 apps rejected in one morning → all resubmitted in 48h. Exact fixes + 3 API scripts.</p>
-        <span class="badge price"><span class="dot"></span>$5 · Gumroad</span>
-      </a>
-      <a class="card" href="https://shipwithryo.gumroad.com" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
-        <h3 data-ja>無料サンプル（第1〜2章）</h3><h3 data-en>Free Sample — Chapters 1-2</h3>
-        <p data-ja>リジェクト理由の本当の在り処と頻出5パターンの対処。まずは無料でどうぞ。</p>
-        <p data-en>The core rejection fixes, free. See where Apple hides the real reason.</p>
-        <span class="badge live"><span class="dot"></span>FREE</span>
+    <div class="shop-cta">
+      <a class="cta-ghost" href="https://isjoker1031.booth.pm/" target="_blank" rel="noopener">
+        <span data-ja>BOOTHショップをすべて見る →</span><span data-en>Visit the BOOTH shop →</span>
       </a>
     </div>
   </div>
@@ -352,35 +316,32 @@
 
 <section id="webwork">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">04</span><div class="sec-line"></div></div>
+    <div class="sec-head"><span class="sec-num">02</span><div class="sec-line"></div></div>
     <h2 data-ja>HP・LP制作、承ります</h2><h2 data-en>Web Design Services</h2>
-    <p class="sub" data-ja>このサイトも自作です。AI駆動開発だから、高品質を相場より安く・速く。個人店・スタートアップ・個人事業主の方、お気軽にどうぞ。</p>
-    <p class="sub" data-en>I built this site myself. AI-driven development means high quality, faster and cheaper than agencies. Small businesses and startups welcome.</p>
+    <p class="sub" data-ja>このサイトも自作です。AI駆動開発だから、高品質なサイトを速く。個人店・スタートアップ・個人事業主の方、お気軽にご相談ください。お見積りは内容をお伺いしてから、無料でお出しします。</p>
+    <p class="sub" data-en>I built this site myself. AI-driven development means high quality, delivered fast. Small businesses and startups welcome — free quote after a quick chat.</p>
 
     <div class="grid">
-      <div class="card price-card">
+      <div class="card" style="cursor:default">
         <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 13h6M7 16h10"/></svg></div>
         <h3 data-ja>LP制作（1ページ）</h3><h3 data-en>Landing Page</h3>
         <p data-ja>商品・サービスの魅力を1枚に凝縮。スマホ対応・アニメーション・お問い合わせ導線込み。</p>
-        <p data-en>One powerful page for your product. Responsive, animated, with contact flow built in.</p>
-        <div class="price-tag"><s>¥100,000</s> <b>¥69,800</b></div>
+        <p data-en>One powerful page for your product. Responsive, animated, with a contact flow built in.</p>
         <span class="badge live"><span class="dot"></span><span data-ja>納品目安 7日</span><span data-en>~7 days</span></span>
       </div>
-      <div class="card price-card">
+      <div class="card" style="cursor:default">
         <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
         <h3 data-ja>HP制作（〜5ページ）</h3><h3 data-en>Full Website (up to 5 pages)</h3>
         <p data-ja>会社・店舗の顔になるサイトを一式。トップ＋下層ページ、スマホ対応、基本SEO込み。</p>
         <p data-en>A complete site for your business. Top + subpages, responsive, basic SEO included.</p>
-        <div class="price-tag"><s>¥300,000</s> <b>¥198,000</b></div>
         <span class="badge live"><span class="dot"></span><span data-ja>納品目安 14日</span><span data-en>~14 days</span></span>
       </div>
-      <div class="card price-card">
+      <div class="card" style="cursor:default">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8"/><path d="M20 4v5h-5"/></svg></div>
         <h3 data-ja>更新・保守（任意）</h3><h3 data-en>Updates & Maintenance</h3>
-        <p data-ja>テキスト・画像の差し替え、お知らせ更新など、月2回まで対応。いつでも解約OK。</p>
-        <p data-en>Text/image swaps and updates, up to twice a month. Cancel anytime.</p>
-        <div class="price-tag"><b>¥9,800<small data-ja>/月</small><small data-en>/mo</small></b></div>
-        <span class="badge price"><span class="dot"></span><span data-ja>契約は納品後でOK</span><span data-en>Optional add-on</span></span>
+        <p data-ja>テキスト・画像の差し替え、お知らせ更新など、公開後の運用もサポート。いつでも解約OK。</p>
+        <p data-en>Text/image swaps and ongoing updates after launch. Cancel anytime.</p>
+        <span class="badge price"><span class="dot"></span><span data-ja>ご相談ください</span><span data-en>On request</span></span>
       </div>
     </div>
 
@@ -389,33 +350,28 @@
       <h3 class="flow-title" data-ja>ご依頼の流れ</h3><h3 class="flow-title" data-en>How it works</h3>
       <div class="flow-steps">
         <div class="flow-step"><span class="flow-num">1</span>
-          <div><b data-ja>無料相談</b><b data-en>Free consultation</b>
-          <p data-ja>メールでご要望をヒアリング。目的・参考サイト・素材の有無を伺います。</p>
-          <p data-en>Tell me your goals, reference sites, and available materials by email.</p></div>
+          <div><b data-ja>無料相談・お見積り</b><b data-en>Free consultation & quote</b>
+          <p data-ja>メールでご要望をヒアリング。目的・参考サイト・素材の有無を伺い、無料でお見積りします。</p>
+          <p data-en>Tell me your goals, reference sites, and materials by email — I'll send a free quote.</p></div>
         </div>
         <div class="flow-step"><span class="flow-num">2</span>
-          <div><b data-ja>お見積り・ご契約</b><b data-en>Quote & agreement</b>
-          <p data-ja>内容確定後にお見積り。着手金50%のご入金で制作開始します。</p>
-          <p data-en>Fixed quote up front. Work starts after a 50% deposit.</p></div>
+          <div><b data-ja>デザイン案のご提示</b><b data-en>Design preview</b>
+          <p data-ja>ご契約後、3営業日以内に実際に動くプレビューURLをお送りします。</p>
+          <p data-en>A live preview URL within 3 business days of starting.</p></div>
         </div>
         <div class="flow-step"><span class="flow-num">3</span>
-          <div><b data-ja>デザイン案のご提示</b><b data-en>Design preview</b>
-          <p data-ja>3営業日以内に実際に動くプレビューURLをお送りします。</p>
-          <p data-en>A live preview URL within 3 business days.</p></div>
+          <div><b data-ja>修正（2回まで無料）</b><b data-en>Revisions (2 rounds free)</b>
+          <p data-ja>フィードバックを反映。大幅な仕様変更は別途ご相談です。</p>
+          <p data-en>Your feedback applied. Major scope changes discussed separately.</p></div>
         </div>
         <div class="flow-step"><span class="flow-num">4</span>
-          <div><b data-ja>修正（2回まで無料）</b><b data-en>Revisions (2 rounds free)</b>
-          <p data-ja>フィードバックを反映。大幅な仕様変更は別途お見積りです。</p>
-          <p data-en>Your feedback applied. Major scope changes quoted separately.</p></div>
-        </div>
-        <div class="flow-step"><span class="flow-num">5</span>
           <div><b data-ja>公開・納品</b><b data-en>Launch</b>
-          <p data-ja>残金50%のご入金後、公開作業まで代行。納品後30日間は不具合修正無料。</p>
-          <p data-en>Balance due at launch. Free bug fixes for 30 days after delivery.</p></div>
+          <p data-ja>公開作業まで代行。納品後30日間は不具合修正無料です。</p>
+          <p data-en>I handle the launch. Free bug fixes for 30 days after delivery.</p></div>
         </div>
       </div>
-      <a class="cta-btn" href="mailto:is.joker1031@gmail.com?subject=%E3%80%90HP%E3%83%BBLP%E5%88%B6%E4%BD%9C%E3%80%91%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87&body=%E3%81%94%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%EF%BC%9A%0A%0A%E2%96%A0%E3%81%94%E5%B8%8C%E6%9C%9B%EF%BC%88LP%20%2F%20HP%20%2F%20%E3%81%9D%E3%81%AE%E4%BB%96%EF%BC%89%EF%BC%9A%0A%E2%96%A0%E3%81%94%E4%BA%88%E7%AE%97%EF%BC%9A%0A%E2%96%A0%E7%B4%8D%E6%9C%9F%EF%BC%9A%0A%E2%96%A0%E5%8F%82%E8%80%83%E3%82%B5%E3%82%A4%E3%83%88%EF%BC%88%E3%81%82%E3%82%8C%E3%81%B0%EF%BC%89%EF%BC%9A">
-        <span data-ja>無料相談をはじめる →</span><span data-en>Start a free consultation →</span>
+      <a class="cta-btn" href="mailto:is.joker1031@gmail.com?subject=%E3%80%90HP%E3%83%BBLP%E5%88%B6%E4%BD%9C%E3%80%91%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87&body=%E3%81%94%E7%9B%B8%E8%AB%87%E5%86%85%E5%AE%B9%EF%BC%9A%0A%0A%E2%96%A0%E3%81%94%E5%B8%8C%E6%9C%9B%EF%BC%88LP%20%2F%20HP%20%2F%20%E3%81%9D%E3%81%AE%E4%BB%96%EF%BC%89%EF%BC%9A%0A%E2%96%A0%E7%B4%8D%E6%9C%9F%EF%BC%9A%0A%E2%96%A0%E5%8F%82%E8%80%83%E3%82%B5%E3%82%A4%E3%83%88%EF%BC%88%E3%81%82%E3%82%8C%E3%81%B0%EF%BC%89%EF%BC%9A">
+        <span data-ja>お問い合わせはこちら →</span><span data-en>Get in touch →</span>
       </a>
     </div>
   </div>
@@ -429,7 +385,7 @@
     <p><a href="mailto:is.joker1031@gmail.com">is.joker1031@gmail.com</a></p>
     <div class="foot-links">
       <a href="/privacy/" data-ja>プライバシーポリシー</a><a href="/privacy/" data-en>Privacy Policy</a>
-      <a href="https://shipwithryo.gumroad.com" target="_blank" rel="noopener">Gumroad</a>
+      <a href="https://isjoker1031.booth.pm/" target="_blank" rel="noopener">BOOTH</a>
     </div>
     <p class="copy">© 2026 いしはら製作所 / ISHIHARA WORKS — Ryo Ishihara</p>
   </div>
