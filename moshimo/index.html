@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>もしも — あの選択の、もうひとつの人生</title>
+<style>
+  :root{
+    --bg:#f5f1e8; --paper:#fffdf8; --ink:#2b2620; --ink-soft:#6b6156;
+    --line:#e3dccb; --accent:#b4632f; --accent-soft:#e9d9c8;
+    --lock:#cbb79a; --shadow:0 8px 30px rgba(60,45,25,.12);
+  }
+  html.dark{
+    --bg:#161310; --paper:#201c17; --ink:#eee6d8; --ink-soft:#a99c88;
+    --line:#332c23; --accent:#e0925a; --accent-soft:#3a2f22;
+    --lock:#5a4d3a; --shadow:0 8px 30px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink); min-height:100vh;
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    line-height:1.9; -webkit-font-smoothing:antialiased;
+    transition:background .3s,color .3s;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:28px 20px 80px}
+  header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+  .brand{font-size:34px;letter-spacing:.18em;font-weight:600}
+  .brand small{font-size:12px;letter-spacing:.05em;color:var(--ink-soft);display:block;margin-top:4px;font-weight:400}
+  .toolbtn{background:none;border:1px solid var(--line);color:var(--ink-soft);
+    border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+  .toolbtn:hover{border-color:var(--accent);color:var(--accent)}
+  .tagline{color:var(--ink-soft);font-size:14px;margin:14px 0 26px;line-height:1.7}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;
+    padding:22px;box-shadow:var(--shadow);margin-bottom:20px}
+  label{display:block;font-size:13px;color:var(--ink-soft);margin:14px 0 6px}
+  label:first-child{margin-top:0}
+  input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--line);
+    color:var(--ink);border-radius:10px;padding:11px 13px;font-family:inherit;
+    font-size:15px;line-height:1.7;resize:vertical}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent)}
+  .row{display:flex;gap:12px}
+  .row>div{flex:1}
+  .hint{font-size:11px;color:var(--lock);margin-top:4px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{background:var(--bg);border:1px solid var(--line);color:var(--ink-soft);
+    border-radius:20px;padding:8px 16px;font-family:inherit;font-size:14px;cursor:pointer}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .rtime{display:inline-block;font-size:11px;color:var(--lock);border:1px solid var(--line);
+    border-radius:12px;padding:2px 10px;margin-top:8px}
+
+  .go{width:100%;margin-top:20px;background:var(--accent);color:#fff;border:none;
+    border-radius:12px;padding:15px;font-size:16px;font-weight:600;cursor:pointer;
+    font-family:inherit;letter-spacing:.08em;transition:opacity .2s}
+  .go:hover{opacity:.9}
+  .go:disabled{opacity:.5;cursor:not-allowed}
+
+  details.key{margin-bottom:20px}
+  details.key summary{cursor:pointer;font-size:13px;color:var(--ink-soft);
+    list-style:none;padding:4px 0}
+  details.key summary::-webkit-details-marker{display:none}
+  details.key summary::before{content:"▸ ";color:var(--accent)}
+  details.key[open] summary::before{content:"▾ "}
+  .keybox{margin-top:10px}
+
+  /* story */
+  .story{display:none}
+  .story.show{display:block}
+  .title{font-size:26px;font-weight:600;text-align:center;margin:8px 0 4px;letter-spacing:.06em}
+  .subtitle{text-align:center;color:var(--ink-soft);font-size:12px;margin-bottom:26px}
+  .chapter{margin-bottom:26px}
+  .ch-label{display:inline-block;font-size:12px;color:var(--accent);
+    border:1px solid var(--accent-soft);background:var(--accent-soft);
+    border-radius:6px;padding:2px 10px;margin-bottom:10px;letter-spacing:.2em}
+  .ch-body{font-size:16.5px;white-space:pre-wrap;text-indent:1em}
+  html.dark .ch-label{color:var(--accent)}
+
+  .locked{position:relative}
+  .locked .veil{
+    position:relative;filter:blur(6px);opacity:.5;pointer-events:none;user-select:none;
+    max-height:150px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 30%,transparent);
+    mask-image:linear-gradient(#000 30%,transparent)}
+  .gate{text-align:center;padding:8px 0 4px}
+  .gate p{color:var(--ink-soft);font-size:13px;margin-bottom:12px}
+  .unlock{background:var(--accent);color:#fff;border:none;border-radius:30px;
+    padding:13px 30px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+  .unlock.ad{background:none;border:1px solid var(--line);color:var(--ink-soft);
+    margin-top:10px;font-weight:400;font-size:13px;padding:9px 20px}
+  .unlock:hover{opacity:.9}
+
+  .actions{display:flex;gap:12px;margin-top:24px}
+  .actions .toolbtn{flex:1;text-align:center;padding:11px}
+
+  .loading{display:none;text-align:center;padding:40px 0;color:var(--ink-soft)}
+  .loading.show{display:block}
+  .dots span{animation:blink 1.2s infinite;font-size:24px;color:var(--accent)}
+  .dots span:nth-child(2){animation-delay:.2s}
+  .dots span:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.2}30%{opacity:1}}
+  .err{display:none;background:#fbe4d8;color:#8a3410;border-radius:10px;
+    padding:12px 14px;font-size:13px;margin-top:14px;font-family:sans-serif;line-height:1.6}
+  html.dark .err{background:#3a201480;color:#f0b48a}
+  .err.show{display:block}
+
+  .hist{margin-top:34px}
+  .hist h3{font-size:13px;color:var(--ink-soft);font-weight:400;margin-bottom:10px;letter-spacing:.1em}
+  .hist-item{background:var(--paper);border:1px solid var(--line);border-radius:10px;
+    padding:11px 14px;font-size:14px;cursor:pointer;margin-bottom:8px;display:flex;
+    justify-content:space-between;gap:10px}
+  .hist-item:hover{border-color:var(--accent)}
+  .hist-item small{color:var(--lock);font-size:11px;white-space:nowrap}
+  footer{text-align:center;color:var(--lock);font-size:11px;margin-top:50px;
+    font-family:sans-serif;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">もしも<small>MOSHIMO — もうひとつの人生</small></div>
+    <button class="toolbtn" id="theme">◐ テーマ</button>
+  </header>
+  <p class="tagline">
+    あの日、ちがう道を選んでいたら——。<br>
+    あなたの人生を少しだけ教えてください。AIが「もうひとつのあなた」を、約10分で読める短編小説に綴ります。
+  </p>
+
+  <!-- input card -->
+  <div class="card" id="form">
+    <label>いまのあなた（年齢・いまの暮らし）</label>
+    <input id="now" placeholder="例）35歳・都内のIT企業で会社員。妻と子ひとり。">
+
+    <label>これまでの人生を、ひとことで</label>
+    <textarea id="life" rows="3" placeholder="例）地方で生まれ、大学で上京。安定を選んで就職した。"></textarea>
+
+    <div class="row">
+      <div>
+        <label>何歳のときの選択？</label>
+        <input id="age" type="number" placeholder="18" min="0" max="120">
+      </div>
+      <div>
+        <label>そのとき、もし…</label>
+        <input id="choice" placeholder="例）バンドで音楽の道に進んでいたら">
+      </div>
+    </div>
+
+    <label>作風</label>
+    <div class="chips" id="tone">
+      <button type="button" class="chip on" data-tone="real">リアル</button>
+      <button type="button" class="chip" data-tone="emo">エモい</button>
+      <button type="button" class="chip" data-tone="twist">まさかの展開</button>
+      <button type="button" class="chip" data-tone="happy">ハッピー</button>
+    </div>
+
+    <details class="key" id="keywrap">
+      <summary>APIキーの設定（初回のみ）</summary>
+      <div class="keybox">
+        <label>Anthropic APIキー <span class="hint">（この端末にのみ保存。外部送信しません）</span></label>
+        <input id="apikey" type="password" placeholder="sk-ant-...">
+        <label>物語を書くAI</label>
+        <select id="model">
+          <option value="claude-opus-4-8">Opus 4.8 — バランス（おすすめ）</option>
+          <option value="claude-fable-5">Fable 5 — 物語特化・最高品質（高価）</option>
+          <option value="claude-sonnet-5">Sonnet 5 — 軽快・低コスト</option>
+        </select>
+        <p class="hint" style="margin-top:8px">キーは console.anthropic.com で取得できます。</p>
+      </div>
+    </details>
+
+    <button class="go" id="go">この人生を、綴る</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <!-- loading -->
+  <div class="loading" id="loading">
+    <div class="dots"><span>●</span><span>●</span><span>●</span></div>
+    <p style="margin-top:12px;font-size:14px" id="loadmsg">もうひとつの人生を書いています…</p>
+    <p style="margin-top:6px;font-size:12px;color:var(--lock)" id="counter"></p>
+  </div>
+
+  <!-- story -->
+  <div class="story card" id="story">
+    <div class="title" id="s-title"></div>
+    <div class="subtitle" id="s-sub"></div>
+
+    <div class="chapter"><span class="ch-label">起</span><div class="ch-body" id="s-ki"></div></div>
+    <div class="chapter"><span class="ch-label">承</span><div class="ch-body" id="s-sho"></div></div>
+
+    <div id="paywall">
+      <div class="locked">
+        <div class="veil" id="veil"></div>
+      </div>
+      <div class="gate">
+        <p>ここから先——「転」と「結」。物語の核心です。</p>
+        <button class="unlock" id="unlock">続きを読む（転・結）</button><br>
+        <button class="unlock ad" id="unlockAd">広告を見て解放する</button>
+      </div>
+    </div>
+
+    <div id="full" style="display:none">
+      <div class="chapter"><span class="ch-label">転</span><div class="ch-body" id="s-ten"></div></div>
+      <div class="chapter"><span class="ch-label">結</span><div class="ch-body" id="s-ketsu"></div></div>
+    </div>
+
+    <button class="go" id="share" style="margin-top:22px">画像にして、シェアする</button>
+    <div class="actions">
+      <button class="toolbtn" id="again">もう一度べつの選択で</button>
+      <button class="toolbtn" id="copy">コピー</button>
+    </div>
+  </div>
+  <canvas id="cv" width="1080" height="1350" style="display:none"></canvas>
+
+  <!-- history -->
+  <div class="hist" id="hist"></div>
+
+  <footer>いしはら製作所 — もしも</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const LS_KEY = "moshimo_apikey", LS_MODEL = "moshimo_model", LS_HIST = "moshimo_history";
+
+// --- theme ---
+const savedTheme = localStorage.getItem("moshimo_theme");
+if(savedTheme) document.documentElement.className = savedTheme;
+else if(matchMedia("(prefers-color-scheme:dark)").matches) document.documentElement.className = "dark";
+$("theme").onclick = () => {
+  const d = document.documentElement.classList.toggle("dark");
+  document.documentElement.classList.toggle("light", !d);
+  localStorage.setItem("moshimo_theme", d ? "dark" : "light");
+};
+
+// --- restore key/model ---
+if(localStorage.getItem(LS_KEY)) $("apikey").value = localStorage.getItem(LS_KEY);
+else $("keywrap").open = true;
+if(localStorage.getItem(LS_MODEL)) $("model").value = localStorage.getItem(LS_MODEL);
+
+// === 設定 ===============================================================
+// BACKEND_URL を空にするとBYOK（自分のAPIキー）。デプロイ後にワーカーのURLを
+// 入れると、閲覧者はキー不要で使えます（＝誰でも使える／課金・広告はワーカー側で）。
+const CONFIG = { BACKEND_URL: "" };
+// ========================================================================
+
+let current = null; // last generated story object
+
+// --- 作風（トーン）チップ ---
+let selectedTone = "real";
+const TONE = {
+  real: "",
+  emo:   "\n\n【トーン】感情の機微を丁寧に描き、読後に静かな余韻が残るように。ただし現実感は失わない。",
+  twist: "\n\n【トーン】中盤に、意外だが納得できる展開の転機を用意する。ご都合主義は避ける。",
+  happy: "\n\n【トーン】苦労や停滞も描いたうえで、最終的には報われる前向きな着地にする。"
+};
+document.querySelectorAll("#tone .chip").forEach(c => c.onclick = () => {
+  document.querySelectorAll("#tone .chip").forEach(x => x.classList.remove("on"));
+  c.classList.add("on"); selectedTone = c.dataset.tone;
+});
+
+// backend モードならAPIキー欄は不要なので隠す
+if(CONFIG.BACKEND_URL) $("keywrap").style.display = "none";
+
+function showErr(msg){
+  $("err").textContent = msg;
+  $("err").classList.add("show");
+  console.error("[もしも]", msg);
+  $("err").scrollIntoView({ behavior:"smooth", block:"center" });
+}
+function clearErr(){ $("err").classList.remove("show"); }
+
+const SYSTEM = `あなたは、実在の人生をリアルに描く日本語の書き手です。ユーザーが「別の選択をしていたら」歩んだであろう人生を、地に足のついた現実的な筆致で描きます。
+
+【最重要・リアリティ】
+- 詩的・比喩的な美文や、劇的な演出、運命的な偶然は控える。実際にありそうな出来事を具体的に積み上げる。
+- 仕事の内容と収入、住まいや家賃、人間関係、家族、健康、日々のルーティン、お金の悩み、小さな成功と挫折——生活の手ざわりを、具体的な固有名詞や数字を交えて描く。
+- 選択の結果を都合よく美化しない。手に入れたものと、代わりに失ったもの、両方を誠実に描く。退屈な時期や停滞も省かない。
+- 10〜20年のスパンで、原因と結果が無理なくつながる、現実的な人生の流れにする。
+
+【構成】二人称「あなた」で、起承転結の四部構成。
+- 起：いまと地続きの、その選択をする直前の日常。
+- 承：別の道を選び、生活が少しずつ変わっていく数年間。
+- 転：人生が大きく動く現実的な転機（転職・独立・別れ・出会い・失敗・借金・病・親の介護・移住など）。
+- 結：たどり着いた“もうひとつの現在”の、ある平凡な一日の具体的な情景。
+
+【分量】各部およそ1500〜2000字。全体で読み応えのある短編（約10分で読める長さ）にする。各部は複数の段落で構成する。
+【禁止】説教・要約・教訓・メタ発言・「もしも〜だったら」という但し書き。物語そのものだけを書く。
+title は、誇張のない静かで具体的な日本語（20字以内）。`;
+
+async function generate(){
+  clearErr();
+  const key = $("apikey").value.trim();
+  const model = $("model").value;
+  const now = $("now").value.trim();
+  const life = $("life").value.trim();
+  const age = $("age").value.trim();
+  const choice = $("choice").value.trim();
+
+  const useBackend = !!CONFIG.BACKEND_URL;
+  if(!useBackend && !key){ $("keywrap").open = true; showErr("APIキーを入力してください（初回のみ）。"); return; }
+  if(!now && !life && !choice){ showErr("あなたのことを、もう少し教えてください。"); return; }
+
+  if(key) localStorage.setItem(LS_KEY, key);
+  localStorage.setItem(LS_MODEL, model);
+
+  $("form").style.display = "none";
+  $("story").classList.remove("show");
+  $("loading").classList.add("show");
+
+  const userMsg =
+`【いまのあなた】${now || "（未記入）"}
+【これまで】${life || "（未記入）"}
+【${age || "ある"}歳のときの、もしも】${choice || "ちがう道を選んでいたら"}
+
+上記の人物が、この「もしも」の選択をしていたら辿ったであろう人生を、起承転結の短編小説にしてください。${TONE[selectedTone] || ""}`;
+
+  const body = {
+    model,
+    max_tokens: 16000,
+    stream: true,
+    system: SYSTEM,
+    messages: [{ role: "user", content: userMsg }],
+    output_config: { format: { type: "json_schema", schema: {
+      type: "object",
+      properties: {
+        title: { type: "string" },
+        ki: { type: "string" }, sho: { type: "string" },
+        ten: { type: "string" }, ketsu: { type: "string" }
+      },
+      required: ["title","ki","sho","ten","ketsu"],
+      additionalProperties: false
+    }}}
+  };
+
+  try{
+    const headers = { "content-type": "application/json" };
+    if(!useBackend){
+      headers["x-api-key"] = key;
+      headers["anthropic-version"] = "2023-06-01";
+      headers["anthropic-dangerous-direct-browser-access"] = "true";
+    }
+    const res = await fetch(CONFIG.BACKEND_URL || "https://api.anthropic.com/v1/messages", {
+      method: "POST", headers, body: JSON.stringify(body)
+    });
+    if(!res.ok){
+      const t = await res.text();
+      throw new Error(`APIエラー (${res.status})：${t.slice(0,200)}`);
+    }
+    // --- SSE streaming (長文なのでタイムアウト回避＋進捗表示) ---
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "", txt = "";
+    while(true){
+      const { done, value } = await reader.read();
+      if(done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split("\n");
+      buf = lines.pop();
+      for(const line of lines){
+        if(!line.startsWith("data:")) continue;
+        const payload = line.slice(5).trim();
+        if(!payload) continue;
+        let ev; try{ ev = JSON.parse(payload); }catch{ continue; }
+        if(ev.type === "content_block_delta" && ev.delta?.type === "text_delta"){
+          txt += ev.delta.text;
+          $("counter").textContent = `生成中… 約 ${Math.round(txt.length/100)*100} 文字`;
+        }else if(ev.type === "error"){
+          throw new Error(ev.error?.message || "生成中にエラーが発生しました。");
+        }
+      }
+    }
+    if(!txt.trim()) throw new Error("EMPTY");
+    let story;
+    try{ story = JSON.parse(txt); }
+    catch{ throw new Error("PARSE"); }
+    story._meta = { choice: choice || "べつの選択", ts: Date.now() };
+    render(story);
+    saveHistory(story);
+  }catch(e){
+    $("loading").classList.remove("show");
+    $("form").style.display = "block";
+    const m = e.message || String(e);
+    let msg;
+    if(m.includes("Failed to fetch") || m.includes("NetworkError"))
+      msg = "通信に失敗しました。file:// で開くとブロックされる場合があります。ネット接続とAPIキーを確認してください。";
+    else if(m === "EMPTY")  msg = "AIから空の応答が返りました。もう一度お試しください。";
+    else if(m === "PARSE")  msg = "生成結果の解析に失敗しました。もう一度お試しください。";
+    else msg = "エラー：" + m;
+    showErr(msg);
+  }
+}
+
+function render(story){
+  current = story;
+  $("loading").classList.remove("show");
+  $("s-title").textContent = story.title || "もうひとつの人生";
+  const mins = Math.max(1, Math.round([story.ki,story.sho,story.ten,story.ketsu].join("").length/600));
+  $("s-sub").textContent = `もし ${story._meta.choice} ——`;
+  const badge = document.createElement("div");
+  badge.className = "rtime"; badge.textContent = `約 ${mins} 分の物語`;
+  $("s-sub").appendChild(document.createElement("br")); $("s-sub").appendChild(badge);
+  $("s-ki").textContent = story.ki;
+  $("s-sho").textContent = story.sho;
+  $("s-ten").textContent = story.ten;
+  $("s-ketsu").textContent = story.ketsu;
+  // free = 起承 only. 転結 is gated.
+  $("veil").textContent = story.ten;
+  $("paywall").style.display = "block";
+  $("full").style.display = "none";
+  $("story").classList.add("show");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// 無料ユーザーの解放：MVPでは即解放。将来ここに課金/リワード広告を挟む。
+function unlock(){ $("paywall").style.display = "none"; $("full").style.display = "block"; }
+$("unlock").onclick = unlock;
+$("unlockAd").onclick = unlock; // 将来：ここでリワード広告を再生 → 完了で unlock()
+
+$("go").onclick = generate;
+$("again").onclick = () => { $("story").classList.remove("show"); $("form").style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"}); };
+$("copy").onclick = () => {
+  if(!current) return;
+  const t = `${current.title}\n\n【起】${current.ki}\n\n【承】${current.sho}\n\n【転】${current.ten}\n\n【結】${current.ketsu}\n\n— もしも / いしはら製作所`;
+  navigator.clipboard.writeText(t).then(()=>{ $("copy").textContent="コピーしました"; setTimeout(()=>$("copy").textContent="コピー",1500); });
+};
+
+// --- 画像シェア（バイラルの核） ---
+function wrapCenter(ctx, text, x, y, maxW, lh, maxLines){
+  const chars = [...text]; let line = "", lines = [];
+  for(const ch of chars){
+    if(ctx.measureText(line+ch).width > maxW && line){ lines.push(line); line = ch; }
+    else line += ch;
+  }
+  if(line) lines.push(line);
+  if(maxLines && lines.length > maxLines){
+    lines = lines.slice(0, maxLines);
+    let last = lines[maxLines-1];
+    while(ctx.measureText(last+"…").width > maxW && last.length) last = last.slice(0,-1);
+    lines[maxLines-1] = last + "…";
+  }
+  lines.forEach((ln,i)=> ctx.fillText(ln, x, y + i*lh));
+  return y + lines.length*lh;
+}
+
+async function shareImage(){
+  if(!current) return;
+  const cv = $("cv"), c = cv.getContext("2d"), W = cv.width, H = cv.height;
+  const g = c.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,"#1e1811"); g.addColorStop(1,"#0c0906");
+  c.fillStyle = g; c.fillRect(0,0,W,H);
+  const rg = c.createRadialGradient(W/2,320,60, W/2,320,700);
+  rg.addColorStop(0,"rgba(180,99,47,.35)"); rg.addColorStop(1,"rgba(180,99,47,0)");
+  c.fillStyle = rg; c.fillRect(0,0,W,H);
+  c.textAlign = "center";
+  c.fillStyle = "#d8a06a"; c.font = '600 40px "Hiragino Mincho ProN", serif';
+  try{ c.letterSpacing = "14px"; }catch{}
+  c.fillText("も し も", W/2, 150);
+  try{ c.letterSpacing = "0px"; }catch{}
+  c.fillStyle = "#f3ece0"; c.font = '600 66px "Hiragino Mincho ProN", serif';
+  let y = wrapCenter(c, current.title || "もうひとつの人生", W/2, 360, W-160, 92, 3);
+  c.fillStyle = "#d8a06a"; c.font = '30px "Hiragino Mincho ProN", serif';
+  y = wrapCenter(c, `もし ${current._meta.choice} ——`, W/2, y+40, W-200, 46, 2);
+  c.strokeStyle = "rgba(216,160,106,.4)"; c.lineWidth = 2;
+  c.beginPath(); c.moveTo(W/2-60, y+42); c.lineTo(W/2+60, y+42); c.stroke();
+  c.fillStyle = "#b7ab98"; c.font = '30px "Hiragino Mincho ProN", serif';
+  const teaser = (current.ki||"").replace(/\s+/g," ").trim().slice(0,140);
+  wrapCenter(c, teaser, W/2, y+112, W-180, 52, 5);
+  const mins = Math.max(1, Math.round([current.ki,current.sho,current.ten,current.ketsu].join("").length/600));
+  c.fillStyle = "#9a8b76"; c.font = '26px "Hiragino Mincho ProN", serif';
+  c.fillText(`約 ${mins} 分の物語`, W/2, H-196);
+  c.fillStyle = "#c8a06a"; c.font = '28px "Hiragino Mincho ProN", serif';
+  c.fillText("あなたの『もしも』も。", W/2, H-122);
+  c.fillStyle = "#7f7160"; c.font = '22px "Hiragino Mincho ProN", serif';
+  c.fillText("もしも  —  いしはら製作所", W/2, H-72);
+
+  const blob = await new Promise(r => cv.toBlob(r, "image/png"));
+  const file = new File([blob], "moshimo.png", { type:"image/png" });
+  const shareText = `もし ${current._meta.choice}——「${current.title}」\nもうひとつの人生を、AIが綴る。 #もしも`;
+  try{
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      await navigator.share({ files:[file], text: shareText });
+    }else{
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = "moshimo.png"; a.click();
+      $("share").textContent = "画像を保存しました";
+      setTimeout(()=> $("share").textContent = "画像にして、シェアする", 1800);
+    }
+  }catch(e){ /* キャンセル時は無視 */ }
+}
+$("share").onclick = shareImage;
+
+// --- history ---
+function saveHistory(story){
+  const h = JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+  h.unshift(story); if(h.length>10) h.length=10;
+  localStorage.setItem(LS_HIST, JSON.stringify(h));
+  renderHistory();
+}
+function renderHistory(){
+  const h = JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+  if(!h.length){ $("hist").innerHTML=""; return; }
+  $("hist").innerHTML = "<h3>これまでの もしも</h3>" + h.map((s,i)=>
+    `<div class="hist-item" data-i="${i}"><span>${s.title||"無題"}</span>`+
+    `<small>${new Date(s._meta?.ts||Date.now()).toLocaleDateString("ja-JP")}</small></div>`).join("");
+  $("hist").querySelectorAll(".hist-item").forEach(el=>el.onclick=()=>{
+    const s = JSON.parse(localStorage.getItem(LS_HIST))[+el.dataset.i];
+    $("form").style.display="none"; render(s);
+  });
+}
+renderHistory();
+</script>
+</body>
+</html>
