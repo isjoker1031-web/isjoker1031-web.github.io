@@ -248,7 +248,7 @@ if(localStorage.getItem(LS_MODEL)) $("model").value = localStorage.getItem(LS_MO
 // === 設定 ===============================================================
 // BACKEND_URL を空にするとBYOK（自分のAPIキー）。デプロイ後にワーカーのURLを
 // 入れると、閲覧者はキー不要で使えます（＝誰でも使える／課金・広告はワーカー側で）。
-const CONFIG = { BACKEND_URL: "" };
+const CONFIG = { BACKEND_URL: "https://moshimo.is-joker1031-67d.workers.dev" };
 // ========================================================================
 
 let current = null; // last generated story object
