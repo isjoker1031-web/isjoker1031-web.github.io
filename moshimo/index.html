@@ -200,10 +200,15 @@
       <div class="locked">
         <div class="veil" id="veil"></div>
       </div>
-      <div class="gate">
+      <div class="gate" id="gate">
         <p>ここから先——「転」と「結」。物語の核心です。</p>
-        <button class="unlock" id="unlock">続きを読む（転・結）</button><br>
-        <button class="unlock ad" id="unlockAd">広告を見て解放する</button>
+        <button class="unlock" id="unlock">続きを読む（転・結）</button>
+        <!-- 広告スロット: Google AdSense 導入後、ここに広告ユニットを置き、
+             「広告を見る→続きを解放」に差し替える（unlock() 内に広告フックを追加） -->
+      </div>
+      <div class="gate" id="unlockLoading" style="display:none">
+        <div class="dots"><span>●</span><span>●</span><span>●</span></div>
+        <p style="margin-top:10px;font-size:14px;color:var(--ink-soft)">続きを書いています…</p>
       </div>
     </div>
 
@@ -419,11 +424,18 @@ function render(story){
     $("veil").textContent = (story.sho || "").slice(-160);
     $("paywall").style.display = "block";
     $("full").style.display = "none";
-    $("unlock").disabled = false;
-    $("unlock").textContent = "続きを読む（転・結）";
+    $("gate").style.display = "block";
+    $("unlockLoading").style.display = "none";
   }
   $("story").classList.add("show");
   window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function setBadge(story){
+  const b = $("s-sub").querySelector(".rtime"); if(!b) return;
+  const shown = [story.ki,story.sho,story.ten,story.ketsu].filter(Boolean).join("");
+  const mins = Math.max(1, Math.round(shown.length/600));
+  b.textContent = story.ten ? `約 ${mins} 分の物語` : "続きあり（転・結）";
 }
 
 // 転結を生成して解放。無料ユーザーはここまで来たら生成＝コストは"読む人だけ"に集約。
@@ -432,7 +444,9 @@ async function unlock(){
   if(!current) return;
   if(current.ten){ reveal(); return; }
   clearErr();
-  $("unlock").disabled = true;
+  // TODO(AdSense導入時): ここで広告を再生し、完了コールバックで下の生成を呼ぶ
+  $("gate").style.display = "none";
+  $("unlockLoading").style.display = "block";
   const body = {
     model: $("model").value, max_tokens: 8000, stream: true, system: SYSTEM,
     messages: [{ role: "user", content: BACK_PROMPT(current) }],
@@ -443,22 +457,23 @@ async function unlock(){
     }}}
   };
   try{
-    const back = await apiStream(body, n => $("unlock").textContent = `続きを書いています… 約 ${Math.round(n/100)*100} 文字`);
+    const back = await apiStream(body);
     current.ten = back.ten; current.ketsu = back.ketsu;
     $("s-ten").textContent = current.ten;
     $("s-ketsu").textContent = current.ketsu;
+    setBadge(current);
     saveHistory(current); // 同一物語を更新保存
     reveal();
+    $("s-ten").scrollIntoView({ behavior:"smooth", block:"start" });
   }catch(e){
-    $("unlock").disabled = false;
-    $("unlock").textContent = "続きを読む（転・結）";
+    $("unlockLoading").style.display = "none";
+    $("gate").style.display = "block";
     const m = e.message || String(e);
     showErr((m==="EMPTY"||m==="PARSE") ? "続きの生成に失敗しました。もう一度お試しください。" : "エラー：" + m);
   }
 }
 function reveal(){ $("paywall").style.display = "none"; $("full").style.display = "block"; }
 $("unlock").onclick = unlock;
-$("unlockAd").onclick = unlock; // 将来：ここでリワード広告 → 完了で unlock()
 
 $("go").onclick = generate;
 $("again").onclick = () => { $("story").classList.remove("show"); $("form").style.display="block";
