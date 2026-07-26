@@ -15,6 +15,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="もしも — もうひとつの人生をAIが綴る">
 <meta name="twitter:description" content="もし、あの選択をしていたら？ AIがあなたの“もうひとつの人生”を短編小説に。">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5154944142808505" crossorigin="anonymous"></script>
 <style>
   :root{
     --bg:#f5f1e8; --paper:#fffdf8; --ink:#2b2620; --ink-soft:#6b6156;
@@ -256,8 +257,8 @@ if(localStorage.getItem(LS_MODEL)) $("model").value = localStorage.getItem(LS_MO
 // 入れると、閲覧者はキー不要で使えます（＝誰でも使える／課金・広告はワーカー側で）。
 const CONFIG = {
   BACKEND_URL: "https://moshimo.is-joker1031-67d.workers.dev",
-  // AdSense承認後にここを埋める（例: client:"ca-pub-1234567890123456", slot:"1234567890"）
-  ADSENSE: { client: "", slot: "" }
+  // AdSense: client設定済み。承認後、広告ユニットを作って slot(数字) を入れると表示開始
+  ADSENSE: { client: "ca-pub-5154944142808505", slot: "" }
 };
 // ========================================================================
 
@@ -279,13 +280,7 @@ document.querySelectorAll("#tone .chip").forEach(c => c.onclick = () => {
 // backend モードならAPIキー欄は不要なので隠す
 if(CONFIG.BACKEND_URL) $("keywrap").style.display = "none";
 
-// --- AdSense（承認後 CONFIG.ADSENSE を埋めると自動で有効化）---
-if(CONFIG.ADSENSE.client){
-  const s = document.createElement("script");
-  s.async = true; s.crossOrigin = "anonymous";
-  s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + CONFIG.ADSENSE.client;
-  document.head.appendChild(s);
-}
+// --- AdSense（スクリプトは<head>で静的読込。ここは広告ユニットの描画のみ）---
 function showAd(){
   const c = CONFIG.ADSENSE; if(!c.client || !c.slot) return;
   const box = $("adslot"); if(box.dataset.done) return;
