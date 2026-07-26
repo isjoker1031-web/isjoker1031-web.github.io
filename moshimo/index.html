@@ -222,6 +222,7 @@
       <button class="toolbtn" id="again">もう一度べつの選択で</button>
       <button class="toolbtn" id="copy">コピー</button>
     </div>
+    <div id="adslot" style="margin-top:22px"></div>
   </div>
   <canvas id="cv" width="1080" height="1350" style="display:none"></canvas>
 
@@ -253,7 +254,11 @@ if(localStorage.getItem(LS_MODEL)) $("model").value = localStorage.getItem(LS_MO
 // === 設定 ===============================================================
 // BACKEND_URL を空にするとBYOK（自分のAPIキー）。デプロイ後にワーカーのURLを
 // 入れると、閲覧者はキー不要で使えます（＝誰でも使える／課金・広告はワーカー側で）。
-const CONFIG = { BACKEND_URL: "https://moshimo.is-joker1031-67d.workers.dev" };
+const CONFIG = {
+  BACKEND_URL: "https://moshimo.is-joker1031-67d.workers.dev",
+  // AdSense承認後にここを埋める（例: client:"ca-pub-1234567890123456", slot:"1234567890"）
+  ADSENSE: { client: "", slot: "" }
+};
 // ========================================================================
 
 let current = null; // last generated story object
@@ -273,6 +278,20 @@ document.querySelectorAll("#tone .chip").forEach(c => c.onclick = () => {
 
 // backend モードならAPIキー欄は不要なので隠す
 if(CONFIG.BACKEND_URL) $("keywrap").style.display = "none";
+
+// --- AdSense（承認後 CONFIG.ADSENSE を埋めると自動で有効化）---
+if(CONFIG.ADSENSE.client){
+  const s = document.createElement("script");
+  s.async = true; s.crossOrigin = "anonymous";
+  s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + CONFIG.ADSENSE.client;
+  document.head.appendChild(s);
+}
+function showAd(){
+  const c = CONFIG.ADSENSE; if(!c.client || !c.slot) return;
+  const box = $("adslot"); if(box.dataset.done) return;
+  box.innerHTML = `<ins class="adsbygoogle" style="display:block" data-ad-client="${c.client}" data-ad-slot="${c.slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+  try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); box.dataset.done = "1"; }catch(e){}
+}
 
 function showErr(msg){
   $("err").textContent = msg;
@@ -428,6 +447,7 @@ function render(story){
     $("unlockLoading").style.display = "none";
   }
   $("story").classList.add("show");
+  showAd();
   window.scrollTo({ top:0, behavior:"smooth" });
 }
 

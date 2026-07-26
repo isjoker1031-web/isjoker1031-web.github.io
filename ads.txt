@@ -1,0 +1,3 @@
+# Google AdSense — 承認後、下のコメントを外し XXXX をあなたのパブリッシャーID
+# （ca-pub- を除いた数字部分）に置き換えてコミットしてください。
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
