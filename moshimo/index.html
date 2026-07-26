@@ -295,14 +295,76 @@ const SYSTEM = `あなたは、実在の人生をリアルに描く日本語の�
 【禁止】説教・要約・教訓・メタ発言・「もしも〜だったら」という但し書き。物語そのものだけを書く。
 title は、誇張のない静かで具体的な日本語（20字以内）。`;
 
+// 共通: Anthropic（またはバックエンド）へストリーミングで投げてJSONを返す
+async function apiStream(body, onProg){
+  const key = $("apikey").value.trim();
+  const useBackend = !!CONFIG.BACKEND_URL;
+  const headers = { "content-type": "application/json" };
+  if(!useBackend){
+    headers["x-api-key"] = key;
+    headers["anthropic-version"] = "2023-06-01";
+    headers["anthropic-dangerous-direct-browser-access"] = "true";
+  }
+  const res = await fetch(CONFIG.BACKEND_URL || "https://api.anthropic.com/v1/messages", {
+    method: "POST", headers, body: JSON.stringify(body)
+  });
+  if(!res.ok){ const t = await res.text(); throw new Error(`APIエラー (${res.status})：${t.slice(0,200)}`); }
+  const reader = res.body.getReader(), dec = new TextDecoder();
+  let buf = "", txt = "";
+  while(true){
+    const { done, value } = await reader.read();
+    if(done) break;
+    buf += dec.decode(value, { stream: true });
+    const lines = buf.split("\n"); buf = lines.pop();
+    for(const line of lines){
+      if(!line.startsWith("data:")) continue;
+      const p = line.slice(5).trim(); if(!p) continue;
+      let ev; try{ ev = JSON.parse(p); }catch{ continue; }
+      if(ev.type === "content_block_delta" && ev.delta?.type === "text_delta"){
+        txt += ev.delta.text; if(onProg) onProg(txt.length);
+      }else if(ev.type === "error"){
+        throw new Error(ev.error?.message || "生成中にエラーが発生しました。");
+      }
+    }
+  }
+  if(!txt.trim()) throw new Error("EMPTY");
+  try{ return JSON.parse(txt); }catch{ throw new Error("PARSE"); }
+}
+
+const FRONT_PROMPT = (now,life,age,choice) =>
+`【いまのあなた】${now || "（未記入）"}
+【これまで】${life || "（未記入）"}
+【${age || "ある"}歳のときの、もしも】${choice || "ちがう道を選んでいたら"}
+
+上記の人物がこの「もしも」の選択をしていたら辿ったであろう人生を、短編小説として書き始めてください。今回は前半のみ——「起」（選択の直前の日常）と「承」（別の道を選び、生活が少しずつ変わる数年間）——だけを書き、物語が大きく動く直前で止めてください。「転」「結」はまだ書かないこと。${TONE[selectedTone] || ""}`;
+
+const BACK_PROMPT = (s) =>
+`次の「もしも」の物語の前半（起・承）に続く後半を書いてください。
+
+【タイトル】${s.title}
+【起】${s.ki}
+【承】${s.sho}
+
+この続きとして、「転」（人生が大きく動く現実的な転機）と「結」（たどり着いたもうひとつの現在の、ある平凡な一日の情景）を、それぞれ1500〜2000字で。前半と矛盾しないように。${s._meta.tone || ""}`;
+
+function failGen(e){
+  $("loading").classList.remove("show");
+  $("form").style.display = "block";
+  const m = e.message || String(e); let msg;
+  if(m.includes("Failed to fetch") || m.includes("NetworkError"))
+    msg = "通信に失敗しました。ネット接続を確認してください。";
+  else if(m === "EMPTY") msg = "AIから空の応答が返りました。もう一度お試しください。";
+  else if(m === "PARSE") msg = "生成結果の解析に失敗しました。もう一度お試しください。";
+  else msg = "エラー：" + m;
+  showErr(msg);
+}
+
 async function generate(){
   clearErr();
   const key = $("apikey").value.trim();
   const model = $("model").value;
-  const now = $("now").value.trim();
-  const life = $("life").value.trim();
-  const age = $("age").value.trim();
-  const choice = $("choice").value.trim();
+  const now = $("now").value.trim(), life = $("life").value.trim();
+  const age = $("age").value.trim(), choice = $("choice").value.trim();
 
   const useBackend = !!CONFIG.BACKEND_URL;
   if(!useBackend && !key){ $("keywrap").open = true; showErr("APIキーを入力してください（初回のみ）。"); return; }
@@ -314,115 +376,89 @@ async function generate(){
   $("form").style.display = "none";
   $("story").classList.remove("show");
   $("loading").classList.add("show");
+  $("counter").textContent = "";
 
-  const userMsg =
-`【いまのあなた】${now || "（未記入）"}
-【これまで】${life || "（未記入）"}
-【${age || "ある"}歳のときの、もしも】${choice || "ちがう道を選んでいたら"}
-
-上記の人物が、この「もしも」の選択をしていたら辿ったであろう人生を、起承転結の短編小説にしてください。${TONE[selectedTone] || ""}`;
-
+  // 前半（起承）だけ生成 → コストは半分。転結は「続きを読む」で生成。
   const body = {
-    model,
-    max_tokens: 16000,
-    stream: true,
-    system: SYSTEM,
-    messages: [{ role: "user", content: userMsg }],
+    model, max_tokens: 8000, stream: true, system: SYSTEM,
+    messages: [{ role: "user", content: FRONT_PROMPT(now,life,age,choice) }],
     output_config: { format: { type: "json_schema", schema: {
       type: "object",
-      properties: {
-        title: { type: "string" },
-        ki: { type: "string" }, sho: { type: "string" },
-        ten: { type: "string" }, ketsu: { type: "string" }
-      },
-      required: ["title","ki","sho","ten","ketsu"],
-      additionalProperties: false
+      properties: { title:{type:"string"}, ki:{type:"string"}, sho:{type:"string"} },
+      required: ["title","ki","sho"], additionalProperties: false
     }}}
   };
 
   try{
-    const headers = { "content-type": "application/json" };
-    if(!useBackend){
-      headers["x-api-key"] = key;
-      headers["anthropic-version"] = "2023-06-01";
-      headers["anthropic-dangerous-direct-browser-access"] = "true";
-    }
-    const res = await fetch(CONFIG.BACKEND_URL || "https://api.anthropic.com/v1/messages", {
-      method: "POST", headers, body: JSON.stringify(body)
-    });
-    if(!res.ok){
-      const t = await res.text();
-      throw new Error(`APIエラー (${res.status})：${t.slice(0,200)}`);
-    }
-    // --- SSE streaming (長文なのでタイムアウト回避＋進捗表示) ---
-    const reader = res.body.getReader();
-    const dec = new TextDecoder();
-    let buf = "", txt = "";
-    while(true){
-      const { done, value } = await reader.read();
-      if(done) break;
-      buf += dec.decode(value, { stream: true });
-      const lines = buf.split("\n");
-      buf = lines.pop();
-      for(const line of lines){
-        if(!line.startsWith("data:")) continue;
-        const payload = line.slice(5).trim();
-        if(!payload) continue;
-        let ev; try{ ev = JSON.parse(payload); }catch{ continue; }
-        if(ev.type === "content_block_delta" && ev.delta?.type === "text_delta"){
-          txt += ev.delta.text;
-          $("counter").textContent = `生成中… 約 ${Math.round(txt.length/100)*100} 文字`;
-        }else if(ev.type === "error"){
-          throw new Error(ev.error?.message || "生成中にエラーが発生しました。");
-        }
-      }
-    }
-    if(!txt.trim()) throw new Error("EMPTY");
-    let story;
-    try{ story = JSON.parse(txt); }
-    catch{ throw new Error("PARSE"); }
-    story._meta = { choice: choice || "べつの選択", ts: Date.now() };
+    const story = await apiStream(body, n => $("counter").textContent = `生成中… 約 ${Math.round(n/100)*100} 文字`);
+    story._meta = { choice: choice || "べつの選択", ts: Date.now(), tone: TONE[selectedTone] || "" };
     render(story);
     saveHistory(story);
-  }catch(e){
-    $("loading").classList.remove("show");
-    $("form").style.display = "block";
-    const m = e.message || String(e);
-    let msg;
-    if(m.includes("Failed to fetch") || m.includes("NetworkError"))
-      msg = "通信に失敗しました。file:// で開くとブロックされる場合があります。ネット接続とAPIキーを確認してください。";
-    else if(m === "EMPTY")  msg = "AIから空の応答が返りました。もう一度お試しください。";
-    else if(m === "PARSE")  msg = "生成結果の解析に失敗しました。もう一度お試しください。";
-    else msg = "エラー：" + m;
-    showErr(msg);
-  }
+  }catch(e){ failGen(e); }
 }
 
 function render(story){
   current = story;
   $("loading").classList.remove("show");
   $("s-title").textContent = story.title || "もうひとつの人生";
-  const mins = Math.max(1, Math.round([story.ki,story.sho,story.ten,story.ketsu].join("").length/600));
+  const shown = [story.ki, story.sho, story.ten, story.ketsu].filter(Boolean).join("");
+  const mins = Math.max(1, Math.round(shown.length/600));
   $("s-sub").textContent = `もし ${story._meta.choice} ——`;
   const badge = document.createElement("div");
-  badge.className = "rtime"; badge.textContent = `約 ${mins} 分の物語`;
+  badge.className = "rtime";
+  badge.textContent = story.ten ? `約 ${mins} 分の物語` : "続きあり（転・結）";
   $("s-sub").appendChild(document.createElement("br")); $("s-sub").appendChild(badge);
   $("s-ki").textContent = story.ki;
   $("s-sho").textContent = story.sho;
-  $("s-ten").textContent = story.ten;
-  $("s-ketsu").textContent = story.ketsu;
-  // free = 起承 only. 転結 is gated.
-  $("veil").textContent = story.ten;
-  $("paywall").style.display = "block";
-  $("full").style.display = "none";
+  $("s-ten").textContent = story.ten || "";
+  $("s-ketsu").textContent = story.ketsu || "";
+  if(story.ten){
+    $("paywall").style.display = "none";
+    $("full").style.display = "block";
+  }else{
+    $("veil").textContent = (story.sho || "").slice(-160);
+    $("paywall").style.display = "block";
+    $("full").style.display = "none";
+    $("unlock").disabled = false;
+    $("unlock").textContent = "続きを読む（転・結）";
+  }
   $("story").classList.add("show");
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({ top:0, behavior:"smooth" });
 }
 
-// 無料ユーザーの解放：MVPでは即解放。将来ここに課金/リワード広告を挟む。
-function unlock(){ $("paywall").style.display = "none"; $("full").style.display = "block"; }
+// 転結を生成して解放。無料ユーザーはここまで来たら生成＝コストは"読む人だけ"に集約。
+// 将来：この直前に課金 or リワード広告を挟む。
+async function unlock(){
+  if(!current) return;
+  if(current.ten){ reveal(); return; }
+  clearErr();
+  $("unlock").disabled = true;
+  const body = {
+    model: $("model").value, max_tokens: 8000, stream: true, system: SYSTEM,
+    messages: [{ role: "user", content: BACK_PROMPT(current) }],
+    output_config: { format: { type: "json_schema", schema: {
+      type: "object",
+      properties: { ten:{type:"string"}, ketsu:{type:"string"} },
+      required: ["ten","ketsu"], additionalProperties: false
+    }}}
+  };
+  try{
+    const back = await apiStream(body, n => $("unlock").textContent = `続きを書いています… 約 ${Math.round(n/100)*100} 文字`);
+    current.ten = back.ten; current.ketsu = back.ketsu;
+    $("s-ten").textContent = current.ten;
+    $("s-ketsu").textContent = current.ketsu;
+    saveHistory(current); // 同一物語を更新保存
+    reveal();
+  }catch(e){
+    $("unlock").disabled = false;
+    $("unlock").textContent = "続きを読む（転・結）";
+    const m = e.message || String(e);
+    showErr((m==="EMPTY"||m==="PARSE") ? "続きの生成に失敗しました。もう一度お試しください。" : "エラー：" + m);
+  }
+}
+function reveal(){ $("paywall").style.display = "none"; $("full").style.display = "block"; }
 $("unlock").onclick = unlock;
-$("unlockAd").onclick = unlock; // 将来：ここでリワード広告を再生 → 完了で unlock()
+$("unlockAd").onclick = unlock; // 将来：ここでリワード広告 → 完了で unlock()
 
 $("go").onclick = generate;
 $("again").onclick = () => { $("story").classList.remove("show"); $("form").style.display="block";
@@ -500,7 +536,8 @@ $("share").onclick = shareImage;
 
 // --- history ---
 function saveHistory(story){
-  const h = JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+  let h = JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+  h = h.filter(s => s._meta?.ts !== story._meta.ts); // 同一物語は置き換え（転結の追記に対応）
   h.unshift(story); if(h.length>10) h.length=10;
   localStorage.setItem(LS_HIST, JSON.stringify(h));
   renderHistory();
