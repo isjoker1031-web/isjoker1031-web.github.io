@@ -256,7 +256,12 @@ if(localStorage.getItem(LS_MODEL)) $("model").value = localStorage.getItem(LS_MO
 // BACKEND_URL を空にするとBYOK（自分のAPIキー）。デプロイ後にワーカーのURLを
 // 入れると、閲覧者はキー不要で使えます（＝誰でも使える／課金・広告はワーカー側で）。
 const CONFIG = {
-  BACKEND_URL: "https://moshimo.is-joker1031-67d.workers.dev",
+  // 2026-08-02 BYOKに戻した。理由: バックエンド経由だと1話あたり¥15〜25が
+  // こちらの持ち出しになり、回数制限(KV)も未設定＝上限なしだった。
+  // 広告・アフィリエイトの収入は1PVで¥0.1〜0.4なので、読まれるほど赤字が増える。
+  // 戻すときは下のURLをそのまま入れ直せばよい:
+  //   "https://moshimo.is-joker1031-67d.workers.dev"
+  BACKEND_URL: "",
   // AdSense: client設定済み。承認後、広告ユニットを作って slot(数字) を入れると表示開始
   ADSENSE: { client: "ca-pub-5154944142808505", slot: "" }
 };
