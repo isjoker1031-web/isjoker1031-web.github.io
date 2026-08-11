@@ -118,6 +118,9 @@
     font-family:inherit;letter-spacing:.08em;transition:opacity .2s}
   .go:hover{opacity:.9}
   .go:disabled{opacity:.5;cursor:not-allowed}
+  #omakase{width:100%;margin-top:10px;background:none;border:1px solid var(--line);
+    color:var(--ink-soft);border-radius:12px;padding:12px;font-family:inherit;font-size:14px;cursor:pointer}
+  #omakase:hover{border-color:var(--accent);color:var(--accent)}
 
   details.key{margin-bottom:20px}
   details.key summary{cursor:pointer;font-size:13px;color:var(--ink-soft);
@@ -234,6 +237,7 @@
     </details>
 
     <button class="go" id="go">この人生を、綴る</button>
+    <button id="omakase" type="button">入力せず、まず例で試す</button>
     <div class="err" id="err"></div>
   </div>
 
@@ -634,6 +638,20 @@ $("premClose").onclick = closePremium;
 $("premModal").onclick = e => { if(e.target === $("premModal")) closePremium(); };
 
 $("go").onclick = generate;
+
+// おまかせ：入力せずワンタップで体験（完了率→シェア→登録の入口）
+const EXAMPLES = [
+  {now:"32歳・都内で会社員。一人暮らし。", life:"地方で生まれ、大学で上京。安定を選んで就職した。", age:"18", choice:"バンドで音楽の道に進んでいたら"},
+  {now:"40歳・パート勤務。二人の子の母。", life:"結婚を機に仕事を辞め、家庭に入った。", age:"25", choice:"仕事を続けてキャリアを積んでいたら"},
+  {now:"28歳・地元の実家暮らし。", life:"高校卒業後、地元で就職した。", age:"18", choice:"思いきって海外に留学していたら"},
+  {now:"45歳・自営業。浮き沈みの多い人生。", life:"若い頃に会社を辞めて独立した。", age:"30", choice:"あのまま会社に残っていたら"},
+  {now:"36歳・独身。仕事中心の毎日。", life:"恋愛より仕事を優先してきた。", age:"27", choice:"あの人からの告白を受けていたら"}
+];
+$("omakase").onclick = () => {
+  const e = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
+  $("now").value = e.now; $("life").value = e.life; $("age").value = e.age; $("choice").value = e.choice;
+  generate();
+};
 $("again").onclick = () => { $("story").classList.remove("show"); $("form").style.display="block";
   window.scrollTo({top:0,behavior:"smooth"}); };
 $("copy").onclick = () => {
