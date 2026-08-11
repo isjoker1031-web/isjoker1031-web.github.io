@@ -58,6 +58,22 @@
   .chip{background:var(--bg);border:1px solid var(--line);color:var(--ink-soft);
     border-radius:20px;padding:8px 16px;font-family:inherit;font-size:14px;cursor:pointer}
   .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .prem-btn{background:none;border:1px solid var(--accent);color:var(--accent);
+    border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .prem-btn:hover{background:var(--accent);color:#fff}
+  .modal{position:fixed;inset:0;background:rgba(20,15,8,.62);display:none;
+    align-items:center;justify-content:center;padding:20px;z-index:50}
+  .modal.show{display:flex}
+  .modal-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;
+    max-width:420px;width:100%;padding:28px;box-shadow:var(--shadow);text-align:center}
+  .modal-card h3{font-size:22px;margin-bottom:2px;letter-spacing:.06em}
+  .modal-card .price{font-size:36px;font-weight:600;color:var(--accent);margin:8px 0 2px}
+  .modal-card .price small{font-size:14px;color:var(--ink-soft);font-weight:400}
+  .perks{margin:20px 0;font-size:15px}
+  .perks li{list-style:none;padding:7px 0 7px 26px;position:relative;text-align:left}
+  .perks li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .modal-close{background:none;border:none;color:var(--ink-soft);font-size:13px;
+    cursor:pointer;margin-top:14px;font-family:inherit}
   .rtime{display:inline-block;font-size:11px;color:var(--lock);border:1px solid var(--line);
     border-radius:12px;padding:2px 10px;margin-top:8px}
 
@@ -129,7 +145,10 @@
 <div class="wrap">
   <header>
     <div class="brand">もしも<small>MOSHIMO — もうひとつの人生</small></div>
-    <button class="toolbtn" id="theme">◐ テーマ</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="prem-btn" id="premBtn">★ プレミアム</button>
+      <button class="toolbtn" id="theme">◐ テーマ</button>
+    </div>
   </header>
   <p class="tagline">
     あの日、ちがう道を選んでいたら——。<br>
@@ -227,6 +246,21 @@
   </div>
   <canvas id="cv" width="1080" height="1350" style="display:none"></canvas>
 
+  <div class="modal" id="premModal">
+    <div class="modal-card">
+      <h3>もしもプレミアム</h3>
+      <div class="price" id="premPrice">¥480<small> / 月</small></div>
+      <ul class="perks">
+        <li>広告なしで、すっきり読める</li>
+        <li>「転・結」まで待たずに一気に表示</li>
+        <li>月50話まで、たっぷり楽しめる</li>
+        <li>物語の保存・エクスポート</li>
+      </ul>
+      <button class="go" id="premGo">プレミアムに登録する</button>
+      <button class="modal-close" id="premClose">あとで</button>
+    </div>
+  </div>
+
   <!-- history -->
   <div class="hist" id="hist"></div>
 
@@ -263,8 +297,30 @@ const CONFIG = {
   //   "https://moshimo.is-joker1031-67d.workers.dev"
   BACKEND_URL: "",
   // AdSense: client設定済み。承認後、広告ユニットを作って slot(数字) を入れると表示開始
-  ADSENSE: { client: "ca-pub-5154944142808505", slot: "" }
+  ADSENSE: { client: "ca-pub-5154944142808505", slot: "" },
+  // Stripe サブスク（Payment Link）。あなたが作成→URLをここに貼ると課金導線が有効化
+  STRIPE_LINK: "",
+  PRICE: "¥480",     // 表示用の月額
+  FREE_LIMIT: 3,     // 無料は月3話まで（ソフト上限）
+  PREMIUM_LIMIT: 50  // プレミアムは月50話まで（原価暴走を防ぐフェアユース）
 };
+
+// --- サブスク/無料枠の状態管理 ---
+const monthKey = () => new Date().toISOString().slice(0,7);
+function isPremium(){ return localStorage.getItem("moshimo_premium") === "1"; }
+function usedThisMonth(){
+  const d = JSON.parse(localStorage.getItem("moshimo_usage") || "{}");
+  return d.m === monthKey() ? (d.n || 0) : 0;
+}
+function bumpUsage(){
+  localStorage.setItem("moshimo_usage", JSON.stringify({ m: monthKey(), n: usedThisMonth()+1 }));
+}
+function quota(){ return isPremium() ? CONFIG.PREMIUM_LIMIT : CONFIG.FREE_LIMIT; }
+// Stripe成功リダイレクト（?premium=1）でプレミアム付与（MVP。将来はworkerでStripe検証して堅牢化）
+if(new URLSearchParams(location.search).get("premium") === "1"){
+  localStorage.setItem("moshimo_premium", "1");
+  history.replaceState(null, "", location.pathname);
+}
 // ========================================================================
 
 let current = null; // last generated story object
@@ -287,6 +343,7 @@ if(CONFIG.BACKEND_URL) $("keywrap").style.display = "none";
 
 // --- AdSense（スクリプトは<head>で静的読込。ここは広告ユニットの描画のみ）---
 function showAd(){
+  if(isPremium()) return; // プレミアムは広告なし
   const c = CONFIG.ADSENSE; if(!c.client || !c.slot) return;
   const box = $("adslot"); if(box.dataset.done) return;
   box.innerHTML = `<ins class="adsbygoogle" style="display:block" data-ad-client="${c.client}" data-ad-slot="${c.slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
@@ -394,6 +451,9 @@ async function generate(){
   if(!useBackend && !key){ $("keywrap").open = true; showErr("APIキーを入力してください（初回のみ）。"); return; }
   if(!now && !life && !choice){ showErr("あなたのことを、もう少し教えてください。"); return; }
 
+  // 無料枠を使い切ったらプレミアム案内へ
+  if(usedThisMonth() >= quota()){ openPremium(); return; }
+
   if(key) localStorage.setItem(LS_KEY, key);
   localStorage.setItem(LS_MODEL, model);
 
@@ -418,6 +478,7 @@ async function generate(){
     story._meta = { choice: choice || "べつの選択", ts: Date.now(), tone: TONE[selectedTone] || "" };
     render(story);
     saveHistory(story);
+    bumpUsage();
   }catch(e){ failGen(e); }
 }
 
@@ -449,6 +510,7 @@ function render(story){
   $("story").classList.add("show");
   showAd();
   window.scrollTo({ top:0, behavior:"smooth" });
+  if(isPremium() && !story.ten) unlock(); // プレミアムは転結も自動生成（広告・待ちなしで全文）
 }
 
 function setBadge(story){
@@ -494,6 +556,21 @@ async function unlock(){
 }
 function reveal(){ $("paywall").style.display = "none"; $("full").style.display = "block"; }
 $("unlock").onclick = unlock;
+
+// --- プレミアム（サブスク）導線 ---
+$("premPrice").innerHTML = `${CONFIG.PRICE}<small> / 月</small>`;
+function openPremium(){ $("premModal").classList.add("show"); }
+function closePremium(){ $("premModal").classList.remove("show"); }
+function goPremium(){
+  if(CONFIG.STRIPE_LINK){ location.href = CONFIG.STRIPE_LINK; }
+  else { alert("プレミアムは近日公開予定です。もう少しお待ちください。"); }
+}
+$("premBtn").onclick = () => isPremium()
+  ? alert("プレミアム会員です。いつもありがとうございます！")
+  : openPremium();
+$("premGo").onclick = goPremium;
+$("premClose").onclick = closePremium;
+$("premModal").onclick = e => { if(e.target === $("premModal")) closePremium(); };
 
 $("go").onclick = generate;
 $("again").onclick = () => { $("story").classList.remove("show"); $("form").style.display="block";
