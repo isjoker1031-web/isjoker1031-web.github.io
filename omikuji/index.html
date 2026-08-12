@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日の運勢・おみくじ — 無料で今日の運勢を占う</title>
+<meta name="description" content="今日のあなたの運勢を無料でおみくじ占い。総合運・恋愛・仕事・金運・健康と、ラッキーカラー／ナンバー／アイテムまで。毎日引ける、あなただけの今日の運勢。">
+<meta name="keywords" content="おみくじ,今日の運勢,運勢 無料,占い 無料,今日の占い,ラッキーカラー">
+<link rel="canonical" href="https://isjoker1031-web.github.io/omikuji/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="今日の運勢・おみくじ">
+<meta property="og:title" content="今日の運勢・おみくじ — 無料で今日の運勢を占う">
+<meta property="og:description" content="今日のあなたの運勢を無料でおみくじ占い。毎日引けます。">
+<meta property="og:url" content="https://isjoker1031-web.github.io/omikuji/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="今日の運勢・おみくじ">
+<meta name="twitter:description" content="今日のあなたの運勢を無料でおみくじ占い。毎日引けます。">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5154944142808505" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"今日の運勢・おみくじ","url":"https://isjoker1031-web.github.io/omikuji/","applicationCategory":"EntertainmentApplication","operatingSystem":"Web","inLanguage":"ja","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"いしはら製作所"}}
+</script>
+<style>
+  :root{--bg:#f5f1e8;--paper:#fffdf8;--ink:#2b2620;--soft:#6b6156;--line:#e3dccb;--accent:#b4632f;--accent-soft:#e9d9c8;--shadow:0 8px 30px rgba(60,45,25,.12)}
+  @media(prefers-color-scheme:dark){:root{--bg:#161310;--paper:#201c17;--ink:#eee6d8;--soft:#a99c88;--line:#332c23;--accent:#e0925a;--accent-soft:#3a2f22;--shadow:0 8px 30px rgba(0,0,0,.4)}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;line-height:1.9;min-height:100vh}
+  .wrap{max-width:600px;margin:0 auto;padding:30px 20px 80px}
+  .brand{font-size:22px;letter-spacing:.12em;font-weight:600;margin-bottom:4px}
+  .today{color:var(--soft);font-size:13px;margin-bottom:18px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:28px 22px;box-shadow:var(--shadow);text-align:center}
+  h1{font-size:22px;line-height:1.55;margin-bottom:12px}
+  .lead{color:var(--soft);font-size:14.5px;margin-bottom:22px}
+  .btn{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:15px 36px;font-size:16px;font-weight:600;font-family:inherit;letter-spacing:.06em;cursor:pointer;text-decoration:none}
+  .btn:hover{opacity:.9}
+  .ghost{background:none;border:1px solid var(--line);color:var(--soft)}
+  .ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .fortune{font-size:54px;font-weight:600;color:var(--accent);letter-spacing:.1em;margin:6px 0}
+  .fmsg{font-size:16px;margin:6px 0 22px}
+  .cats{text-align:left;margin:18px 0}
+  .cats .row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .cats .row b{color:var(--accent);min-width:56px}
+  .lucky{display:flex;gap:10px;margin:18px 0}
+  .lucky div{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 8px}
+  .lucky b{display:block;font-size:11px;color:var(--soft);margin-bottom:4px}
+  .lucky span{font-size:16px}
+  .bridge{background:var(--accent-soft);border-radius:12px;padding:15px 16px;font-size:14px;margin:20px 0;text-align:left}
+  .actions{display:flex;gap:10px;margin-top:8px}
+  .actions>*{flex:1}
+  .small{font-size:13px;padding:12px 10px}
+  .note{color:var(--soft);font-size:12px;margin-top:14px}
+  .adslot{margin:26px 0}
+  .about2{margin-top:34px;color:var(--soft);line-height:1.9}
+  .about2 h2{font-size:17px;color:var(--ink);margin-bottom:8px}
+  .about2 p{font-size:14px}
+  footer{text-align:center;color:var(--soft);font-size:11px;margin-top:40px;font-family:sans-serif}
+  footer a{color:var(--soft)}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">今日の運勢・おみくじ</div>
+  <div class="today" id="today"></div>
+
+  <div id="intro" class="card">
+    <h1>今日のあなたの運勢は？</h1>
+    <p class="lead">ボタンを引くと、今日のあなただけの運勢が出ます。総合運・恋愛・仕事・金運・健康と、ラッキーアイテムも。無料・登録不要、毎日引けます。</p>
+    <button class="btn" id="draw">おみくじを引く</button>
+  </div>
+
+  <div id="result" class="card hidden">
+    <div class="fortune" id="fortune"></div>
+    <div class="fmsg" id="fmsg"></div>
+    <div class="cats">
+      <div class="row"><b>恋愛</b><span id="c-love"></span></div>
+      <div class="row"><b>仕事</b><span id="c-work"></span></div>
+      <div class="row"><b>金運</b><span id="c-money"></span></div>
+      <div class="row"><b>健康</b><span id="c-health"></span></div>
+    </div>
+    <div class="lucky">
+      <div><b>ラッキーカラー</b><span id="l-color"></span></div>
+      <div><b>ナンバー</b><span id="l-num"></span></div>
+      <div><b>アイテム</b><span id="l-item"></span></div>
+    </div>
+    <div class="bridge">もし、今日ちがう選択をしたら——？ <a href="/moshimo/" style="color:var(--accent)">あなたの“もうひとつの人生”を読む →</a></div>
+    <div class="actions">
+      <button class="btn small" id="share">結果をコピー</button>
+      <button class="btn ghost small" id="again">もう一度見る</button>
+    </div>
+    <div class="note">おみくじは1日1回、あなただけの運勢。また明日引いてね。</div>
+  </div>
+
+  <div class="adslot" id="adwrap" style="display:none">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5154944142808505" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+
+  <section class="about2">
+    <h2>今日の運勢・おみくじについて</h2>
+    <p>「今日の運勢・おみくじ」は、毎日引ける無料の運勢占いです。総合運から恋愛・仕事・金運・健康、ラッキーカラーやアイテムまで。結果は今日のあなただけのもので、日付が変わるとまた新しい運勢が出ます。良い日も、少し慎重な日も、今日を前向きに過ごすきっかけになれば幸いです。</p>
+  </section>
+
+  <footer>いしはら製作所　·　<a href="/privacy/">プライバシーポリシー</a></footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+if(localStorage.getItem("moshimo_theme")) document.documentElement.className = localStorage.getItem("moshimo_theme");
+
+// 端末ごとの固定シード（初回生成）→ 日付と合わせて「その日のあなたの」運勢に
+let userSeed = localStorage.getItem("omikuji_seed");
+if(!userSeed){ userSeed = Math.random().toString(36).slice(2); localStorage.setItem("omikuji_seed", userSeed); }
+const today = new Date();
+$("today").textContent = today.toLocaleDateString("ja-JP", {year:"numeric",month:"long",day:"numeric"});
+const dateKey = today.toISOString().slice(0,10);
+
+function h32(str){ let h=2166136261; for(const c of str){ h^=c.charCodeAt(0); h=Math.imul(h,16777619)>>>0; } return h; }
+const seed = dateKey + "|" + userSeed;
+const pick = (salt, arr) => arr[h32(seed+salt) % arr.length];
+
+const FORTUNES = [
+  {n:"大吉", w:10, m:"流れは最高潮。思い切った一歩が、うれしい実りにつながる日。"},
+  {n:"中吉", w:20, m:"追い風の一日。丁寧に動けば、努力がちゃんと形になります。"},
+  {n:"吉",   w:24, m:"穏やかで安定した運気。焦らず自分のペースで進んで吉。"},
+  {n:"小吉", w:20, m:"小さな幸せが見つかる日。足元の“ありがとう”を大切に。"},
+  {n:"末吉", w:16, m:"これから運が開けていく前触れ。種まきの時と思って動いて。"},
+  {n:"凶",   w:10, m:"少し慎重に。無理せず休むことも、明日への力になります。"}
+];
+function pickFortune(){
+  const total = FORTUNES.reduce((s,f)=>s+f.w,0);
+  let r = h32(seed+"fortune") % total;
+  for(const f of FORTUNES){ if(r < f.w) return f; r -= f.w; }
+  return FORTUNES[2];
+}
+
+const LOVE = ["素直な一言が、距離を縮めます。","聞き上手になると好感度アップ。","昔の縁が、そっと動くかも。","焦らず自然体でいるのが吉。"];
+const WORK = ["準備が実を結ぶ日。","周りへの感謝が、チャンスを呼びます。","丁寧さがきちんと評価されます。","新しい提案が良い方向へ。"];
+const MONEY = ["無駄遣いを見直すと吉。","小さな節約が、あとで効いてきます。","予想外の臨時収入の予感。","自己投資に良い日です。"];
+const HEALTH = ["早めの休息を心がけて。","水分と睡眠を大切に。","軽い運動で気分が晴れます。","背伸びして、深呼吸を。"];
+const COLORS = ["朱色","若葉色","空色","金色","白","藍色","桜色","山吹色"];
+const ITEMS = ["手帳","温かい飲み物","古い写真","小さな観葉植物","お気に入りの音楽","万年筆","小銭入れ","青いハンカチ"];
+
+function reveal(){
+  const f = pickFortune();
+  $("fortune").textContent = f.n;
+  $("fmsg").textContent = f.m;
+  $("c-love").textContent = pick("love", LOVE);
+  $("c-work").textContent = pick("work", WORK);
+  $("c-money").textContent = pick("money", MONEY);
+  $("c-health").textContent = pick("health", HEALTH);
+  $("l-color").textContent = pick("color", COLORS);
+  $("l-num").textContent = (h32(seed+"num") % 9) + 1;
+  $("l-item").textContent = pick("item", ITEMS);
+  window.rtext = `今日の私の運勢は【${f.n}】でした！\nあなたの今日の運勢は？→ https://isjoker1031-web.github.io/omikuji/ #おみくじ #今日の運勢`;
+  $("intro").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  const aw = $("adwrap"); aw.style.display = "block";
+  try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("draw").onclick = reveal;
+$("again").onclick = () => { $("result").classList.add("hidden"); $("intro").classList.remove("hidden"); window.scrollTo({top:0,behavior:"smooth"}); };
+$("share").onclick = () => navigator.clipboard.writeText(window.rtext).then(()=>{ $("share").textContent="コピーしました"; setTimeout(()=>$("share").textContent="結果をコピー",1500); });
+</script>
+</body>
+</html>
