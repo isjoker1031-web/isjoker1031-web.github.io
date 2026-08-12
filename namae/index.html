@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ペンネーム・ハンドルネームメーカー — 素敵な名前を無料で提案</title>
+<meta name="description" content="ペンネームやハンドルネーム、創作のキャラ名を無料で提案。和風・かわいい・クール・ファンタジーの雰囲気から選ぶだけ。気に入った名前はタップでコピーできます。">
+<meta name="keywords" content="ペンネーム メーカー,ハンドルネーム 作成,名前 ジェネレーター,キャラ 名前,創作 名前,ネーミング">
+<link rel="canonical" href="https://isjoker1031-web.github.io/namae/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ペンネームメーカー">
+<meta property="og:title" content="ペンネーム・ハンドルネームメーカー — 素敵な名前を無料で提案">
+<meta property="og:description" content="雰囲気を選ぶだけで、素敵な名前を無料で提案します。">
+<meta property="og:url" content="https://isjoker1031-web.github.io/namae/">
+<meta name="twitter:card" content="summary">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5154944142808505" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"ペンネーム・ハンドルネームメーカー","url":"https://isjoker1031-web.github.io/namae/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"ja","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"いしはら製作所"}}
+</script>
+<style>
+  :root{--bg:#f5f1e8;--paper:#fffdf8;--ink:#2b2620;--soft:#6b6156;--line:#e3dccb;--accent:#4f7a6b;--accent-soft:#dfe9e4;--shadow:0 8px 30px rgba(60,45,25,.12)}
+  @media(prefers-color-scheme:dark){:root{--bg:#161310;--paper:#201c17;--ink:#eee6d8;--soft:#a99c88;--line:#332c23;--accent:#8fc0af;--accent-soft:#26332e;--shadow:0 8px 30px rgba(0,0,0,.4)}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;line-height:1.9;min-height:100vh}
+  .wrap{max-width:620px;margin:0 auto;padding:30px 20px 80px}
+  .brand{font-size:22px;letter-spacing:.1em;font-weight:600;margin-bottom:4px}
+  .lead{color:var(--soft);font-size:14.5px;margin-bottom:20px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px 20px;box-shadow:var(--shadow)}
+  .label{font-size:13px;color:var(--soft);margin-bottom:8px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .chip{background:var(--bg);border:1px solid var(--line);color:var(--soft);border-radius:20px;padding:8px 16px;font-family:inherit;font-size:14px;cursor:pointer}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn{display:block;width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:600;font-family:inherit;letter-spacing:.05em;cursor:pointer;text-align:center;text-decoration:none}
+  .btn:hover{opacity:.9}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+  .name{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px 10px;text-align:center;font-size:19px;cursor:pointer;transition:.15s}
+  .name:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .name.copied{border-color:var(--accent)}
+  .name small{display:block;font-size:11px;color:var(--soft);margin-top:4px}
+  .bridge{background:var(--accent-soft);border-radius:12px;padding:14px 16px;font-size:14px;margin:18px 0}
+  .adslot{margin:24px 0}
+  .about2{margin-top:32px;color:var(--soft);line-height:1.9}
+  .about2 h2{font-size:17px;color:var(--ink);margin-bottom:8px}
+  .about2 p{font-size:14px}
+  footer{text-align:center;color:var(--soft);font-size:11px;margin-top:40px;font-family:sans-serif}
+  footer a{color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">ペンネーム・ハンドルネームメーカー</div>
+  <p class="lead">雰囲気を選んで、素敵な名前を無料で提案します。ペンネーム、ハンドルネーム、創作のキャラ名に。気に入った名前はタップでコピー。</p>
+
+  <div class="card">
+    <div class="label">どんな雰囲気にする？</div>
+    <div class="chips" id="chips">
+      <button class="chip on" data-k="wa">和風・雅</button>
+      <button class="chip" data-k="cute">かわいい</button>
+      <button class="chip" data-k="cool">クール</button>
+      <button class="chip" data-k="fantasy">ファンタジー</button>
+    </div>
+    <button class="btn" id="gen">名前を提案する</button>
+    <div class="grid" id="grid"></div>
+    <div class="bridge">名前が決まったら——その人の物語は？ <a href="/moshimo/" style="color:var(--accent)">AIが綴る“もしも”の短編小説へ →</a></div>
+  </div>
+
+  <div class="adslot" id="adwrap" style="display:none">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5154944142808505" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+
+  <section class="about2">
+    <h2>このメーカーについて</h2>
+    <p>「ペンネーム・ハンドルネームメーカー」は、あなたにぴったりの名前を無料で提案するツールです。和風で雅な名前、かわいい名前、クールな名前、ファンタジー風の中性的な名前——雰囲気を選んで「名前を提案する」を押すだけ。SNSのハンドルネーム、小説やイラストのペンネーム、創作キャラの名づけにお使いください。気に入った名前はタップでコピーできます。</p>
+  </section>
+
+  <footer>いしはら製作所　·　<a href="/privacy/">プライバシーポリシー</a></footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+if(localStorage.getItem("moshimo_theme")) document.documentElement.className = localStorage.getItem("moshimo_theme");
+
+const POOLS = {
+  wa:["紫苑","朧","千歳","綴","澪","楓","縁","静","藍","撫子","千尋","時雨","茜","律","凪","望","遥","栞","菫","灯","朔","雪代","更紗","詩"],
+  cute:["ひなの","ここな","みお","ゆらり","もこ","りりあ","ののか","ひまり","こはる","ゆめの","ねね","さくら","ほたる","まゆ","ふわり","きらら","もも","ゆず","すず","ちま","みるく","ぽむ"],
+  cool:["レイ","シキ","クロ","アサギ","ジン","リク","ハヤテ","カイ","ソウ","ミナト","セイ","ツバサ","セツナ","アオイ","スバル","ヨウ","ラン","タケル","レン","ハル","キリ","クガ"],
+  fantasy:["リオン","セラ","ノクト","ルーナ","フィン","アリア","ミラ","テオ","ノア","シオン","ユーリ","クレア","レイン","ソラ","フェイ","リゼ","カノン","ネル","セシル","トワ","エル","ヴィオ"]
+};
+let kind = "wa";
+
+document.querySelectorAll("#chips .chip").forEach(c => c.onclick = () => {
+  document.querySelectorAll("#chips .chip").forEach(x => x.classList.remove("on"));
+  c.classList.add("on"); kind = c.dataset.k; gen();
+});
+
+function gen(){
+  const pool = [...POOLS[kind]];
+  for(let i = pool.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+  const names = pool.slice(0, 8);
+  const g = $("grid"); g.innerHTML = "";
+  names.forEach(n => {
+    const d = document.createElement("div");
+    d.className = "name"; d.innerHTML = `${n}<small>タップでコピー</small>`;
+    d.onclick = () => navigator.clipboard.writeText(n).then(()=>{
+      d.classList.add("copied"); d.querySelector("small").textContent = "コピーしました";
+      setTimeout(()=>{ d.classList.remove("copied"); d.querySelector("small").textContent="タップでコピー"; }, 1400);
+    });
+    g.appendChild(d);
+  });
+  $("gen").textContent = "別の名前を見る";
+  const aw = $("adwrap"); if(aw.style.display === "none"){ aw.style.display = "block"; try{ (window.adsbygoogle=window.adsbygoogle||[]).push({}); }catch(e){} }
+}
+$("gen").onclick = gen;
+gen();
+</script>
+</body>
+</html>
