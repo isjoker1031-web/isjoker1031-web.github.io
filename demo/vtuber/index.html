@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>月ノ瀬しずく｜Official Site</title>
+<style>
+  :root{
+    --bg:#fbf7ff;
+    --card:#ffffff;
+    --ink:#2b2440;
+    --ink-soft:#6f6690;
+    --mint:#6fd8c4;
+    --lav:#9b8cf0;
+    --pink:#ff9ec4;
+    --yellow:#ffd66b;
+    --line:#ece4fa;
+    --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);font-family:var(--gothic);
+    -webkit-font-smoothing:antialiased;line-height:1.85;font-size:15px;overflow-x:hidden;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 30px}
+  a{color:inherit}
+
+  /* decorative blobs */
+  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;z-index:0}
+
+  /* ── nav ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    background:rgba(251,247,255,.82);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:700;font-size:17px;letter-spacing:.05em}
+  .logo i{
+    width:30px;height:30px;border-radius:50%;display:block;
+    background:conic-gradient(from 40deg,var(--lav),var(--mint),var(--pink),var(--lav));
+  }
+  nav ul{display:flex;gap:30px;list-style:none;font-size:13.5px;font-weight:600}
+  nav ul a{text-decoration:none;color:var(--ink-soft);transition:color .22s}
+  nav ul a:hover{color:var(--lav)}
+  .pill{
+    background:var(--lav);color:#fff;text-decoration:none;
+    padding:11px 24px;border-radius:999px;font-size:13px;font-weight:700;
+    box-shadow:0 8px 20px -8px rgba(155,140,240,.9);transition:.25s;white-space:nowrap;
+  }
+  .pill:hover{background:#8878e8;transform:translateY(-2px)}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .burger span{width:24px;height:2px;background:var(--ink);border-radius:2px}
+
+  /* ── hero ── */
+  header{position:relative;padding:150px 0 110px;overflow:hidden}
+  .blob.h1{width:520px;height:520px;background:var(--lav);top:-140px;left:-120px}
+  .blob.h2{width:440px;height:440px;background:var(--mint);top:60px;right:-130px}
+  .blob.h3{width:300px;height:300px;background:var(--pink);bottom:-120px;left:38%}
+  .hero{position:relative;z-index:1;display:grid;grid-template-columns:1fr .82fr;gap:56px;align-items:center}
+  .live{
+    display:inline-flex;align-items:center;gap:9px;background:#fff;
+    border:1px solid var(--line);border-radius:999px;padding:7px 17px;
+    font-size:12px;font-weight:700;margin-bottom:24px;
+    box-shadow:0 6px 18px -10px rgba(43,36,64,.35);
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:#ff5470;box-shadow:0 0 0 4px rgba(255,84,112,.2)}
+  h1{font-size:clamp(36px,5.6vw,60px);line-height:1.28;letter-spacing:.01em;font-weight:800;margin-bottom:22px}
+  h1 .grad{
+    background:linear-gradient(96deg,var(--lav),var(--mint) 55%,var(--pink));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{font-size:13px;font-weight:700;color:var(--ink-soft);letter-spacing:.22em;margin-bottom:20px}
+  .lede{color:var(--ink-soft);max-width:31em;margin-bottom:34px}
+  .btns{display:flex;gap:13px;flex-wrap:wrap}
+  .btn{padding:15px 30px;border-radius:999px;text-decoration:none;font-size:13.5px;font-weight:700;transition:.25s;display:inline-block}
+  .btn-p{background:var(--ink);color:#fff}
+  .btn-p:hover{background:#403555;transform:translateY(-2px)}
+  .btn-s{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .btn-s:hover{border-color:var(--lav);color:var(--lav)}
+
+  .avatar{
+    position:relative;aspect-ratio:1/1;border-radius:36px;overflow:hidden;
+    background:
+      radial-gradient(110% 90% at 30% 22%,#c4b6ff 0%,transparent 60%),
+      radial-gradient(100% 90% at 74% 70%,#8ee8d8 0%,transparent 62%),
+      radial-gradient(80% 70% at 50% 100%,#ffb8d4 0%,transparent 60%),
+      #f0eaff;
+    box-shadow:0 34px 70px -28px rgba(120,100,200,.55);
+    border:6px solid #fff;
+  }
+  .avatar::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 22% 24%,rgba(255,255,255,.9) 0 2.5px,transparent 3.5px),
+      radial-gradient(circle at 78% 18%,rgba(255,255,255,.75) 0 2px,transparent 3px),
+      radial-gradient(circle at 86% 58%,rgba(255,255,255,.6) 0 3px,transparent 4px),
+      radial-gradient(circle at 14% 66%,rgba(255,255,255,.55) 0 2px,transparent 3px),
+      radial-gradient(circle at 34% 88%,rgba(255,255,255,.5) 0 2.5px,transparent 3.5px);
+  }
+  /* 三日月 */
+  .avatar .moon{
+    position:absolute;top:13%;right:15%;width:26%;aspect-ratio:1/1;border-radius:50%;
+    background:rgba(255,255,255,.92);
+    box-shadow:0 0 40px rgba(255,255,255,.7);
+  }
+  .avatar .moon::after{
+    content:"";position:absolute;top:-9%;right:-16%;width:92%;height:112%;border-radius:50%;
+    background:#efe9ff;
+  }
+  /* ガラスの球体 */
+  .avatar .drop{
+    position:absolute;left:50%;bottom:13%;transform:translateX(-50%);
+    width:42%;aspect-ratio:1/1;border-radius:50%;
+    background:linear-gradient(150deg,rgba(255,255,255,.58),rgba(255,255,255,.08));
+    box-shadow:inset 0 -14px 34px rgba(255,255,255,.45), 0 18px 40px -18px rgba(120,100,200,.5);
+    backdrop-filter:blur(3px);
+  }
+  .avatar .drop::after{
+    content:"";position:absolute;top:13%;left:17%;width:30%;height:22%;
+    border-radius:50%;background:rgba(255,255,255,.72);filter:blur(3px);
+  }
+  .stats{display:flex;gap:30px;margin-top:32px;flex-wrap:wrap}
+  .stat b{display:block;font-size:26px;font-weight:800;line-height:1.2}
+  .stat span{font-size:11.5px;color:var(--ink-soft);font-weight:600;letter-spacing:.1em}
+
+  /* ── sections ── */
+  section{padding:100px 0;position:relative}
+  .sec-head{text-align:center;margin-bottom:52px;position:relative;z-index:1}
+  .sec-tag{
+    display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.24em;
+    color:var(--lav);background:#f1ecff;padding:6px 16px;border-radius:999px;margin-bottom:16px;
+  }
+  h2{font-size:clamp(25px,3.4vw,35px);font-weight:800;letter-spacing:.02em}
+  .sec-head p{color:var(--ink-soft);margin-top:12px;font-size:14px}
+
+  /* ── schedule ── */
+  #schedule{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:11px}
+  .day{
+    border:1px solid var(--line);border-radius:18px;padding:18px 12px;text-align:center;
+    transition:.28s;background:var(--bg);
+  }
+  .day:hover{transform:translateY(-5px);box-shadow:0 16px 34px -18px rgba(120,100,200,.5)}
+  .day .wd{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--ink-soft)}
+  .day .dd{font-size:22px;font-weight:800;margin:5px 0 12px}
+  .day .tm{font-size:12.5px;font-weight:700;color:var(--lav)}
+  .day .ti{font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.5}
+  .day.off{opacity:.45}
+  .day.on{background:linear-gradient(160deg,var(--lav),#7d6ce8);border-color:transparent;color:#fff}
+  .day.on .wd,.day.on .ti{color:rgba(255,255,255,.82)}
+  .day.on .tm{color:#fff}
+
+  /* ── content cards ── */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .c{
+    background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;
+    text-decoration:none;display:block;transition:.32s;
+  }
+  .c:hover{transform:translateY(-7px);box-shadow:0 26px 50px -24px rgba(120,100,200,.5)}
+  .c .thumb{aspect-ratio:16/10;position:relative}
+  .c:nth-child(1) .thumb{background:linear-gradient(140deg,#a08cf5,#6fd8c4)}
+  .c:nth-child(2) .thumb{background:linear-gradient(140deg,#ff9ec4,#ffd66b)}
+  .c:nth-child(3) .thumb{background:linear-gradient(140deg,#6fd8c4,#8fb8ff)}
+  .c .thumb span{
+    position:absolute;bottom:12px;left:12px;background:rgba(43,36,64,.72);
+    color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;
+  }
+  .c .body{padding:22px}
+  .c h3{font-size:16px;font-weight:800;margin-bottom:8px;line-height:1.55}
+  .c p{font-size:13px;color:var(--ink-soft)}
+
+  /* ── guideline ── */
+  #guide{background:linear-gradient(180deg,#f6f1ff,#fbf7ff)}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:880px;margin:0 auto}
+  .rule{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 26px 26px 62px;position:relative}
+  .rule::before{
+    content:"";position:absolute;left:24px;top:29px;width:22px;height:22px;border-radius:50%;
+    background:var(--mint);
+  }
+  .rule.no::before{background:#ffa7a7}
+  .rule h4{font-size:14.5px;font-weight:800;margin-bottom:6px}
+  .rule p{font-size:13px;color:var(--ink-soft)}
+
+  /* ── cta ── */
+  #contact{text-align:center;position:relative;overflow:hidden}
+  .blob.c1{width:460px;height:460px;background:var(--mint);top:-60px;left:-100px}
+  .blob.c2{width:420px;height:420px;background:var(--pink);bottom:-140px;right:-90px}
+  .cta-box{
+    position:relative;z-index:1;background:#fff;border:1px solid var(--line);
+    border-radius:34px;padding:62px 40px;max-width:760px;margin:0 auto;
+    box-shadow:0 30px 70px -32px rgba(120,100,200,.45);
+  }
+  .cta-box h2{margin-bottom:14px}
+  .cta-box p{color:var(--ink-soft);max-width:30em;margin:0 auto 32px}
+  .sns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+  .sns a{
+    padding:11px 20px;border-radius:999px;background:var(--bg);border:1px solid var(--line);
+    font-size:12.5px;font-weight:700;text-decoration:none;color:var(--ink-soft);transition:.25s;
+  }
+  .sns a:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  footer{background:#fff;border-top:1px solid var(--line);padding:32px 0;font-size:12px;color:var(--ink-soft)}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;gap:40px}
+    .avatar{max-width:320px}
+    .days{grid-template-columns:repeat(4,1fr)}
+    .cards,.rules{grid-template-columns:1fr}
+    nav ul{display:none}.burger{display:flex}
+    header{padding:120px 0 80px}section{padding:74px 0}
+    .wrap{padding:0 20px}
+    .cta-box{padding:44px 24px;border-radius:26px}
+  }
+  @media(max-width:520px){.days{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+</head>
+<body>
+<div style="position:sticky;top:0;z-index:99999;background:#12141f;color:#eceef6;font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.5;padding:10px 16px;text-align:center;border-bottom:1px solid #2a3050">これは<strong>いしはら製作所の制作サンプル</strong>です。架空のお店・人物で、実在の団体とは関係ありません。&nbsp;<a href="https://isjoker1031-web.github.io/#webwork" style="color:#ff90e8;text-decoration:underline">制作のご相談はこちら</a></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><i></i>月ノ瀬しずく</div>
+    <ul>
+      <li><a href="#schedule">配信予定</a></li>
+      <li><a href="#content">コンテンツ</a></li>
+      <li><a href="#guide">ガイドライン</a></li>
+    </ul>
+    <a href="#contact" class="pill">お仕事のご依頼</a>
+    <div class="burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<header>
+  <div class="blob h1"></div><div class="blob h2"></div><div class="blob h3"></div>
+  <div class="wrap hero">
+    <div>
+      <div class="live"><span class="dot"></span>今夜 21:00 から配信します</div>
+      <div class="sub">VIRTUAL STREAMER / SINGER</div>
+      <h1>ねむい夜の、<br><span class="grad">となりの声</span>。</h1>
+      <p class="lede">深夜のゲーム配信と、たまに歌。おだやかに、だらだらと。<br>初見さんも常連さんも、ぜんぶ歓迎です。おかえり。</p>
+      <div class="btns">
+        <a href="#" class="btn btn-p">▶ チャンネルを見る</a>
+        <a href="#schedule" class="btn btn-s">配信スケジュール</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>4.2万</b><span>SUBSCRIBERS</span></div>
+        <div class="stat"><b>612</b><span>STREAMS</span></div>
+        <div class="stat"><b>3年目</b><span>SINCE 2023</span></div>
+      </div>
+    </div>
+    <div class="avatar"><div class="moon"></div><div class="drop"></div></div>
+  </div>
+</header>
+
+<section id="schedule">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">SCHEDULE</div>
+      <h2>今週の配信予定</h2>
+      <p>変更があるときは X（旧Twitter）でお知らせします</p>
+    </div>
+    <div class="days">
+      <div class="day on"><div class="wd">MON</div><div class="dd">4</div><div class="tm">21:00</div><div class="ti">雑談<br>＆ゲーム</div></div>
+      <div class="day"><div class="wd">TUE</div><div class="dd">5</div><div class="tm">22:00</div><div class="ti">ホラゲ<br>実況</div></div>
+      <div class="day off"><div class="wd">WED</div><div class="dd">6</div><div class="tm">お休み</div><div class="ti">─</div></div>
+      <div class="day"><div class="wd">THU</div><div class="dd">7</div><div class="tm">21:00</div><div class="ti">歌枠</div></div>
+      <div class="day"><div class="wd">FRI</div><div class="dd">8</div><div class="tm">23:00</div><div class="ti">深夜<br>もくもく</div></div>
+      <div class="day"><div class="wd">SAT</div><div class="dd">9</div><div class="tm">20:00</div><div class="ti">コラボ<br>配信</div></div>
+      <div class="day off"><div class="wd">SUN</div><div class="dd">10</div><div class="tm">お休み</div><div class="ti">─</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="content">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">CONTENTS</div>
+      <h2>いろいろやってます</h2>
+    </div>
+    <div class="cards">
+      <a href="#" class="c">
+        <div class="thumb"><span>YouTube</span></div>
+        <div class="body"><h3>アーカイブ・切り抜き</h3><p>過去の配信と、みんなが作ってくれた切り抜きをまとめています。</p></div>
+      </a>
+      <a href="#" class="c">
+        <div class="thumb"><span>BOOTH</span></div>
+        <div class="body"><h3>グッズ・ボイス</h3><p>アクリルスタンド、ステッカー、シチュエーションボイスを販売中。</p></div>
+      </a>
+      <a href="#" class="c">
+        <div class="thumb"><span>MUSIC</span></div>
+        <div class="body"><h3>オリジナル曲</h3><p>各配信サービスで配信中。カバー曲のリストもこちらから。</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="guide">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">GUIDELINE</div>
+      <h2>二次創作ガイドライン</h2>
+      <p>ファンアート・切り抜き、いつもありがとうございます。以下を守っていただければ自由です。</p>
+    </div>
+    <div class="rules">
+      <div class="rule"><h4>ファンアートは大歓迎です</h4><p>#しずくのおえかき を付けて投稿してください。配信内で紹介させていただくことがあります。</p></div>
+      <div class="rule"><h4>切り抜き動画もOKです</h4><p>概要欄に元配信のURLを記載してください。収益化も問題ありません。</p></div>
+      <div class="rule no"><h4>公式素材の改変・再配布はNG</h4><p>配布している立ち絵・ロゴを加工して配布する行為はご遠慮ください。</p></div>
+      <div class="rule no"><h4>営利目的のグッズ制作はNG</h4><p>個人利用の範囲を超えるグッズ販売は、事前にご相談ください。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="blob c1"></div><div class="blob c2"></div>
+  <div class="wrap">
+    <div class="cta-box">
+      <div class="sec-tag">CONTACT</div>
+      <h2>お仕事のご依頼</h2>
+      <p>企業案件・PR配信・楽曲提供・イベント出演などのご相談を承っています。所属事務所を通さず直接ご連絡いただけます。</p>
+      <a href="#" class="btn btn-p">お問い合わせフォーム</a>
+      <div class="sns">
+        <a href="#" data-track="x">X / Twitter</a><a href="#" data-track="youtube">YouTube</a><a href="#" data-track="booth">BOOTH</a><a href="#" data-track="fanbox">Fanbox</a><a href="#" data-track="tiktok">TikTok</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 月ノ瀬しずく</span>
+    <span>キャラクターデザインの無断使用・AI学習利用を禁じます</span>
+  </div>
+</footer>
+
+</body>
+</html>

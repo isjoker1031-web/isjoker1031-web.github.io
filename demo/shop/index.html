@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>焙煎所 ひとひ｜自家焙煎コーヒー</title>
+<style>
+  :root{
+    --cream:#faf6ef;
+    --cream-2:#f2ebdf;
+    --brown:#33261d;
+    --brown-2:#59433306;
+    --ink:#2e231b;
+    --ink-soft:#7d6a5b;
+    --terra:#b4573a;
+    --olive:#7a7f52;
+    --line:#e2d8c8;
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+    --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);color:var(--ink);font-family:var(--gothic);
+    -webkit-font-smoothing:antialiased;line-height:1.95;font-size:15px;overflow-x:hidden;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+  .narrow{max-width:760px}
+
+  /* ── nav ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    background:rgba(250,246,239,.88);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .logo{font-family:var(--mincho);font-size:20px;letter-spacing:.2em}
+  .logo small{display:block;font-family:var(--gothic);font-size:9.5px;letter-spacing:.32em;color:var(--ink-soft);margin-top:-4px}
+  nav ul{display:flex;gap:32px;list-style:none;font-size:13px;letter-spacing:.1em}
+  nav ul a{text-decoration:none;color:var(--ink-soft);transition:.22s}
+  nav ul a:hover{color:var(--terra)}
+  .nav-cta{
+    background:var(--brown);color:var(--cream);text-decoration:none;
+    padding:12px 24px;font-size:12.5px;letter-spacing:.14em;transition:.25s;white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--terra)}
+  .burger{display:none;flex-direction:column;gap:6px;cursor:pointer}
+  .burger span{width:24px;height:1.5px;background:var(--ink)}
+
+  /* ── hero ── */
+  header{padding:74px 0 0}
+  .hero{
+    position:relative;height:min(76vh,620px);min-height:440px;
+    display:flex;align-items:flex-end;overflow:hidden;
+    background:
+      radial-gradient(120% 100% at 78% 22%, #d9a877 0%, transparent 56%),
+      radial-gradient(100% 90% at 18% 78%, #6b4a33 0%, transparent 58%),
+      linear-gradient(160deg,#4a3527 0%,#2a1d15 100%);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(58deg,rgba(255,255,255,.028) 0 2px,transparent 2px 7px),
+      radial-gradient(circle at 62% 34%,rgba(255,220,170,.24) 0%,transparent 42%);
+  }
+  .hero-in{position:relative;z-index:2;padding:0 32px 62px;max-width:1080px;margin:0 auto;width:100%;color:var(--cream)}
+  .hero .kicker{font-size:11px;letter-spacing:.4em;opacity:.8;margin-bottom:20px}
+  .hero h1{
+    font-family:var(--mincho);font-weight:400;
+    font-size:clamp(30px,4.6vw,54px);line-height:1.42;letter-spacing:.06em;
+  }
+  .hero p{margin-top:20px;max-width:26em;font-size:14.5px;opacity:.86}
+
+  .bar{
+    background:var(--brown);color:var(--cream);
+  }
+  .bar .wrap{display:flex;flex-wrap:wrap;gap:34px;padding:22px 32px;font-size:13px;align-items:center}
+  .bar b{letter-spacing:.14em;font-weight:400;color:#d9a877;font-size:11px;margin-right:10px}
+
+  /* ── sections ── */
+  section{padding:112px 0}
+  .sec-head{margin-bottom:52px}
+  .sec-head.mid{text-align:center}
+  .kick{font-size:10.5px;letter-spacing:.36em;color:var(--terra);margin-bottom:15px}
+  h2{font-family:var(--mincho);font-weight:400;font-size:clamp(24px,3.2vw,36px);letter-spacing:.08em;line-height:1.5}
+  .sec-head p{color:var(--ink-soft);margin-top:16px;max-width:36em}
+  .sec-head.mid p{margin-left:auto;margin-right:auto}
+
+  /* ── about ── */
+  #about{background:var(--cream-2)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .ph{
+    position:relative;overflow:hidden;
+    box-shadow:0 26px 60px -28px rgba(51,38,29,.5);
+  }
+  .ph::before{content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(48deg,rgba(255,255,255,.035) 0 2px,transparent 2px 6px)}
+  .ph.a{aspect-ratio:4/5;background:
+    radial-gradient(110% 90% at 32% 24%,#c98f5e 0%,transparent 58%),
+    linear-gradient(150deg,#5c412e,#2b1e16)}
+  .ph.b{aspect-ratio:1/1;background:
+    radial-gradient(100% 90% at 70% 30%,#a8b07a 0%,transparent 60%),
+    linear-gradient(150deg,#4b4a32,#241f16)}
+  .body-txt p{color:var(--ink-soft);margin-bottom:22px}
+  .body-txt p strong{color:var(--ink);font-weight:500}
+  .sign{font-family:var(--mincho);font-size:16px;letter-spacing:.14em;margin-top:30px;color:var(--ink)}
+  .sign small{display:block;font-family:var(--gothic);font-size:11px;letter-spacing:.2em;color:var(--ink-soft);margin-bottom:5px}
+
+  /* ── menu ── */
+  .beans{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .bean{background:#fff;border:1px solid var(--line);transition:.32s}
+  .bean:hover{transform:translateY(-7px);box-shadow:0 24px 46px -24px rgba(51,38,29,.35)}
+  .bean .top{aspect-ratio:16/11;position:relative;overflow:hidden}
+  .bean .top::before{
+    content:"";position:absolute;inset:0;z-index:1;
+    background:
+      repeating-linear-gradient(52deg,rgba(255,255,255,.04) 0 1px,transparent 1px 5px),
+      repeating-linear-gradient(-28deg,rgba(0,0,0,.05) 0 1px,transparent 1px 4px);
+  }
+  .bean:nth-child(1) .top{background:radial-gradient(90% 90% at 34% 28%,#d8a06a,transparent 60%),linear-gradient(150deg,#6b4630,#312016)}
+  .bean:nth-child(2) .top{background:radial-gradient(90% 90% at 34% 28%,#b8c081,transparent 60%),linear-gradient(150deg,#4e5636,#232616)}
+  .bean:nth-child(3) .top{background:radial-gradient(90% 90% at 34% 28%,#cf8f8f,transparent 60%),linear-gradient(150deg,#6b3a3a,#2f1919)}
+  .bean .roast{
+    position:absolute;top:12px;right:12px;background:rgba(250,246,239,.92);
+    font-size:10.5px;letter-spacing:.12em;padding:5px 11px;color:var(--ink);
+  }
+  .bean .in{padding:26px 24px 28px}
+  .bean h3{font-family:var(--mincho);font-size:18px;font-weight:400;letter-spacing:.06em;margin-bottom:4px}
+  .bean .en{font-size:10.5px;letter-spacing:.22em;color:var(--ink-soft);margin-bottom:14px}
+  .bean .note{font-size:13px;color:var(--ink-soft);min-height:4.5em}
+  .bean .price{
+    margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+    font-family:var(--mincho);font-size:19px;display:flex;justify-content:space-between;align-items:baseline;
+  }
+  .bean .price small{font-family:var(--gothic);font-size:11px;color:var(--ink-soft);letter-spacing:.1em}
+
+  /* ── info ── */
+  #info{background:var(--brown);color:var(--cream)}
+  #info h2,#info .kick{color:var(--cream)}
+  #info .kick{color:#d9a877}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+  .rows{list-style:none}
+  .rows li{display:flex;gap:28px;padding:17px 0;border-bottom:1px solid rgba(250,246,239,.14);font-size:14px}
+  .rows b{min-width:86px;font-weight:400;font-size:11px;letter-spacing:.18em;color:#d9a877;padding-top:4px}
+  .rows span{opacity:.88}
+  .map{
+    aspect-ratio:4/3;position:relative;overflow:hidden;
+    background:#efe8db;
+  }
+  .map::before{
+    content:"";position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(0deg,#ded3c0 0 1px,transparent 1px 46px),
+      repeating-linear-gradient(90deg,#ded3c0 0 1px,transparent 1px 46px);
+  }
+  .map::after{
+    content:"";position:absolute;left:0;right:0;top:44%;height:16px;background:#d6c9b2;transform:rotate(-7deg)
+  }
+  .pin{
+    position:absolute;left:50%;top:46%;transform:translate(-50%,-100%);z-index:2;
+    width:26px;height:26px;border-radius:50% 50% 50% 0;background:var(--terra);
+    rotate:-45deg;box-shadow:0 8px 18px -6px rgba(0,0,0,.5);
+  }
+  .pin::after{content:"";position:absolute;inset:8px;background:var(--cream);border-radius:50%}
+
+  /* ── cta ── */
+  #contact{text-align:center;background:var(--cream-2)}
+  .btn{
+    display:inline-block;background:var(--brown);color:var(--cream);
+    text-decoration:none;padding:17px 42px;font-size:13.5px;letter-spacing:.16em;transition:.25s;
+  }
+  .btn:hover{background:var(--terra)}
+  .btn.ghost{background:transparent;border:1px solid var(--brown);color:var(--brown)}
+  .btn.ghost:hover{background:var(--brown);color:var(--cream)}
+  .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+
+  footer{background:var(--brown);color:rgba(250,246,239,.6);padding:34px 0;font-size:11.5px;letter-spacing:.1em}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  @media(max-width:900px){
+    .two,.info-grid{grid-template-columns:1fr;gap:44px}
+    .beans{grid-template-columns:1fr}
+    nav ul{display:none}.burger{display:flex}
+    section{padding:78px 0}
+    .wrap,.hero-in{padding-left:22px;padding-right:22px}
+    .ph.a{max-width:340px}
+    .bar .wrap{gap:16px;flex-direction:column;align-items:flex-start}
+  }
+  /* 電話番号をタップできるようにする。見た目は文字のまま */
+  a.tel-link{color:inherit;text-decoration:none}
+</style>
+
+</head>
+<body>
+<div style="position:sticky;top:0;z-index:99999;background:#12141f;color:#eceef6;font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.5;padding:10px 16px;text-align:center;border-bottom:1px solid #2a3050">これは<strong>いしはら製作所の制作サンプル</strong>です。架空のお店・人物で、実在の団体とは関係ありません。&nbsp;<a href="https://isjoker1031-web.github.io/#webwork" style="color:#ff90e8;text-decoration:underline">制作のご相談はこちら</a></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">焙煎所 ひとひ<small>HITOHI ROASTERY</small></div>
+    <ul>
+      <li><a href="#about">わたしたちのこと</a></li>
+      <li><a href="#menu">豆のご案内</a></li>
+      <li><a href="#info">店舗情報</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">オンラインで買う</a>
+    <div class="burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<header>
+  <div class="hero">
+    <div class="hero-in">
+      <div class="kicker">SINCE 2026 ─ SAPPORO</div>
+      <h1>一日ぶんの、<br>ちょうどいい深さ。</h1>
+      <p>小さな焙煎機で、その日に飲むぶんだけを焼いています。<br>浅すぎず深すぎない、毎日飲める一杯を。</p>
+    </div>
+  </div>
+  <div class="bar">
+    <div class="wrap">
+      <span><b>営業時間</b>10:00 – 18:00</span>
+      <span><b>定休日</b>火曜・水曜</span>
+      <span><b>焙煎日</b>毎週 木・土</span>
+      <span><b>TEL</b><a class="tel-link" href="tel:0110000000" data-track="tel">011-000-0000</a></span>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap two">
+    <div class="ph a"></div>
+    <div class="body-txt">
+      <div class="kick">ABOUT US</div>
+      <h2>「ふつうに、おいしい」を<br>いちばん難しい目標にしています。</h2>
+      <p><strong>特別な日のコーヒーではなく、あしたも飲みたいコーヒーを作りたい。</strong>それだけを考えて、2026年の春に小さな焙煎所をはじめました。</p>
+      <p>使っているのは1kgの半熱風式焙煎機ひとつだけです。大量には焼けませんが、その日の湿度と豆の状態を見ながら、火の入れ方を毎回変えられます。だから同じ銘柄でも、季節によって少し味が違います。それを面白がってもらえたらうれしいです。</p>
+      <p>店頭では100gから量り売りをしています。「濃いのが好き」「酸っぱいのは苦手」くらいのざっくりしたご相談で大丈夫なので、気軽に声をかけてください。</p>
+      <div class="sign"><small>ROASTER</small>石田 ひとみ</div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head mid">
+      <div class="kick">OUR BEANS</div>
+      <h2>豆のご案内</h2>
+      <p>常時8〜10種類をご用意しています。ここでは定番の3種をご紹介します。豆のまま／挽いた状態、どちらもお選びいただけます。</p>
+    </div>
+    <div class="beans">
+      <div class="bean">
+        <div class="top"><span class="roast">中深煎り</span></div>
+        <div class="in">
+          <h3>ひとひブレンド</h3>
+          <div class="en">HITOHI BLEND</div>
+          <p class="note">いちばん最初に飲んでほしい一本。チョコレートのような甘さと、後から来るオレンジの香り。ミルクにも負けません。</p>
+          <div class="price">¥1,180<small>200g</small></div>
+        </div>
+      </div>
+      <div class="bean">
+        <div class="top"><span class="roast">浅煎り</span></div>
+        <div class="in">
+          <h3>エチオピア／ゲイシャ村</h3>
+          <div class="en">ETHIOPIA GUJI</div>
+          <p class="note">紅茶に近い軽さと、白い花の香り。冷めていくあいだに味が変わっていくので、ゆっくり飲んでください。</p>
+          <div class="price">¥1,640<small>200g</small></div>
+        </div>
+      </div>
+      <div class="bean">
+        <div class="top"><span class="roast">深煎り</span></div>
+        <div class="in">
+          <h3>夜のためのブレンド</h3>
+          <div class="en">NIGHT BLEND</div>
+          <p class="note">苦さの角を落とした深煎り。カフェインを抑えた豆を半分ブレンドしているので、寝る前でも大丈夫です。</p>
+          <div class="price">¥1,320<small>200g</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="info">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kick">SHOP INFO</div>
+      <h2>店舗情報とアクセス</h2>
+    </div>
+    <div class="info-grid">
+      <ul class="rows">
+        <li><b>店名</b><span>焙煎所 ひとひ</span></li>
+        <li><b>住所</b><span>北海道札幌市中央区南○条西○丁目 1-2-3<br>ひとひビル 1F</span></li>
+        <li><b>アクセス</b><span>地下鉄「西○丁目」駅 徒歩4分<br>市電「○○」停留所すぐ</span></li>
+        <li><b>営業時間</b><span>10:00 – 18:00（豆が売り切れ次第終了）</span></li>
+        <li><b>定休日</b><span>火曜・水曜／年末年始</span></li>
+        <li><b>お支払い</b><span>現金・各種カード・QR決済に対応</span></li>
+        <li><b>駐車場</b><span>店舗前に2台分あります</span></li>
+      </ul>
+      <div class="map"><div class="pin"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap narrow">
+    <div class="kick">CONTACT</div>
+    <h2>オンラインでもお求めいただけます</h2>
+    <p style="color:var(--ink-soft);margin-top:18px">焙煎した翌日に発送しています。3,000円以上のお買い上げで送料無料。<br>卸売り・イベント出店のご相談も承っています。</p>
+    <div class="btns">
+      <a href="#" class="btn">オンラインストアへ</a>
+      <a href="#" class="btn ghost">お問い合わせ</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 焙煎所 ひとひ</span>
+    <span>Instagram ／ X ／ オンラインストア</span>
+  </div>
+</footer>
+
+</body>
+</html>

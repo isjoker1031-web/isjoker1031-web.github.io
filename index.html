@@ -168,10 +168,12 @@
     .works-strip h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
     .works-strip .works-note { color: var(--muted); font-size: 12.5px; margin-bottom: 16px; }
     .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .works-grid figure { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-    .works-grid img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; object-position: top; }
-    .works-grid figcaption { padding: 10px 12px 12px; font-size: 12px; color: var(--muted); }
-    .works-grid figcaption b { color: var(--text); display: block; font-size: 12.5px; margin-bottom: 2px; }
+    .workcard { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; text-decoration: none; color: var(--text); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .workcard:hover { transform: translateY(-4px); border-color: rgba(124,108,255,.55); box-shadow: 0 12px 40px -16px rgba(124,108,255,.35); }
+    .workcard img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; object-position: top; }
+    .wc-body { padding: 12px 14px 14px; font-size: 12px; color: var(--muted); }
+    .wc-body b { color: var(--text); display: block; font-size: 12.5px; margin-bottom: 2px; }
+    .wc-open { display: block; margin-top: 8px; color: var(--pink); font-weight: 700; font-size: 12px; }
     @media (max-width: 700px) { .works-grid { grid-template-columns: 1fr; } }
 
     /* 受注フロー */
@@ -484,21 +486,24 @@
     <!-- 制作サンプル -->
     <div class="works-strip">
       <h3 data-ja>制作サンプル</h3><h3 data-en>Sample Work</h3>
-      <p class="works-note" data-ja>架空クライアント向けに作成したデザインサンプルです（実在の企業・個人とは関係ありません）。雰囲気・作り込みの参考にどうぞ。</p>
-      <p class="works-note" data-en>Mockup samples for fictional clients (not affiliated with any real business). For reference on style and finish.</p>
+      <p class="works-note" data-ja>架空クライアント向けに作成したデザインサンプルです（実在の企業・個人とは関係ありません）。<strong>クリックすると実際に動くページが開きます</strong>——スマホでの見え方もそのままご確認いただけます。</p>
+      <p class="works-note" data-en>Mockup samples for fictional clients (not affiliated with any real business). <strong>Click to open the live page</strong> — responsive behaviour included.</p>
       <div class="works-grid">
-        <figure>
+        <a class="workcard" href="/demo/illustrator/" target="_blank" rel="noopener">
           <img src="assets/webwork/sample-illustrator.jpg" alt="イラストレーター向けサイトサンプル、黒基調で明朝体" loading="lazy">
-          <figcaption><b data-ja>作家・イラストレーター向け</b><b data-en>For illustrators</b><span data-ja>落ち着いた黒基調、明朝体で世界観を見せる構成</span><span data-en>Dark, editorial, serif-led</span></figcaption>
-        </figure>
-        <figure>
+          <div class="wc-body"><b data-ja>作家・イラストレーター向け</b><b data-en>For illustrators</b><span data-ja>落ち着いた黒基調、明朝体で世界観を見せる構成</span><span data-en>Dark, editorial, serif-led</span>
+            <span class="wc-open" data-ja>実際のページを開く →</span><span class="wc-open" data-en>Open live demo →</span></div>
+        </a>
+        <a class="workcard" href="/demo/vtuber/" target="_blank" rel="noopener">
           <img src="assets/webwork/sample-vtuber.jpg" alt="VTuber・配信者向けサイトサンプル、淡色グラデーション" loading="lazy">
-          <figcaption><b data-ja>配信者・VTuber向け</b><b data-en>For streamers / VTubers</b><span data-ja>淡色グラデーション、配信スケジュールと実績を前面に</span><span data-en>Soft gradients, schedule-first</span></figcaption>
-        </figure>
-        <figure>
+          <div class="wc-body"><b data-ja>配信者・VTuber向け</b><b data-en>For streamers / VTubers</b><span data-ja>淡色グラデーション、配信スケジュールと実績を前面に</span><span data-en>Soft gradients, schedule-first</span>
+            <span class="wc-open" data-ja>実際のページを開く →</span><span class="wc-open" data-en>Open live demo →</span></div>
+        </a>
+        <a class="workcard" href="/demo/shop/" target="_blank" rel="noopener">
           <img src="assets/webwork/sample-shop.jpg" alt="個人店向けサイトサンプル、生成り色で明朝体" loading="lazy">
-          <figcaption><b data-ja>個人店・実店舗向け</b><b data-en>For shops / small businesses</b><span data-ja>生成り色と明朝体で、手仕事の温かみを表現</span><span data-en>Warm, craft-oriented</span></figcaption>
-        </figure>
+          <div class="wc-body"><b data-ja>個人店・実店舗向け</b><b data-en>For shops / small businesses</b><span data-ja>生成り色と明朝体で、手仕事の温かみを表現</span><span data-en>Warm, craft-oriented</span>
+            <span class="wc-open" data-ja>実際のページを開く →</span><span class="wc-open" data-en>Open live demo →</span></div>
+        </a>
       </div>
     </div>
 

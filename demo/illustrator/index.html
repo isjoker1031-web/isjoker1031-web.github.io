@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>凪あかり ─ Illustration Works</title>
+<style>
+  :root{
+    --ink:#12131a;
+    --ink-2:#1c1e28;
+    --paper:#f5f2ea;
+    --paper-dim:#cfc9bb;
+    --accent:#c8503c;
+    --line:rgba(245,242,234,.14);
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+    --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--paper);
+    font-family:var(--gothic);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.9;font-size:15px;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1140px;margin:0 auto;padding:0 32px}
+
+  /* ── nav ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(18,19,26,.72);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{font-family:var(--mincho);font-size:19px;letter-spacing:.28em;font-weight:400}
+  .logo em{font-style:normal;color:var(--accent)}
+  nav ul{display:flex;gap:34px;list-style:none;font-size:12.5px;letter-spacing:.16em}
+  nav a{color:var(--paper-dim);text-decoration:none;transition:color .25s}
+  nav a:hover{color:var(--paper)}
+  .nav-cta{
+    border:1px solid var(--accent);color:var(--accent);
+    padding:9px 20px;font-size:12px;letter-spacing:.14em;
+    text-decoration:none;transition:.25s;white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--accent);color:var(--ink)}
+  .burger{display:none;width:26px;height:14px;position:relative;cursor:pointer}
+  .burger span{position:absolute;left:0;width:100%;height:1px;background:var(--paper)}
+  .burger span:nth-child(1){top:0}.burger span:nth-child(2){bottom:0}
+
+  /* ── hero ── */
+  header{position:relative;padding:190px 0 130px;overflow:hidden}
+  .glow{
+    position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;
+  }
+  .glow.a{width:620px;height:620px;top:-160px;right:-140px;
+    background:radial-gradient(circle,#c8503c 0%,transparent 70%)}
+  .glow.b{width:520px;height:520px;bottom:-220px;left:-160px;
+    background:radial-gradient(circle,#3d5a8a 0%,transparent 70%)}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center;position:relative}
+  .eyebrow{
+    font-size:11px;letter-spacing:.4em;color:var(--accent);
+    margin-bottom:28px;display:flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before{content:"";width:38px;height:1px;background:var(--accent)}
+  h1{
+    font-family:var(--mincho);font-weight:400;
+    font-size:clamp(38px,5.4vw,66px);line-height:1.32;
+    letter-spacing:.04em;margin-bottom:30px;
+  }
+  h1 .thin{color:var(--paper-dim);font-size:.62em;display:block;letter-spacing:.12em;margin-top:14px}
+  .lede{color:var(--paper-dim);max-width:39em;font-size:15px;margin-bottom:40px}
+  .btns{display:flex;gap:16px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;padding:15px 34px;text-decoration:none;
+    font-size:13px;letter-spacing:.16em;transition:.28s;
+  }
+  .btn-fill{background:var(--accent);color:#fff}
+  .btn-fill:hover{background:#a8402e}
+  .btn-line{border:1px solid var(--line);color:var(--paper)}
+  .btn-line:hover{border-color:var(--paper)}
+
+  /* artwork tiles (procedural) */
+  .art{
+    position:relative;overflow:hidden;background:var(--ink-2);
+    border:1px solid var(--line);
+  }
+  .art::before{
+    content:"";position:absolute;inset:-10%;
+    background:
+      radial-gradient(46% 30% at 30% 22%, var(--c1) 0%, transparent 76%),
+      radial-gradient(30% 62% at 70% 58%, var(--c2) 0%, transparent 78%),
+      radial-gradient(22% 16% at 58% 38%, var(--c3) 0%, transparent 74%),
+      linear-gradient(118deg, transparent 30%, var(--c3) 44%, transparent 52%),
+      linear-gradient(196deg, var(--c2) 0%, transparent 46%),
+      radial-gradient(70% 40% at 44% 100%, var(--c1) 0%, transparent 72%);
+    filter:blur(7px) saturate(1.2) contrast(1.06);
+  }
+  .art::after{
+    content:"";position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(64deg,rgba(255,255,255,.045) 0 1px,transparent 1px 5px),
+      repeating-linear-gradient(-22deg,rgba(0,0,0,.05) 0 1px,transparent 1px 4px),
+      linear-gradient(180deg,transparent 50%,rgba(18,19,26,.76) 100%);
+  }
+  .hero-art{
+    aspect-ratio:3/4;
+    --c1:#c8503c;--c2:#2f4470;--c3:#e6a24c;
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.8);
+  }
+
+  /* ── section shell ── */
+  section{padding:118px 0;position:relative}
+  .sec-head{margin-bottom:58px}
+  .sec-num{font-size:11px;letter-spacing:.34em;color:var(--accent);margin-bottom:14px}
+  h2{font-family:var(--mincho);font-weight:400;font-size:clamp(27px,3.4vw,40px);letter-spacing:.06em}
+  h2 + p{color:var(--paper-dim);margin-top:16px;max-width:38em}
+
+  /* ── works ── */
+  #works{border-top:1px solid var(--line)}
+  .works{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{text-decoration:none;color:inherit;display:block;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+  .card:hover{transform:translateY(-8px)}
+  .card .art{aspect-ratio:4/5;margin-bottom:16px}
+  .card:nth-child(1) .art{--c1:#c8503c;--c2:#31406b;--c3:#e8b45c}
+  .card:nth-child(2) .art{--c1:#3f6f8f;--c2:#1d2b46;--c3:#8fc4c8}
+  .card:nth-child(3) .art{--c1:#8a4a72;--c2:#2a2340;--c3:#d98aa8}
+  .card:nth-child(4) .art{--c1:#4f7a4a;--c2:#1e2c25;--c3:#d3d47a}
+  .card:nth-child(5) .art{--c1:#b3603a;--c2:#3a2a26;--c3:#efc98d}
+  .card:nth-child(6) .art{--c1:#4a4f8a;--c2:#191d33;--c3:#9aa6e0}
+  .card h3{font-family:var(--mincho);font-size:17px;font-weight:400;letter-spacing:.04em}
+  .card .meta{font-size:11.5px;color:var(--paper-dim);letter-spacing:.14em;margin-top:6px}
+  .tag{
+    position:absolute;top:14px;left:14px;z-index:2;
+    font-size:10px;letter-spacing:.16em;padding:5px 11px;
+    background:rgba(18,19,26,.78);backdrop-filter:blur(6px);
+    border:1px solid var(--line);
+  }
+
+  /* ── about ── */
+  #about{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start}
+  .portrait{aspect-ratio:1/1;--c1:#7a4a52;--c2:#24202e;--c3:#c8a06c}
+  .bio p{color:var(--paper-dim);margin-bottom:20px}
+  .bio p strong{color:var(--paper);font-weight:500}
+  .facts{list-style:none;margin-top:34px;border-top:1px solid var(--line)}
+  .facts li{display:flex;gap:26px;padding:15px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .facts b{min-width:96px;color:var(--accent);font-weight:400;letter-spacing:.14em;font-size:11.5px;padding-top:3px}
+  .facts span{color:var(--paper-dim)}
+
+  /* ── price ── */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .plan{
+    border:1px solid var(--line);padding:38px 30px;
+    display:flex;flex-direction:column;transition:.3s;
+  }
+  .plan:hover{border-color:rgba(245,242,234,.35)}
+  .plan.rec{border-color:var(--accent);position:relative;background:rgba(200,80,60,.06)}
+  .plan.rec::before{
+    content:"人気";position:absolute;top:-11px;left:30px;
+    background:var(--accent);color:#fff;font-size:10.5px;
+    letter-spacing:.2em;padding:4px 13px;
+  }
+  .plan h3{font-family:var(--mincho);font-size:19px;font-weight:400;letter-spacing:.1em;margin-bottom:8px}
+  .plan .yen{font-size:34px;font-family:var(--mincho);margin:18px 0 4px}
+  .plan .yen small{font-size:14px;color:var(--paper-dim);margin-left:4px}
+  .plan .note{font-size:11.5px;color:var(--paper-dim);letter-spacing:.1em;margin-bottom:26px}
+  .plan ul{list-style:none;font-size:13.5px;flex:1}
+  .plan li{padding:9px 0 9px 22px;position:relative;color:var(--paper-dim);border-bottom:1px dashed rgba(245,242,234,.09)}
+  .plan li::before{content:"─";position:absolute;left:0;color:var(--accent)}
+
+  /* ── contact ── */
+  #contact{border-top:1px solid var(--line);text-align:center}
+  #contact h2{margin-bottom:18px}
+  #contact p{color:var(--paper-dim);max-width:30em;margin:0 auto 40px}
+  .sns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:44px}
+  .sns a{
+    width:44px;height:44px;border:1px solid var(--line);
+    display:grid;place-items:center;color:var(--paper-dim);
+    text-decoration:none;font-size:12px;letter-spacing:.06em;transition:.25s;
+  }
+  .sns a:hover{border-color:var(--accent);color:var(--accent)}
+
+  footer{border-top:1px solid var(--line);padding:34px 0;font-size:11.5px;color:var(--paper-dim);letter-spacing:.12em}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  @media(max-width:900px){
+    .hero-grid,.about-grid{grid-template-columns:1fr;gap:44px}
+    .hero-art{max-width:340px}
+    .works{grid-template-columns:repeat(2,1fr)}
+    .plans{grid-template-columns:1fr}
+    nav ul{display:none}
+    .burger{display:block}
+    header{padding:140px 0 90px}
+    section{padding:84px 0}
+    .wrap{padding:0 22px}
+  }
+  @media(max-width:560px){
+    .works{grid-template-columns:1fr}
+  }
+</style>
+
+</head>
+<body>
+<div style="position:sticky;top:0;z-index:99999;background:#12141f;color:#eceef6;font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.5;padding:10px 16px;text-align:center;border-bottom:1px solid #2a3050">これは<strong>いしはら製作所の制作サンプル</strong>です。架空のお店・人物で、実在の団体とは関係ありません。&nbsp;<a href="https://isjoker1031-web.github.io/#webwork" style="color:#ff90e8;text-decoration:underline">制作のご相談はこちら</a></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">凪<em>・</em>あかり</div>
+    <ul>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#price">Price</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">依頼する</a>
+    <div class="burger"><span></span><span></span></div>
+  </div>
+</nav>
+
+<header>
+  <div class="glow a"></div>
+  <div class="glow b"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">ILLUSTRATOR / CHARACTER DESIGN</div>
+      <h1>光の置きかたで、<br>物語は変わる。<span class="thin">Akari Nagi — Illustration Works</span></h1>
+      <p class="lede">書籍装画・キャラクターデザイン・CDジャケットを中心に活動しています。<br>「その一枚で何を語らせたいか」から一緒に考えます。商業・個人どちらもご相談ください。</p>
+      <div class="btns">
+        <a href="#works" class="btn btn-fill">作品を見る</a>
+        <a href="#price" class="btn btn-line">料金とご依頼の流れ</a>
+      </div>
+    </div>
+    <div class="art hero-art"></div>
+  </div>
+</header>
+
+<section id="works">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">01 — WORKS</div>
+      <h2>作品</h2>
+      <p>2023年以降の主要な仕事から抜粋しています。クリックすると制作の意図と工程をご覧いただけます。</p>
+    </div>
+    <div class="works">
+      <a href="#" class="card"><div class="art"><span class="tag">装画</span></div>
+        <h3>夜が明けるまでの三十分</h3><div class="meta">書籍装画 / 2026</div></a>
+      <a href="#" class="card"><div class="art"><span class="tag">CDジャケット</span></div>
+        <h3>Blue Hour</h3><div class="meta">ジャケットイラスト / 2026</div></a>
+      <a href="#" class="card"><div class="art"><span class="tag">キャラデザ</span></div>
+        <h3>群青のヴィオラ</h3><div class="meta">キャラクターデザイン / 2025</div></a>
+      <a href="#" class="card"><div class="art"><span class="tag">個人制作</span></div>
+        <h3>草を踏む音</h3><div class="meta">オリジナル / 2025</div></a>
+      <a href="#" class="card"><div class="art"><span class="tag">広告</span></div>
+        <h3>秋のあたたかい日</h3><div class="meta">ポスタービジュアル / 2025</div></a>
+      <a href="#" class="card"><div class="art"><span class="tag">装画</span></div>
+        <h3>星をひとつ、ください</h3><div class="meta">書籍装画 / 2024</div></a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">02 — ABOUT</div>
+      <h2>凪あかりについて</h2>
+    </div>
+    <div class="about-grid">
+      <div class="art portrait"></div>
+      <div class="bio">
+        <p><strong>「絵は説明ではなく、余白でできている」</strong>と思っています。だから描き込む前に、まず何を描かないかを決めます。</p>
+        <p>美術大学でデザインを学んだのち、出版社の装丁部門に5年勤務。2023年に独立し、現在は書籍装画を軸に、キャラクターデザインや音楽ジャケットを手がけています。文字と絵が同じ画面に乗るときの重心の取り方が得意です。</p>
+        <p>制作は Procreate と Photoshop、仕上げに一部アナログの水彩を混ぜています。ラフの段階で必ず3案お出しし、方向性をすり合わせてから本制作に入ります。</p>
+        <ul class="facts">
+          <li><b>拠点</b><span>東京都 / オンラインで全国対応</span></li>
+          <li><b>実績</b><span>書籍装画 48冊 / キャラクターデザイン 20件以上</span></li>
+          <li><b>受賞</b><span>第12回 装丁デザイン賞 入選（2025）</span></li>
+          <li><b>納期目安</b><span>ラフ 5日 / 本制作 2〜3週間</span></li>
+          <li><b>対応</b><span>商業利用・二次利用・NDA すべて相談可</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">03 — PRICE</div>
+      <h2>料金</h2>
+      <p>下記は目安です。用途・掲載範囲・使用期間によって変動しますので、まずはご相談ください。</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>ILLUSTRATION</h3>
+        <div class="yen">¥60,000<small>〜</small></div>
+        <div class="note">単体イラスト / 商業利用可</div>
+        <ul>
+          <li>ラフ3案ご提案</li><li>修正2回まで</li>
+          <li>納期 約2週間</li><li>データ形式ご指定可</li>
+        </ul>
+      </div>
+      <div class="plan rec">
+        <h3>BOOK COVER</h3>
+        <div class="yen">¥130,000<small>〜</small></div>
+        <div class="note">書籍装画 / 帯・背表紙まで対応</div>
+        <ul>
+          <li>ラフ3案ご提案</li><li>修正3回まで</li>
+          <li>タイトル配置の検討込み</li>
+          <li>納期 約3週間</li><li>増刷時の追加費用なし</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>CHARACTER</h3>
+        <div class="yen">¥180,000<small>〜</small></div>
+        <div class="note">キャラクターデザイン / 三面図付</div>
+        <ul>
+          <li>デザイン案3体</li><li>三面図・表情差分5点</li>
+          <li>設定資料 PDF 納品</li><li>納期 約4週間</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-num">04 — CONTACT</div>
+    <h2>お仕事のご依頼</h2>
+    <p>用途・希望納期・ご予算をお書き添えいただけると、初回のご返信で概算をお伝えできます。24時間以内にご返信します。</p>
+    <a href="#" class="btn btn-fill">依頼フォームへ</a>
+    <div class="sns">
+      <a href="#" data-track="x">X</a><a href="#" data-track="instagram">IG</a><a href="#" data-track="pixiv">pixiv</a><a href="#" data-track="note">note</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Akari Nagi</span>
+    <span>掲載作品の無断転載・AI学習利用を禁じます</span>
+  </div>
+</footer>
+
+</body>
+</html>
