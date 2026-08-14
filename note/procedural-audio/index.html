@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>生成AIを使わずにループBGMと効果音をコードで作る話 | いしはら製作所</title>
+<meta name="description" content="オシレータ・エンベロープ・フィルタの組み合わせだけで、TRPGセッション用のループBGMと効果音をPythonで手続き合成した記録。生成AI・サンプリング音源は不使用。">
+<meta property="og:title" content="生成AIを使わずにループBGMと効果音をコードで作る話">
+<meta property="og:description" content="波形をゼロから足し合わせて曲にする、手続き型オーディオ合成のアルゴリズム解説。">
+<meta property="og:image" content="https://isjoker1031-web.github.io/note/procedural-audio/img/hero.png">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --bg:#0a0c14; --bg2:#10131f; --card:#141827; --line:#232941; --text:#eceef6; --muted:#949cb4;
+    --pink:#ff90e8; --violet:#7c6cff; --cyan:#4dd0e1; --green:#34d399; --amber:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.85;font-size:15.5px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 100px}
+  header.top{padding:26px 0;border-bottom:1px solid var(--line);margin-bottom:10px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--pink),var(--violet));display:flex;align-items:center;justify-content:center;font-weight:800;color:#0a0c14;flex-shrink:0}
+  .brand b{font-size:14.5px}
+  .eyebrow{color:var(--violet);font-size:12px;font-weight:700;letter-spacing:2px;margin:36px 0 10px}
+  h1{font-size:28px;line-height:1.4;margin:0 0 14px;letter-spacing:-.01em}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:28px}
+  .hero{width:100%;border-radius:14px;border:1px solid var(--line);margin:0 0 32px;display:block}
+  h2{font-size:19px;margin:44px 0 14px;padding-top:20px;border-top:1px solid var(--line);letter-spacing:-.005em}
+  p{margin:0 0 16px;color:#dfe2ee}
+  img.fig{width:100%;border-radius:10px;border:1px solid var(--line);margin:6px 0 4px;display:block}
+  .cap{color:var(--muted);font-size:12.5px;margin:0 0 22px}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:12.5px;line-height:1.7;color:#c9d0e6}
+  code{font-family:"SF Mono",Menlo,monospace}
+  .cta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:34px 0;display:flex;flex-direction:column;gap:12px}
+  .cta.split{flex-direction:row;flex-wrap:wrap;gap:14px}
+  .cta .item{flex:1;min-width:220px}
+  .cta h3{margin:0 0 6px;font-size:15px}
+  .cta p{margin:0 0 12px;font-size:13.5px;color:var(--muted)}
+  .btn{display:inline-block;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:700;text-decoration:none}
+  .btn.primary{background:linear-gradient(90deg,var(--pink),var(--violet));color:#0a0c14}
+  .btn.ghost{border:1px solid var(--line);color:var(--text)}
+  footer{border-top:1px solid var(--line);margin-top:50px;padding-top:24px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--muted)}
+  a{color:var(--pink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/"><span class="mark">石</span><b>いしはら製作所</b></a>
+  </header>
+
+  <div class="eyebrow">制作ノート</div>
+  <h1>生成AIを使わずにループBGMと効果音をコードで作る話</h1>
+  <p class="meta">2026年8月 / TRPG・procedural audio synthesis</p>
+
+  <img class="hero" src="img/hero.png" alt="手続き合成した3種のBGMの波形（探索・戦闘・ホラー）">
+
+  <p>前回、<a href="/note/dungeon-generator/">バトルマップを計算だけで自動生成する話</a>を書きました。今回は音の番です。TRPGセッションや配信のBGM・効果音を、サンプリング音源も生成AIも使わずに、波形をゼロから足し合わせて作りました。</p>
+  <p>やっていることは実はシンプルで、<strong>「オシレータ」「エンベロープ」「フィルタ」という3つの部品を組み合わせているだけ</strong>です。この3つさえあれば、驚くほどいろいろな音が作れます。</p>
+
+  <h2>1. オシレータ ― 音の"素材"を作る</h2>
+  <p>すべての音の出発点は、単純な波形をひたすら計算することです。のこぎり波（saw）・矩形波（square）・正弦波（sine）の3種類を主に使います。</p>
+  <pre><code>def saw(freq, t):
+    # 時刻tの配列に対して、周波数freqののこぎり波を計算
+    return 2 * (t * freq - np.floor(t * freq + 0.5))
+
+def sine(freq, t):
+    return np.sin(2 * np.pi * freq * t)</code></pre>
+  <p>どちらも中身はただの数式です。<code>t</code>に秒数の配列（0.0, 0.0000227, 0.0000454...）を渡すだけで、44.1kHzぶんの波形が一瞬で計算できます。のこぎり波は倍音が多く「戦闘」のドライブ感に、正弦波は倍音がなく「エンディング」の澄んだベルの音に向いています。</p>
+
+  <h2>2. エンベロープ ― 音の"時間変化"をつける</h2>
+  <p>オシレータをそのまま鳴らすと、音量が最初から最後まで一定の、いかにも機械的な音になります。そこで<strong>ADSR（Attack / Decay / Sustain / Release）</strong>という音量の時間変化カーブを掛け合わせます。立ち上がりを早くすれば打楽器っぽく、ゆっくりにすればパッドっぽくなる、という具合です。</p>
+  <img class="fig" src="img/wave1.png" alt="探索BGMの波形（穏やかなアルペジオ、振幅が滑らかに変化）">
+  <p class="cap">探索用BGM「bgm_探索_日常」の波形。アルペジオの音符ひとつひとつにエンベロープが掛かり、山が滑らかに連なっています。</p>
+  <img class="fig" src="img/wave2.png" alt="戦闘BGMの波形（鋭いアタックが連続するリズミカルな波形）">
+  <p class="cap">戦闘用BGM「bgm_戦闘」の波形。アタックの立ち上がりを鋭くしているため、山の輪郭がギザギザに尖ります。同じ仕組みでここまで印象が変わります。</p>
+
+  <h2>3. フィルタ ― 音を"こもらせて"馴染ませる</h2>
+  <p>オシレータの生の波形は倍音が多く、耳に刺さりやすい音になりがちです。一次のローパスフィルタ（高い周波数だけ減衰させる処理）を1つ通すだけで、角が取れて楽器らしい柔らかさが出ます。実装は前のサンプル値を少しだけ引きずる、という単純な移動平均です。</p>
+  <pre><code>def lp(x, cutoff_ratio):
+    y = np.zeros_like(x)
+    y[0] = x[0]
+    for i in range(1, len(x)):
+        y[i] = y[i-1] + cutoff_ratio * (x[i] - y[i-1])
+    return y</code></pre>
+
+  <h2>継ぎ目のないループを作る</h2>
+  <p>BGMはセッション中ずっとリピート再生される前提なので、ループの継ぎ目でプツッというクリックノイズが出ると致命的です。対策は単純で、<strong>波形の最初と最後の数ミリ秒をフェードイン・フェードアウトさせ、振幅を0から始めて0で終わらせる</strong>だけです。今回は4msのクロスフェードを全トラックに適用し、実際に書き出したWAVをffmpegの<code>volumedetect</code>で確認して、クリッピングが起きていないことも検証しています。</p>
+
+  <h2>この方式の強み</h2>
+  <p>手弾き録音やサンプリング音源だと、著作権・ライセンスの出所を毎回気にする必要があります。数式だけで音を作ると、素材はすべて自分のコードが起点なので<strong>権利関係が完全にクリーン</strong>です。加えて、パラメータ（テンポ・調・音色）を変えるだけで別バリエーションが量産できるのも、手続き生成ならではの利点だと感じています。</p>
+
+  <div class="cta split">
+    <div class="item">
+      <h3>ブラウザでエフェクトを触ってみる</h3>
+      <p>同じ「計算で作る」考え方の、配信・TRPG用の透過エフェクト生成ツール。その場で生成できます（無料）。</p>
+      <a class="btn primary" href="https://effect-forge-production.up.railway.app" target="_blank" rel="noopener">エフェクトフォージを試す →</a>
+    </div>
+    <div class="item">
+      <h3>今回のBGM・効果音を使う</h3>
+      <p>この記事で紹介したループBGM4種・効果音5種をWAV/MP3で配布しています（無料サンプルあり）。</p>
+      <a class="btn ghost" href="https://isjoker1031.booth.pm/items/8716501" target="_blank" rel="noopener">BOOTHで見る →</a>
+    </div>
+  </div>
+
+  <p>同じ手続き生成の手法で作った<a href="/note/dungeon-generator/">バトルマップの自動生成</a>や、そこで遊べる<a href="https://isjoker1031.booth.pm/items/8716377" target="_blank" rel="noopener">クトゥルフ神話TRPGのオリジナルシナリオ</a>もあわせてどうぞ。</p>
+
+  <footer>
+    <span>いしはら製作所の制作ノート</span>
+    <a href="/">トップへ戻る →</a>
+  </footer>
+</div>
+</body>
+</html>
