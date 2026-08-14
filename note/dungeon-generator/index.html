@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>生成AIを使わずにダンジョンのバトルマップを自動生成する話 | いしはら製作所</title>
+<meta name="description" content="部屋の配置・通路の接続・石材テクスチャ・松明の光まで、すべて計算式で描く手続き型バトルマップ生成のアルゴリズムを解説。生成AI不使用。">
+<meta property="og:title" content="生成AIを使わずにダンジョンのバトルマップを自動生成する話">
+<meta property="og:description" content="部屋配置→通路接続→テクスチャ→装飾まで、numpyとPILだけで書いた手続き生成アルゴリズムの解説。">
+<meta property="og:image" content="https://isjoker1031-web.github.io/note/dungeon-generator/img/hero.png">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --bg:#0a0c14; --bg2:#10131f; --card:#141827; --line:#232941; --text:#eceef6; --muted:#949cb4;
+    --pink:#ff90e8; --violet:#7c6cff; --cyan:#4dd0e1; --green:#34d399; --amber:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.85;font-size:15.5px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 100px}
+  header.top{padding:26px 0;border-bottom:1px solid var(--line);margin-bottom:10px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--pink),var(--violet));display:flex;align-items:center;justify-content:center;font-weight:800;color:#0a0c14;flex-shrink:0}
+  .brand b{font-size:14.5px}
+  .eyebrow{color:var(--violet);font-size:12px;font-weight:700;letter-spacing:2px;margin:36px 0 10px}
+  h1{font-size:28px;line-height:1.4;margin:0 0 14px;letter-spacing:-.01em}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:28px}
+  .hero{width:100%;border-radius:14px;border:1px solid var(--line);margin:0 0 32px;display:block}
+  h2{font-size:19px;margin:44px 0 14px;padding-top:20px;border-top:1px solid var(--line);letter-spacing:-.005em}
+  p{margin:0 0 16px;color:#dfe2ee}
+  img.fig{width:100%;border-radius:10px;border:1px solid var(--line);margin:6px 0 4px;display:block}
+  .cap{color:var(--muted);font-size:12.5px;margin:0 0 22px}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:12.5px;line-height:1.7;color:#c9d0e6}
+  code{font-family:"SF Mono",Menlo,monospace}
+  .cta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:34px 0;display:flex;flex-direction:column;gap:12px}
+  .cta.split{flex-direction:row;flex-wrap:wrap;gap:14px}
+  .cta .item{flex:1;min-width:220px}
+  .cta h3{margin:0 0 6px;font-size:15px}
+  .cta p{margin:0 0 12px;font-size:13.5px;color:var(--muted)}
+  .btn{display:inline-block;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:700;text-decoration:none}
+  .btn.primary{background:linear-gradient(90deg,var(--pink),var(--violet));color:#0a0c14}
+  .btn.ghost{border:1px solid var(--line);color:var(--text)}
+  footer{border-top:1px solid var(--line);margin-top:50px;padding-top:24px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--muted)}
+  a{color:var(--pink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/"><span class="mark">石</span><b>いしはら製作所</b></a>
+  </header>
+
+  <div class="eyebrow">制作ノート</div>
+  <h1>生成AIを使わずにダンジョンのバトルマップを自動生成する話</h1>
+  <p class="meta">2026年8月 / TRPG・procedural generation</p>
+
+  <img class="hero" src="img/hero.png" alt="手続き生成されたダンジョン・洞窟のバトルマップ4種">
+
+  <p>TRPGセッション用のバトルマップって、毎回用意するのが地味に大変です。買ってきた1枚を使い回すと既視感が出るし、かといって毎回描くのは現実的じゃない。</p>
+  <p>それなら「部屋の配置から石材のテクスチャまで、プログラムに計算させて無限に作ればいいのでは」と思って、実際に手続き生成のアルゴリズムを書いてみました。<strong>拡散モデルなどの生成AIは一切使っていません。</strong>numpyとPILだけで、ピクセル単位まですべて計算で描いています。</p>
+
+  <h2>1. 部屋を置いて、通路でつなぐ</h2>
+  <p>やっていることはシンプルです。</p>
+  <ol style="color:#dfe2ee;padding-left:20px;margin:0 0 16px">
+    <li>グリッド上にランダムなサイズの矩形（部屋）を、他の部屋と重ならない位置に順番に置いていく</li>
+    <li>直前に置いた部屋の中心と、新しい部屋の中心をL字の通路でつなぐ</li>
+    <li>床マスに8近傍で隣接する非床マスを「壁」として扱う</li>
+  </ol>
+  <p>これだけで、毎回まったく違うレイアウトのダンジョンが手に入ります。コードにするとこんな感じです（実際のロジックを簡略化したもの）。</p>
+  <pre><code>for i in range(1, len(rooms)):
+    a, b = rooms[i - 1], rooms[i]
+    # 部屋Aの中心からY方向、部屋Bの中心からX方向にL字で通路を掘る
+    grid[a.cy, min(a.cx,b.cx):max(a.cx,b.cx)+1] = True
+    grid[min(a.cy,b.cy):max(a.cy,b.cy)+1, b.cx] = True</code></pre>
+
+  <h2>2. 石材のムラは「荒いノイズを拡大」で作る</h2>
+  <p>単色のグレーだと平坦でゲームっぽくないので、質感を足します。ポイントは、いきなり高解像度のノイズを乗せないこと。粗いノイズ（数十ピクセル単位）を作ってから画像全体に引き伸ばすと、自然な"石のムラ"になります。逆に細かいノイズをそのまま使うと、ザラザラしすぎて安っぽく見えます。</p>
+  <img class="fig" src="img/map1.png" alt="石造りダンジョンのバトルマップ例（グリッド有り）">
+  <p class="cap">グリッド有り版。1マス70px＝Roll20/Foundry VTTの標準グリッドに合わせています。</p>
+
+  <h2>3. 装飾は「意味のある場所」にだけ置く</h2>
+  <p>ひび割れ・瓦礫・苔・松明の灯りは、床や壁のマス座標をそのまま使って配置しています。壁際にだけ苔を生やす、部屋の中心付近にだけ松明の暖色グローを乗せる、というように「その場所らしい」ルールに沿って散らすと、ランダムでも破綻して見えません。</p>
+  <img class="fig" src="img/map2.png" alt="洞窟テーマのバトルマップ例（グリッド無し）">
+  <p class="cap">洞窟テーマ（グリッド無し版）。テーマごとにパレットとモチーフだけ差し替えています。</p>
+
+  <h2>手続き生成の強み</h2>
+  <p>手描きや画像生成AIだと「1枚ずつ品質が変わる」「同じような構図になりがち」という問題が起きます。計算式で描く方式だと、パラメータ（部屋数・テーマ・シード値）を変えるだけで、同じ品質のまま何百パターンでも作れます。これは正直、この方式でしか出せない強みだと思っています。</p>
+
+  <div class="cta split">
+    <div class="item">
+      <h3>ブラウザでエフェクトを触ってみる</h3>
+      <p>同じ考え方で作った、配信・TRPG用の透過エフェクト生成ツール。色を選んでその場で生成できます（無料）。</p>
+      <a class="btn primary" href="https://effect-forge-production.up.railway.app" target="_blank" rel="noopener">エフェクトフォージを試す →</a>
+    </div>
+    <div class="item">
+      <h3>今回のバトルマップを使う</h3>
+      <p>この記事で紹介したダンジョン・洞窟のバトルマップ8種（グリッド有無）を配布しています。</p>
+      <a class="btn ghost" href="https://isjoker1031.booth.pm/items/8716229" target="_blank" rel="noopener">BOOTHで見る →</a>
+    </div>
+  </div>
+
+  <p>同じ舞台で遊べる<a href="https://isjoker1031.booth.pm/items/8716377" target="_blank" rel="noopener">クトゥルフ神話TRPGのオリジナルシナリオ</a>も作りました。納骨堂を舞台にしたホラー一本ものです。</p>
+
+  <footer>
+    <span>いしはら製作所の制作ノート</span>
+    <a href="/">トップへ戻る →</a>
+  </footer>
+</div>
+</body>
+</html>

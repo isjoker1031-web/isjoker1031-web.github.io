@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>制作ノート | いしはら製作所</title>
+<meta name="description" content="いしはら製作所の制作の裏側。procedural generation・AI活用・個人開発の記録。">
+<style>
+  :root{
+    --bg:#0a0c14; --card:#141827; --line:#232941; --text:#eceef6; --muted:#949cb4;
+    --pink:#ff90e8; --violet:#7c6cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.8}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 100px}
+  header.top{padding:26px 0;border-bottom:1px solid var(--line);margin-bottom:30px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--pink),var(--violet));display:flex;align-items:center;justify-content:center;font-weight:800;color:#0a0c14;flex-shrink:0}
+  .brand b{font-size:14.5px}
+  h1{font-size:26px;margin:0 0 8px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:34px}
+  a.post{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;text-decoration:none;color:var(--text);margin-bottom:14px}
+  a.post:hover{border-color:var(--violet)}
+  a.post .date{color:var(--muted);font-size:12px;margin-bottom:6px}
+  a.post h2{font-size:16px;margin:0 0 6px}
+  a.post p{color:var(--muted);font-size:13.5px;margin:0}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;color:var(--muted);font-size:12.5px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/"><span class="mark">石</span><b>いしはら製作所</b></a>
+  </header>
+
+  <h1>制作ノート</h1>
+  <p class="sub">procedural generation・AI活用・個人開発の記録。</p>
+
+  <a class="post" href="/note/dungeon-generator/">
+    <div class="date">2026年8月</div>
+    <h2>生成AIを使わずにダンジョンのバトルマップを自動生成する話</h2>
+    <p>部屋の配置・通路の接続・石材テクスチャ・松明の光まで、すべて計算式で描く手続き生成アルゴリズムの解説。</p>
+  </a>
+
+  <footer>
+    <a href="/">トップへ戻る →</a>
+  </footer>
+</div>
+</body>
+</html>
