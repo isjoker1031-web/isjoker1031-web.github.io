@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OBSのスティンガーにAPNGが使えない理由と、透過WebMの正しい作り方 | いしはら製作所</title>
+<meta name="description" content="OBSのスティンガー切り替えは動画ファイルしか受け付けません。APNGから透過WebM（VP9アルファ）へ変換する具体的なffmpegコマンドと、「アルファが消えたように見えて実は消えていない」という紛らわしい挙動の見分け方を実測データ付きで解説します。">
+<meta property="og:title" content="OBSのスティンガーにAPNGが使えない理由と、透過WebMの正しい作り方">
+<meta property="og:description" content="動画ファイルしか受け付けないOBSスティンガー。VP9アルファWebMへの変換と、検証で引っかかる落とし穴を実測付きで。">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --bg:#0a0c14; --bg2:#10131f; --card:#141827; --line:#232941; --text:#eceef6; --muted:#949cb4;
+    --pink:#ff90e8; --violet:#7c6cff; --cyan:#4dd0e1; --green:#34d399; --amber:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.85;font-size:15.5px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 100px}
+  header.top{padding:26px 0;border-bottom:1px solid var(--line);margin-bottom:10px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--pink),var(--violet));display:flex;align-items:center;justify-content:center;font-weight:800;color:#0a0c14;flex-shrink:0}
+  .brand b{font-size:14.5px}
+  .eyebrow{color:var(--violet);font-size:12px;font-weight:700;letter-spacing:2px;margin:36px 0 10px}
+  h1{font-size:28px;line-height:1.42;margin:0 0 14px;letter-spacing:-.01em;text-wrap:balance}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:28px}
+  h2{font-size:19px;margin:44px 0 14px;padding-top:20px;border-top:1px solid var(--line);letter-spacing:-.005em}
+  h3{font-size:16px;margin:28px 0 10px}
+  p{margin:0 0 16px;color:#dfe2ee}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:12.5px;line-height:1.75;color:#c9d0e6}
+  code{font-family:"SF Mono",Menlo,monospace}
+  p code{background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;color:var(--cyan)}
+  table{width:100%;border-collapse:collapse;margin:8px 0 22px;font-size:13.5px;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;white-space:nowrap}
+  th{background:var(--card);font-weight:700}
+  .warn{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:16px 20px;margin:22px 0}
+  .warn b{color:var(--amber)}
+  .warn p{margin:6px 0 0;font-size:14px}
+  .cta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:34px 0;display:flex;flex-direction:column;gap:12px}
+  .cta.split{flex-direction:row;flex-wrap:wrap;gap:14px}
+  .cta .item{flex:1;min-width:220px}
+  .cta h3{margin:0 0 6px;font-size:15px}
+  .cta p{margin:0 0 12px;font-size:13.5px;color:var(--muted)}
+  .btn{display:inline-block;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:700;text-decoration:none}
+  .btn.primary{background:linear-gradient(90deg,var(--pink),var(--violet));color:#0a0c14}
+  .btn.ghost{border:1px solid var(--line);color:var(--text)}
+  footer{border-top:1px solid var(--line);margin-top:50px;padding-top:24px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--muted)}
+  a{color:var(--pink)}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6259976488060504" crossorigin="anonymous"></script>
+<script src="../../assets/js/ads.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/"><span class="mark">石</span><b>いしはら製作所</b></a>
+  </header>
+
+  <div class="eyebrow">制作ノート</div>
+  <h1>OBSのスティンガーにAPNGが使えない理由と、透過WebMの正しい作り方</h1>
+  <p class="meta">2026年8月 / OBS・配信・動画エンコード</p>
+
+  <p>配信用の場面転換素材を作っていて、はっきりした落とし穴に当たりました。<strong>OBSの「スティンガー」画面切り替えは、APNGを受け付けません。</strong></p>
+  <p>配信素材として広く配布されているのは透過APNGなので、「買ったのにスティンガーに設定できない」と困る人がいるはずです。理由と、正しい形式への変換方法をまとめます。</p>
+
+  <h2>なぜAPNGが使えないのか</h2>
+  <p>OBSのソースには「画像」と「メディアソース」があり、APNGは<strong>画像</strong>として読み込まれます。前景に重ねるオーバーレイ用途ならこれで十分です。</p>
+  <p>ところが「スティンガー」はシーン切り替えの機能で、切り替えの進行に合わせて<strong>特定のフレームまで再生し、そこで裏のシーンを差し替える</strong>という制御をします。この「◯ミリ秒地点で切り替える」という指定ができるのは動画ファイルだけで、画像として扱われるAPNGは選択肢に出てきません。</p>
+  <p>つまり同じ絵でも、<strong>オーバーレイならAPNG、スティンガーなら動画</strong>と、用途で形式を変える必要があります。</p>
+
+  <h2>では、どの動画形式にすべきか</h2>
+  <p>透過を保持できて、かつOBSが確実に読める組み合わせは限られます。</p>
+
+  <table>
+    <tr><th>形式</th><th>透過</th><th>用途</th></tr>
+    <tr><td>WebM（VP9 + アルファ）</td><td>◯</td><td><strong>OBSスティンガーの本命</strong></td></tr>
+    <tr><td>MOV（ProRes 4444）</td><td>◯</td><td>動画編集ソフト向け。ファイルが大きい</td></tr>
+    <tr><td>MP4（H.264）</td><td>✕</td><td>透過を保持できない</td></tr>
+    <tr><td>APNG</td><td>◯</td><td>オーバーレイ用。スティンガーには不可</td></tr>
+  </table>
+
+  <p><strong>MP4は透明部分を保持できません。</strong>ここを勘違いしたまま書き出すと、透明だった部分が黒や白で塗り潰されて出てきます。「透過で書き出したのに背景が黒い」という相談の大半はこれです。</p>
+
+  <h2>APNGから透過WebMへの変換</h2>
+  <p>ffmpegで一発です。</p>
+
+  <pre><code>ffmpeg -y -f apng -i input.png \
+  -c:v libvpx-vp9 -pix_fmt yuva420p \
+  -b:v 2M -auto-alt-ref 0 \
+  output.webm</code></pre>
+
+  <p>要点は3つあります。</p>
+  <p><code>-pix_fmt yuva420p</code> の <strong>「a」がアルファ</strong>です。これを <code>yuv420p</code> にすると透過が消えます。</p>
+  <p><code>-auto-alt-ref 0</code> は保険です。VP9の自動代替フレーム参照はアルファ付きエンコードと相性が悪いとされ、ffmpegのバージョンによってはこれを付けないとエンコードが失敗します。<strong>手元のffmpeg 7.1では付けなくても正常に変換でき、アルファも保持されました</strong>（透明画素42.9%を確認）が、環境差で失敗する報告があるため付けておくのが無難です。</p>
+  <p><code>-f apng</code> で入力形式を明示しています。拡張子が <code>.png</code> のままだと静止画と誤認されて1コマ目だけが変換されることがあります。</p>
+
+  <h2>ここが一番の落とし穴：確認してもアルファが見えない</h2>
+
+  <div class="warn">
+    <b>変換したWebMを <code>ffmpeg -i</code> で確認すると <code>yuv420p</code> と表示されます。アルファが消えたように見えますが、消えていません。</b>
+    <p>VP9のアルファは映像本体とは別のストリームに格納され、メタデータに <code>alpha_mode : 1</code> が付く仕様です。表示だけを見て「失敗した」と判断すると、正しく作れているファイルを捨てることになります。</p>
+  </div>
+
+  <p>本当に透過が残っているかは、<strong>実際にデコードして数える</strong>のが確実です。</p>
+
+  <pre><code># 1. メタデータを見る（alpha_mode: 1 があればアルファ付き）
+ffmpeg -i output.webm 2>&1 | grep -i alpha
+
+# 2. 1コマ取り出してRGBAで書き出す
+#    デコード側にも -c:v libvpx-vp9 を明示するのが重要
+ffmpeg -c:v libvpx-vp9 -i output.webm \
+  -vf "select='eq(n\,9)'" -vsync 0 -pix_fmt rgba probe.png</code></pre>
+
+  <p>書き出した <code>probe.png</code> のアルファ値を調べて、最小値が0・最大値が255なら透過は保持されています。手元で作った素材で実測したところ、<strong>完全に透明な画素が全体の42.9%</strong>ありました。表示上は <code>yuv420p</code> と出ていたファイルです。</p>
+
+  <h2>OBSでの設定</h2>
+  <p>「画面切り替え」の「＋」から「スティンガー」を選び、WebMを指定します。</p>
+  <p>設定項目の<strong>「切り替えポイント」</strong>は、<strong>画面が完全に覆われる瞬間</strong>に合わせます。ここがずれると、裏で切り替わる瞬間が見えてしまいます。素材の長さの中央あたり（0.8秒の素材なら400ms前後）から始めて、実際に切り替えて微調整するのが早いです。</p>
+
+  <h2>ループ素材を作るときの検証方法</h2>
+  <p>ついでに、待機画面のようなループ素材を作るときの話も書いておきます。</p>
+  <p>「継ぎ目がないか」を確かめるとき、<strong>最終コマと1コマ目の差分を測るだけでは判断できません。</strong>完全なループでも、最終コマと1コマ目のあいだには「1コマぶんの動き」が必ずあるからです。差分がゼロになるのは、そこで映像が止まっている場合だけです。</p>
+  <p>正しくは、<strong>「通常の1コマ間の差分」と「継ぎ目の差分」を比べて、比が1.0前後かを見ます。</strong></p>
+
+  <table>
+    <tr><th>素材</th><th>通常1コマ</th><th>継ぎ目</th><th>比</th></tr>
+    <tr><td>キラキラ</td><td>3.50</td><td>3.57</td><td>1.02</td></tr>
+    <tr><td>桜</td><td>6.76</td><td>6.80</td><td>1.01</td></tr>
+    <tr><td>雪</td><td>1.46</td><td>1.54</td><td>1.05</td></tr>
+    <tr><td>星空</td><td>0.12</td><td>0.31</td><td>2.53</td></tr>
+  </table>
+
+  <p>星空だけ2.53倍で、一見すると失敗に見えます。ですが<strong>これは不具合ではありません。</strong>星空はほとんど動かないので分母（通常1コマの差分）が0.12と極端に小さく、比が暴れているだけです。絶対値の0.31は4つの中で最小で、知覚できるレベルではありません。差の正体は動画圧縮のキーフレームとその他フレームの誤差です。</p>
+  <p><strong>比だけを見て機械的に判定すると、いちばん出来のいい素材を「壊れている」と誤判定します。</strong>絶対値と併せて見る必要があります。</p>
+
+  <div class="cta split">
+    <div class="item">
+      <h3>変換済みの素材を使う</h3>
+      <p>この記事の方法で作ったスティンガー48本と、待機画面ループ48本のセットを配布しています（無料サンプルあり）。</p>
+      <a class="btn primary" href="https://isjoker1031.booth.pm/items/8719183" target="_blank" rel="noopener">BOOTHで見る →</a>
+    </div>
+    <div class="item">
+      <h3>ブラウザで素材を作る</h3>
+      <p>色や量を変えて透過エフェクトをその場で生成できる無料ツールです。</p>
+      <a class="btn ghost" href="https://effect-forge-production.up.railway.app" target="_blank" rel="noopener">エフェクトフォージを試す →</a>
+    </div>
+  </div>
+
+  <p>同じ手続き生成の考え方で書いた<a href="/note/dungeon-generator/">バトルマップの自動生成</a>と<a href="/note/procedural-audio/">BGM・効果音の合成</a>もあります。</p>
+
+  <div data-ad="default" style="margin:34px 0"></div>
+
+  <footer>
+    <span>いしはら製作所の制作ノート</span>
+    <a href="/">トップへ戻る →</a>
+  </footer>
+</div>
+</body>
+</html>
