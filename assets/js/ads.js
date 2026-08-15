@@ -15,7 +15,7 @@
 (function () {
   "use strict";
 
-  var CLIENT = "ca-pub-5154944142808505";
+  var CLIENT = "ca-pub-6259976488060504";
 
   // ▼▼▼ ここに広告ユニットIDを貼るだけ ▼▼▼
   var SLOTS = {
