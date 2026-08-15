@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>星灯りフェス 2026｜特設サイト（制作サンプル）</title>
+<meta name="description" content="いしはら製作所の制作サンプル。VTuber・エンタメ系イベントの特設サイトデザイン例です。架空のイベントで、実在の団体とは関係ありません。">
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --ink:#0a0714;
+    --ink2:#120c22;
+    --panel:#181031;
+    --line:#2b2050;
+    --text:#f2eefb;
+    --muted:#a99fc7;
+    --neon:#ff3ea5;
+    --cyan:#3ee8ff;
+    --gold:#ffcf5c;
+    --grad:linear-gradient(100deg,#ff3ea5,#a95cff 55%,#3ee8ff);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ink);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic Medium",sans-serif;
+    line-height:1.8;overflow-x:hidden;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+
+  /* サンプル告知バー */
+  .sample{
+    position:sticky;top:0;z-index:999;background:#0d0a18;color:#e7e2f5;
+    font-size:13px;line-height:1.5;padding:10px 16px;text-align:center;border-bottom:1px solid var(--line);
+  }
+  .sample a{color:var(--neon)}
+
+  /* ヒーロー */
+  .hero{position:relative;padding:96px 0 80px;overflow:hidden;isolation:isolate}
+  .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);z-index:-1;opacity:.55}
+  .hero::before{width:620px;height:620px;background:#ff3ea5;top:-220px;left:-140px}
+  .hero::after{width:560px;height:560px;background:#3ee8ff;bottom:-260px;right:-120px;opacity:.4}
+  .stars{position:absolute;inset:0;z-index:-1;opacity:.5}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:3px;
+    color:var(--cyan);border:1px solid var(--line);border-radius:999px;padding:7px 16px;background:rgba(20,12,40,.6);
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--neon);box-shadow:0 0 12px var(--neon)}
+  h1{
+    font-size:clamp(40px,9vw,86px);line-height:1.06;margin:22px 0 14px;letter-spacing:-.03em;font-weight:900;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .tagline{font-size:clamp(15px,2.4vw,19px);color:var(--muted);max-width:34ch;margin:0 0 30px}
+  .when{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:34px}
+  .when div{border-left:2px solid var(--neon);padding-left:14px}
+  .when b{display:block;font-size:11.5px;letter-spacing:2px;color:var(--muted);font-weight:700}
+  .when span{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+  .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;padding:15px 30px;border-radius:999px;font-weight:800;font-size:14.5px;
+    text-decoration:none;letter-spacing:.5px;border:1px solid transparent;
+  }
+  .btn.p{background:var(--grad);color:#12081d}
+  .btn.g{border-color:var(--line);color:var(--text);background:rgba(24,16,49,.7)}
+
+  /* カウントダウン */
+  .count{display:flex;gap:10px;margin:38px 0 0}
+  .cell{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 8px;min-width:78px;text-align:center}
+  .cell b{display:block;font-size:28px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+  .cell span{font-size:10.5px;letter-spacing:1.6px;color:var(--muted)}
+
+  section{padding:76px 0}
+  .sec-t{font-size:12px;letter-spacing:4px;color:var(--cyan);font-weight:800;margin-bottom:10px}
+  h2{font-size:clamp(26px,4.4vw,38px);margin:0 0 34px;letter-spacing:-.02em;font-weight:900}
+
+  /* 出演 */
+  .cast{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-5px);border-color:var(--neon)}
+  .ava{height:172px;position:relative;overflow:hidden}
+  .ava i{position:absolute;inset:0;display:block}
+  .card .body{padding:16px 18px 20px}
+  .card h3{margin:0 0 4px;font-size:17px;font-weight:800}
+  .card p{margin:0;font-size:12.5px;color:var(--muted)}
+
+  /* チケット */
+  .tix{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .t{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:26px 24px;position:relative}
+  .t.best{border-color:var(--neon);box-shadow:0 0 0 1px rgba(255,62,165,.35),0 20px 60px -30px var(--neon)}
+  .badge{position:absolute;top:-11px;left:24px;background:var(--grad);color:#12081d;font-size:11px;font-weight:900;padding:4px 12px;border-radius:999px;letter-spacing:1px}
+  .t h3{margin:0 0 6px;font-size:15px;letter-spacing:1px;color:var(--muted);font-weight:800}
+  .price{font-size:34px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .price small{font-size:14px;color:var(--muted);font-weight:700}
+  .t ul{list-style:none;padding:0;margin:16px 0 0}
+  .t li{font-size:13.5px;color:#ded7f0;padding:7px 0 7px 24px;position:relative;border-top:1px solid var(--line)}
+  .t li::before{content:"";position:absolute;left:2px;top:15px;width:11px;height:6px;border-left:2px solid var(--cyan);border-bottom:2px solid var(--cyan);transform:rotate(-45deg)}
+
+  /* FAQ */
+  details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:800;font-size:15px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"＋";float:right;color:var(--neon);font-weight:900}
+  details[open] summary::after{content:"−"}
+  details p{margin:12px 0 0;font-size:13.5px;color:var(--muted)}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;color:var(--muted);font-size:12.5px}
+
+  @media (prefers-reduced-motion: no-preference){
+    .float{animation:fl 7s ease-in-out infinite}
+    @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  }
+</style>
+</head>
+<body>
+
+<div class="sample">
+  これは<strong>いしはら製作所の制作サンプル</strong>です。架空のイベント・人物で、実在の団体とは関係ありません。
+  <a href="https://isjoker1031-web.github.io/#webwork">制作のご相談はこちら</a>
+</div>
+
+<header class="hero">
+  <canvas class="stars" id="stars"></canvas>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>ONLINE LIVE ／ 配信ライブ</div>
+    <h1>星灯りフェス<br>2026</h1>
+    <p class="tagline">夜がいちばん長い日に、5人の声が灯る。<br>おうちから参加できる、オンライン音楽フェス。</p>
+
+    <div class="when">
+      <div><b>DATE</b><span>2026.12.21 SUN</span></div>
+      <div><b>OPEN / START</b><span>18:30 / 19:00</span></div>
+      <div><b>ARCHIVE</b><span>14日間 見放題</span></div>
+    </div>
+
+    <div class="cta">
+      <a class="btn p" href="#ticket">チケットを見る</a>
+      <a class="btn g" href="#cast">出演者を見る</a>
+    </div>
+
+    <div class="count" id="count">
+      <div class="cell"><b id="d">--</b><span>DAYS</span></div>
+      <div class="cell"><b id="h">--</b><span>HOURS</span></div>
+      <div class="cell"><b id="m">--</b><span>MIN</span></div>
+      <div class="cell"><b id="s">--</b><span>SEC</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="cast">
+  <div class="wrap">
+    <div class="sec-t">CAST</div>
+    <h2>出演者</h2>
+    <div class="cast">
+      <div class="card"><div class="ava"><i style="background:radial-gradient(circle at 32% 28%,#ff8fd0,#ff3ea5 42%,#5b1e6e 100%)"></i></div>
+        <div class="body"><h3>灯野 ひなた</h3><p>歌／トーク・フェス主催</p></div></div>
+      <div class="card"><div class="ava"><i style="background:radial-gradient(circle at 68% 30%,#9ff3ff,#3ee8ff 44%,#123a63 100%)"></i></div>
+        <div class="body"><h3>汐見 るり</h3><p>バラード・アコースティック</p></div></div>
+      <div class="card"><div class="ava"><i style="background:radial-gradient(circle at 40% 66%,#ffe6a0,#ffcf5c 44%,#6b4a12 100%)"></i></div>
+        <div class="body"><h3>陽菜森 こむぎ</h3><p>ポップス・企画コーナー</p></div></div>
+      <div class="card"><div class="ava"><i style="background:radial-gradient(circle at 60% 40%,#cbb0ff,#a95cff 46%,#2d1258 100%)"></i></div>
+        <div class="body"><h3>夜宮 しづく</h3><p>ロック・バンドセット</p></div></div>
+      <div class="card"><div class="ava"><i style="background:radial-gradient(circle at 30% 60%,#9dffd0,#2fe0a0 46%,#0f4a35 100%)"></i></div>
+        <div class="body"><h3>七瀬 みお</h3><p>DJ・アフターパーティー</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="ticket">
+  <div class="wrap">
+    <div class="sec-t">TICKET</div>
+    <h2>チケット</h2>
+    <div class="tix">
+      <div class="t">
+        <h3>ONLINE</h3>
+        <div class="price">¥3,500<small> 税込</small></div>
+        <ul>
+          <li>本編の配信視聴</li>
+          <li>アーカイブ14日間</li>
+          <li>デジタルパンフレット</li>
+        </ul>
+      </div>
+      <div class="t best">
+        <span class="badge">おすすめ</span>
+        <h3>ONLINE ＋ GOODS</h3>
+        <div class="price">¥6,800<small> 税込</small></div>
+        <ul>
+          <li>ONLINEの内容すべて</li>
+          <li>アクリルスタンド 5種セット</li>
+          <li>フェス限定ステッカー</li>
+          <li>アフターパーティー参加</li>
+        </ul>
+      </div>
+      <div class="t">
+        <h3>SUPPORTER</h3>
+        <div class="price">¥12,000<small> 税込</small></div>
+        <ul>
+          <li>GOODSの内容すべて</li>
+          <li>エンドロールにお名前掲載</li>
+          <li>リハーサル映像の限定公開</li>
+          <li>出演者直筆メッセージカード</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-t">FAQ</div>
+    <h2>よくある質問</h2>
+    <details open><summary>当日、都合が悪くなったら見られませんか？</summary>
+      <p>アーカイブを14日間ご用意しています。期間中は何度でもご視聴いただけます。</p></details>
+    <details><summary>スマートフォンでも見られますか？</summary>
+      <p>スマートフォン・タブレット・PCのいずれでもご視聴いただけます。専用アプリのインストールは不要です。</p></details>
+    <details><summary>グッズはいつ届きますか？</summary>
+      <p>公演終了後、順次発送いたします。発送予定日はマイページからご確認いただけます。</p></details>
+    <details><summary>チケットの払い戻しはできますか？</summary>
+      <p>公演中止の場合を除き、購入後の払い戻しは承っておりません。あらかじめご了承ください。</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 6px"><strong style="color:var(--text)">星灯りフェス 2026</strong>（架空のイベントです）</p>
+    <p style="margin:0">制作サンプル ／ いしはら製作所 ― <a href="https://isjoker1031-web.github.io/#webwork" style="color:var(--neon)">HP・LP制作を承っています</a></p>
+  </div>
+</footer>
+
+<script>
+// 背景の星。画像を使わず計算で描く（外部ファイル0本で軽い）
+(function(){
+  var c = document.getElementById('stars');
+  if(!c) return;
+  var ctx = c.getContext('2d'), stars = [], DPR = Math.min(window.devicePixelRatio||1, 2);
+  function size(){
+    var h = c.parentElement.offsetHeight;
+    c.width = innerWidth*DPR; c.height = h*DPR;
+    c.style.width = innerWidth+'px'; c.style.height = h+'px';
+    stars = [];
+    var n = Math.round(innerWidth*h/9000);
+    for(var i=0;i<n;i++){
+      stars.push({x:Math.random()*c.width, y:Math.random()*c.height,
+                  r:(Math.random()*1.5+0.4)*DPR, a:Math.random(), sp:Math.random()*0.02+0.004});
+    }
+  }
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    for(var i=0;i<stars.length;i++){
+      var s = stars[i];
+      if(!reduce){ s.a += s.sp; }
+      var al = 0.25 + 0.75*Math.abs(Math.sin(s.a));
+      ctx.globalAlpha = al;
+      ctx.fillStyle = i%7===0 ? '#3ee8ff' : '#ffffff';
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    if(!reduce) requestAnimationFrame(draw);
+  }
+  addEventListener('resize', function(){ size(); if(reduce) draw(); });
+  size(); draw();
+})();
+
+// カウントダウン
+(function(){
+  var target = new Date('2026-12-21T19:00:00+09:00').getTime();
+  var el = {d:document.getElementById('d'),h:document.getElementById('h'),m:document.getElementById('m'),s:document.getElementById('s')};
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var diff = target - Date.now();
+    if(diff < 0) diff = 0;
+    var sec = Math.floor(diff/1000);
+    el.d.textContent = Math.floor(sec/86400);
+    el.h.textContent = pad(Math.floor(sec%86400/3600));
+    el.m.textContent = pad(Math.floor(sec%3600/60));
+    el.s.textContent = pad(sec%60);
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
