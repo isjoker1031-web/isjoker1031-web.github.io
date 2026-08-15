@@ -18,6 +18,7 @@
 <meta name="twitter:description" content="もし、あの選択をしていたら？ AIがあなたの“もうひとつの人生”を短編小説に。">
 <meta name="twitter:image" content="https://isjoker1031-web.github.io/moshimo/ogp.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5154944142808505" crossorigin="anonymous"></script>
+<script src="../assets/js/ads.js" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -282,7 +283,7 @@
       <button class="toolbtn" id="again">もう一度べつの選択で</button>
       <button class="toolbtn" id="copy">コピー</button>
     </div>
-    <div id="adslot" style="margin-top:22px"></div>
+    <div id="adslot" data-ad="default" style="margin-top:22px"></div>
   </div>
   <canvas id="cv" width="1080" height="1350" style="display:none"></canvas>
 
@@ -410,11 +411,10 @@ if(CONFIG.BACKEND_URL) $("keywrap").style.display = "none";
 
 // --- AdSense（スクリプトは<head>で静的読込。ここは広告ユニットの描画のみ）---
 function showAd(){
-  if(isPremium()) return; // プレミアムは広告なし
-  const c = CONFIG.ADSENSE; if(!c.client || !c.slot) return;
-  const box = $("adslot"); if(box.dataset.done) return;
-  box.innerHTML = `<ins class="adsbygoogle" style="display:block" data-ad-client="${c.client}" data-ad-slot="${c.slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
-  try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); box.dataset.done = "1"; }catch(e){}
+  if(isPremium()) return;                 // プレミアムは広告なし
+  // 広告ユニットIDは assets/js/ads.js の SLOTS で一元管理している。
+  // ここでは「出してよいかどうか」だけを判断して、描画は共通ローダーに任せる。
+  if(window.ishiharaAds) window.ishiharaAds.refresh();
 }
 
 function showErr(msg){

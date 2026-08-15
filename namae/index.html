@@ -14,6 +14,7 @@
 <meta property="og:url" content="https://isjoker1031-web.github.io/namae/">
 <meta name="twitter:card" content="summary">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5154944142808505" crossorigin="anonymous"></script>
+<script src="../assets/js/ads.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"ペンネーム・ハンドルネームメーカー","url":"https://isjoker1031-web.github.io/namae/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"ja","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"いしはら製作所"}}
 </script>
@@ -64,8 +65,8 @@
     <div class="bridge">名前が決まったら——その人の物語は？ <a href="/moshimo/" style="color:var(--accent)">AIが綴る“もしも”の短編小説へ →</a></div>
   </div>
 
-  <div class="adslot" id="adwrap" style="display:none">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5154944142808505" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <div class="adslot" id="adwrap" style="display:none" data-ad="default">
+    
   </div>
 
   <section class="about2">
@@ -108,7 +109,7 @@ function gen(){
     g.appendChild(d);
   });
   $("gen").textContent = "別の名前を見る";
-  const aw = $("adwrap"); if(aw.style.display === "none"){ aw.style.display = "block"; try{ (window.adsbygoogle=window.adsbygoogle||[]).push({}); }catch(e){} }
+  const aw = $("adwrap"); if(aw.style.display === "none"){ aw.style.display = "block"; if(window.ishiharaAds) window.ishiharaAds.refresh(); }
 }
 $("gen").onclick = gen;
 gen();

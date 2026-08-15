@@ -16,6 +16,7 @@
 <meta name="twitter:title" content="今日の運勢・おみくじ">
 <meta name="twitter:description" content="今日のあなたの運勢を無料でおみくじ占い。毎日引けます。">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5154944142808505" crossorigin="anonymous"></script>
+<script src="../assets/js/ads.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"今日の運勢・おみくじ","url":"https://isjoker1031-web.github.io/omikuji/","applicationCategory":"EntertainmentApplication","operatingSystem":"Web","inLanguage":"ja","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"いしはら製作所"}}
 </script>
@@ -90,8 +91,8 @@
     <div class="note">おみくじは1日1回、あなただけの運勢。また明日引いてね。</div>
   </div>
 
-  <div class="adslot" id="adwrap" style="display:none">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5154944142808505" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <div class="adslot" id="adwrap" style="display:none" data-ad="default">
+    
   </div>
 
   <section class="about2">
@@ -154,7 +155,7 @@ function reveal(){
   $("intro").classList.add("hidden");
   $("result").classList.remove("hidden");
   const aw = $("adwrap"); aw.style.display = "block";
-  try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
+  if(window.ishiharaAds) window.ishiharaAds.refresh();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 $("draw").onclick = reveal;
