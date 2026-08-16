@@ -109,8 +109,9 @@
       background: linear-gradient(90deg, var(--pink), var(--violet), var(--cyan));
       z-index: 100; transition: width .08s linear;
     }
-    header { padding: 96px 0 64px; text-align: center; position: relative; }
-    .hero-inner { will-change: transform, opacity; }
+    header { padding: 96px 0 64px; text-align: center; position: relative; overflow: hidden; }
+    #hero-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero-inner { position: relative; will-change: transform, opacity; }
     /* セクション見出しのリビール */
     .sec-head, section h2, .sub {
       opacity: 0; transform: translateY(18px);
@@ -121,9 +122,9 @@
     .card { transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, opacity .6s ease; }
     .card.vis { transition: transform .6s cubic-bezier(.2,.7,.3,1), opacity .6s ease, border-color .18s ease, box-shadow .18s ease; }
     .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--pink);
-      border: 1px solid rgba(255,91,60,.3); border-radius: 999px; padding: 6px 18px;
+      display: inline-flex; align-items: center; gap: 8px; max-width: 92vw;
+      font-size: 11.5px; font-weight: 700; letter-spacing: .5px; color: var(--pink);
+      border: 1px solid rgba(255,91,60,.3); border-radius: 999px; padding: 7px 18px;
       margin-bottom: 28px; background: rgba(255,91,60,.08);
     }
     h1 { font-size: clamp(34px, 6.5vw, 60px); font-weight: 600; letter-spacing: -1px; line-height: 1.18; margin-bottom: 20px; }
@@ -151,12 +152,19 @@
       opacity: 0; transform: translateY(14px);
     }
     .card.vis { opacity: 1; transform: translateY(0); }
-    .card:hover { transform: translateY(-4px); border-color: rgba(224,67,31,.45); box-shadow: 0 12px 40px -16px rgba(224,67,31,.25); }
+    .card:hover { transform: translateY(-5px) rotate(-.5deg); border-color: rgba(224,67,31,.45); box-shadow: 0 14px 40px -16px rgba(224,67,31,.28); }
+    .card.featured { border: 2px solid var(--pink); background: linear-gradient(160deg, rgba(255,91,60,.06), var(--card) 40%); }
+    .feat-tag {
+      position: absolute; top: -11px; right: 20px; background: var(--pink); color: #fff;
+      font-size: 10.5px; font-weight: 800; letter-spacing: .5px; padding: 4px 12px; border-radius: 999px;
+    }
     .icon {
       width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; margin-bottom: 16px;
       background: linear-gradient(135deg, rgba(255,91,60,.12), rgba(16,107,96,.12));
       border: 1px solid rgba(224,67,31,.2);
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
     }
+    .card:hover .icon { transform: rotate(-8deg) scale(1.08); }
     .icon svg { width: 22px; height: 22px; stroke: var(--pink); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
     .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 6px; letter-spacing: -.2px; }
     .card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
@@ -170,6 +178,24 @@
     .card-order .yen small { font-size: 11px; color: var(--muted); font-weight: 600; }
     .card-order a { font-size: 12px; font-weight: 700; color: var(--pink); text-decoration: none; white-space: nowrap; }
     .card-order a:hover { text-decoration: underline; }
+
+    /* シリーズ タイル（BOOTHまとめ表示） */
+    .tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .tile {
+      display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 8px;
+      text-decoration: none; color: var(--text); cursor: pointer;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), border-color .2s ease, box-shadow .2s ease;
+    }
+    .tile:hover {
+      transform: translateY(-4px) rotate(var(--tilt, -3deg)) scale(1.06);
+      border-color: rgba(224,67,31,.5); box-shadow: 0 14px 30px -14px rgba(224,67,31,.4); z-index: 2;
+    }
+    .tile:nth-child(even) { --tilt: 3deg; }
+    .tile .icon { width: 38px; height: 38px; margin-bottom: 0; }
+    .tile .icon svg { width: 18px; height: 18px; }
+    .tile b { font-size: 12px; font-weight: 700; line-height: 1.4; }
+    .tile span { font-size: 10.5px; color: var(--muted); font-weight: 600; }
 
     /* 制作サンプル */
     .works-strip { margin-top: 40px; }
@@ -248,16 +274,17 @@
 </nav>
 
 <header>
+  <canvas id="hero-fx"></canvas>
   <div class="wrap hero-inner" id="hero">
-    <div class="hero-tag">SOLO MAKER STUDIO</div>
-    <h1 data-ja>ひとりで、つくって、<br><span class="grad">世に出す。</span></h1>
-    <h1 data-en>I build and ship things,<br><span class="grad">solo.</span></h1>
-    <p class="tagline" data-ja>いしはら（石原亮）の個人開発工房。配信・TRPGで使える"動く演出素材"の制作・販売と、HP／LP制作を、ぜんぶ一人でやっています。</p>
-    <p class="tagline" data-en>The one-person studio of Ryo Ishihara. I create animated overlay assets for streaming and TRPG, and build websites — all solo.</p>
+    <div class="hero-tag"><span data-ja>生成AI不使用・1フレームずつコードで描画</span><span data-en>NO GENERATIVE AI — DRAWN FRAME BY FRAME IN CODE</span></div>
+    <h1 data-ja>コードで、<br><span class="grad">光と動きをつくる。</span></h1>
+    <h1 data-en>I turn code into<br><span class="grad">light and motion.</span></h1>
+    <p class="tagline" data-ja>配信・TRPGで使う"動く演出素材"から、AIが自動で動き続けるWebサービスまで。頭に浮かんだものを、そのままコードにして届けています。</p>
+    <p class="tagline" data-en>From animated overlays for streaming and TRPG, to web services that run themselves. Whatever I imagine, I turn straight into code.</p>
     <div class="stats">
       <div class="stat"><b class="count" data-count="95">0</b><span data-ja>動く素材</span><span data-en>ANIMATED ASSETS</span></div>
-      <div class="stat"><b class="count" data-count="8">0</b><span data-ja>シリーズ</span><span data-en>SERIES</span></div>
-      <div class="stat"><b class="count" data-count="1">0</b><span data-ja>人で運営</span><span data-en>PERSON</span></div>
+      <div class="stat"><b class="count" data-count="10">0</b><span data-ja>シリーズ</span><span data-en>SERIES</span></div>
+      <div class="stat"><b class="count" data-count="0">0</b><span data-ja>生成AI使用</span><span data-en>GENERATIVE AI USED</span></div>
     </div>
   </div>
 </header>
@@ -266,92 +293,67 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">01</span><div class="sec-line"></div></div>
     <h2 data-ja>動く演出素材ショップ</h2><h2 data-en>Animated Overlay Assets</h2>
-    <p class="sub" data-ja>配信・実況・TRPGで使える"置くだけで動く"演出素材。すべて透過背景・完全ループのAPNG。OBSやココフォリアに重ねるだけ。BOOTHで販売中です。</p>
-    <p class="sub" data-en>"Drop-in" animated effects for streaming and TRPG. Transparent, perfectly looping APNG — just overlay them in OBS or Cocofolia. On sale at BOOTH.</p>
-    <div class="grid">
-      <a class="card" href="https://isjoker1031.booth.pm/items/8672880" target="_blank" rel="noopener">
+    <p class="sub" data-ja>配信・実況・TRPGで使える"置くだけで動く"演出素材、全10シリーズ+α。すべて透過背景・完全ループのAPNG。OBSやココフォリアに重ねるだけです。</p>
+    <p class="sub" data-en>"Drop-in" animated effects for streaming and TRPG — 10 series and counting. All transparent, perfectly looping APNG. Just overlay them in OBS or Cocofolia.</p>
+
+    <div class="tile-grid">
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8672880" target="_blank" rel="noopener">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3l2.4 5.5 6 .5-4.5 4 1.3 5.9L12 15.8 6.8 18.9 8.1 13 3.6 9l6-.5z"/></svg></div>
-        <h3 data-ja>推し色エフェクト（無料版あり）</h3><h3 data-en>Your-Colour FX (free version)</h3>
-        <p data-ja>配信の演出を自分のイメージカラーで。8種を12色ぶん収録。白は無料で試せます。</p>
-        <p data-en>Stream FX in your own colour — 8 effects x 12 colours. White is free.</p>
-        <span class="badge price"><span class="dot"></span>¥0〜500 · BOOTH</span>
+        <b data-ja>推し色</b><b data-en>Your Colour</b><span>¥0〜500</span>
       </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8672568" target="_blank" rel="noopener">
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8672568" target="_blank" rel="noopener">
         <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
-        <h3 data-ja>魔法陣（無料版あり）</h3><h3 data-en>Magic Circles (free version)</h3>
-        <p data-ja>詠唱・神聖・呪い・召喚がひと通り。青は無料で試せます。5種。</p>
-        <p data-en>Chant, holy, curse, summon — all covered. Blue is free to try. 5 effects.</p>
-        <span class="badge price"><span class="dot"></span>¥0〜300 · BOOTH</span>
+        <b data-ja>魔法陣</b><b data-en>Magic Circles</b><span>¥0〜300</span>
       </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8619237" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 16.2A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><path d="M8 19v2M8 13v2M16 19v2M16 13v2M12 21v2M12 15v2"/></svg></div>
+        <b data-ja>vol.1 気象・自然</b><b data-en>vol.1 Weather</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8619758" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></div>
+        <b data-ja>vol.2 ホラー</b><b data-en>vol.2 Horror</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8621958" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
+        <b data-ja>vol.3 戦闘</b><b data-en>vol.3 Battle</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8622319" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div>
+        <b data-ja>vol.4 SF</b><b data-en>vol.4 Sci-fi</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8629895" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+        <b data-ja>vol.5 魔法・状態</b><b data-en>vol.5 Status</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8629948" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+        <b data-ja>vol.6 リアクション</b><b data-en>vol.6 Reaction</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8629984" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A4.5 4.5 0 0 0 12 22a5 5 0 0 0 5-5c0-2.2-1.3-3.7-2.6-5.6-.5 1.6-1.6 2.1-2.6 2.1.6-2.3 0-4.8-2.2-6.9 0 2.8-1.6 3.9-1.6 6.4z"/></svg></div>
+        <b data-ja>vol.7 激アツ</b><b data-en>vol.7 Slot Hype</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8630083" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></div>
+        <b data-ja>vol.8 虹プレミアム</b><b data-en>vol.8 Rainbow</b><span>¥500</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8667597" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/></svg></div>
+        <b data-ja>vol.9 シーンチェンジ</b><b data-en>vol.9 Transitions</b><span>¥400</span>
+      </a>
+      <a class="tile" href="https://isjoker1031.booth.pm/items/8708475" target="_blank" rel="noopener">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></div>
+        <b data-ja>vol.10 感動・お祝い</b><b data-en>vol.10 Celebration</b><span>¥500</span>
+      </a>
+    </div>
+
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
       <a class="card" href="https://isjoker1031.booth.pm/items/8668667" target="_blank" rel="noopener">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg></div>
         <h3 data-ja>COMPLETE PACK 全部入り</h3><h3 data-en>COMPLETE PACK</h3>
-        <p data-ja>全9シリーズ199種に、4K版103種を追加した全部入り。4Kはこれ限定。</p>
-        <p data-en>All 9 series, 199 effects, plus 103 exclusive 4K versions.</p>
+        <p data-ja>上の10シリーズ+推し色+魔法陣、合計200種以上に、4K版103種を追加した全部入り。4Kはこれ限定。</p>
+        <p data-en>Every series above plus exclusive 4K versions — 200+ effects in one bundle. 4K is bundle-only.</p>
         <span class="badge price"><span class="dot"></span>¥2,980 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8667597" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/></svg></div>
-        <h3 data-ja>vol.9 シーンチェンジ編</h3><h3 data-en>vol.9 Scene Transitions</h3>
-        <p data-ja>場面転換12種×4色×イン/アウト。1ファイル1MB以下でココフォリアが重くなりません。96種。</p>
-        <p data-en>12 transitions x 4 colours x in/out. Under 1MB each. 96 files.</p>
-        <span class="badge price"><span class="dot"></span>¥400 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8619237" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 16.2A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><path d="M8 19v2M8 13v2M16 19v2M16 13v2M12 21v2M12 15v2"/></svg></div>
-        <h3 data-ja>vol.1 気象・自然編</h3><h3 data-en>vol.1 Weather & Nature</h3>
-        <p data-ja>雨・雪・桜・落ち葉・霧・蛍・星空。天気と季節を演出する12種。</p>
-        <p data-en>Rain, snow, sakura, fog, fireflies, stars — 12 weather & season effects.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8619758" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></div>
-        <h3 data-ja>vol.2 ホラー・怪異編</h3><h3 data-en>vol.2 Horror</h3>
-        <p data-ja>血の雨・瘴気・心音・砂嵐・亡霊。クトゥルフ神話TRPGに。11種。</p>
-        <p data-en>Blood rain, miasma, heartbeat, static, spirits — 11 effects for CoC.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8621958" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
-        <h3 data-ja>vol.3 ファンタジー戦闘編</h3><h3 data-en>vol.3 Fantasy Battle</h3>
-        <p data-ja>魔法陣・斬撃・爆発・衝撃波・稲妻・オーラ。戦闘シーンに。12種。</p>
-        <p data-en>Magic circles, slashes, explosions, lightning, auras — 12 battle effects.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8622319" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div>
-        <h3 data-ja>vol.4 SF・サイバー編</h3><h3 data-en>vol.4 Sci-fi / Cyber</h3>
-        <p data-ja>ネオングリッド・デジタルレイン・HUD・ワープ・グリッチ。12種。</p>
-        <p data-en>Neon grid, digital rain, HUD, warp, glitch — 12 cyber effects.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8629895" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
-        <h3 data-ja>vol.5 魔法・状態編</h3><h3 data-en>vol.5 Magic & Status</h3>
-        <p data-ja>回復・バフ・デバフ・召喚・毒・睡眠・混乱。RPGの状態演出12種。</p>
-        <p data-en>Heal, buff, debuff, summon, poison, sleep — 12 RPG status effects.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8629948" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
-        <h3 data-ja>vol.6 実況・リアクション編</h3><h3 data-en>vol.6 Reaction</h3>
-        <p data-ja>集中線・！マーク・紙吹雪・キラキラ・炎の縁取り。配信の盛り上げに。12種。</p>
-        <p data-en>Speed lines, marks, confetti, sparkles, flames — 12 hype overlays.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8629984" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A4.5 4.5 0 0 0 12 22a5 5 0 0 0 5-5c0-2.2-1.3-3.7-2.6-5.6-.5 1.6-1.6 2.1-2.6 2.1.6-2.3 0-4.8-2.2-6.9 0 2.8-1.6 3.9-1.6 6.4z"/></svg></div>
-        <h3 data-ja>vol.7 激アツ・スロット演出編</h3><h3 data-en>vol.7 Slot Hype</h3>
-        <p data-ja>7揃い風・レバーON・虹/赤/金フラッシュ・コインシャワー。配信の"激アツ"に。12種。</p>
-        <p data-en>Lucky 7s, lever-on, rainbow/red/gold flash, coin shower — 12 hype effects.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
-      </a>
-      <a class="card" href="https://isjoker1031.booth.pm/items/8630083" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></div>
-        <h3 data-ja>vol.8 極アツ・プレミアム虹編</h3><h3 data-en>vol.8 Premium Rainbow</h3>
-        <p data-ja>虹バースト・確定フラッシュ・虹スパイラル・激アツ虹テロップ。最上級の12種。</p>
-        <p data-en>Rainbow burst, confirm-flash, spiral, hype text — 12 premium effects.</p>
-        <span class="badge price"><span class="dot"></span>¥500 · BOOTH</span>
       </a>
       <a class="card" href="https://isjoker1031.booth.pm/items/8619016" target="_blank" rel="noopener">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></div>
@@ -361,6 +363,7 @@
         <span class="badge live"><span class="dot"></span>FREE · BOOTH</span>
       </a>
     </div>
+
     <div class="shop-cta">
       <a class="cta-ghost" href="https://isjoker1031.booth.pm/" target="_blank" rel="noopener">
         <span data-ja>BOOTHショップをすべて見る →</span><span data-en>Visit the BOOTH shop →</span>
@@ -561,22 +564,23 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">05</span><div class="sec-line"></div></div>
     <h2 data-ja>新しいプロダクト</h2><h2 data-en>New Products</h2>
-    <p class="sub" data-ja>公開しながら作っている最中の2つ。ひとつは動く演出素材集の生成エンジンをそのままツール化したもの、もうひとつは開発中のSaaSプレビューです。</p>
-    <p class="sub" data-en>Two things I'm building in public right now — one turns the animated-effect engine behind my BOOTH shop into a self-serve tool, the other is a live preview of a SaaS still in progress.</p>
+    <p class="sub" data-ja>BOOTH素材の裏側にある技術を、そのままサービスにした2つ。TrendPulseは今いちばん力を入れているプロダクトで、実際にAIが毎日自動でトレンドを収集・要約・配信しています。</p>
+    <p class="sub" data-en>Two products built from the same engine behind my BOOTH shop. TrendPulse is my main focus right now — it really does scrape, write, and send a newsletter every day, fully automated.</p>
     <div class="grid">
+      <a class="card featured" href="https://usagineko7865-debug.github.io/trendpulse/" target="_blank" rel="noopener">
+        <span class="feat-tag" data-ja>注力中</span><span class="feat-tag" data-en>Featured</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6M21 7h-6"/></svg></div>
+        <h3>TrendPulse</h3>
+        <p data-ja>YouTubeの実トレンドをAIが毎日自動で収集→要約→配信。人の手を離れて、ちゃんと動き続けているニュースレターSaaSです。</p>
+        <p data-en>Scrapes real YouTube trends, writes the digest, and sends it — every single day, with nobody touching it.</p>
+        <span class="badge live"><span class="dot"></span><span data-ja>サイトを見る →</span><span data-en>Visit the site →</span></span>
+      </a>
       <a class="card" href="https://effect-forge-production.up.railway.app" target="_blank" rel="noopener">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
         <h3 data-ja>エフェクトフォージ</h3><h3 data-en>Effect Forge</h3>
         <p data-ja>配信・TRPG用の透過エフェクトを、色や量を変えてその場で生成。生成AIは使わず、自作の計算描画エンジンが1ピクセルずつ描いています。</p>
         <p data-en>Generate transparent streaming/TRPG effects on the spot — pick a color, tweak the params. No generative AI: a procedural engine I wrote draws every pixel.</p>
         <span class="badge live"><span class="dot"></span><span data-ja>無料で試す →</span><span data-en>Try it free →</span></span>
-      </a>
-      <a class="card" href="https://usagineko7865-debug.github.io/trendpulse/" target="_blank" rel="noopener">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6M21 7h-6"/></svg></div>
-        <h3 data-ja>TrendPulse（開発中）</h3><h3 data-en>TrendPulse (in development)</h3>
-        <p data-ja>世界のトレンド動画をAIが自動で要約し、多言語SNS投稿と有料ニュースレターに変換するSaaS。ランディングページを先行公開中。</p>
-        <p data-en>An AI pipeline that turns global trending videos into multilingual social posts and a paid newsletter. Landing page live, backend in progress.</p>
-        <span class="badge live"><span class="dot"></span><span data-ja>プレビューを見る →</span><span data-en>See the preview →</span></span>
       </a>
     </div>
   </div>
@@ -588,8 +592,8 @@
 <footer>
   <div class="wrap">
     <div class="mark">石</div>
-    <p data-ja>ぜんぶ、ひとりで、公開しながら作っています。</p>
-    <p data-en>Building everything in public, one person at a time.</p>
+    <p data-ja>コードで動きをつくり、公開しながら育てています。</p>
+    <p data-en>Turning code into motion, built and shared in public.</p>
     <p><a href="mailto:is.joker1031@gmail.com">is.joker1031@gmail.com</a></p>
     <div class="foot-links">
       <a href="/note/" data-ja>制作ノート</a><a href="/note/" data-en>Notes</a>
@@ -671,6 +675,56 @@
     });
   }
   addEventListener('scroll', onScroll, { passive: true });
+
+  // ── ヒーロー背景: 自作のパーティクルエンジンを実演（宣伝文句を"見せる"デモ） ──
+  (function () {
+    const canvas = document.getElementById('hero-fx');
+    const ctx = canvas.getContext('2d');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const colors = ['#FF5B3C', '#106B60', '#E0431F'];
+    let particles = [];
+    let W = 0, H = 0, DPR = Math.min(devicePixelRatio || 1, 2);
+
+    function resize() {
+      const r = canvas.parentElement.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = W * DPR; canvas.height = H * DPR;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      const n = Math.round((W * H) / 16000);
+      particles = Array.from({ length: n }, spawn);
+    }
+    function spawn() {
+      return {
+        x: Math.random() * W,
+        y: H + Math.random() * 60,
+        r: Math.random() * 3 + 1.5,
+        vy: Math.random() * 0.5 + 0.25,
+        vx: (Math.random() - 0.5) * 0.3,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        a: Math.random() * 0.35 + 0.15,
+        life: Math.random() * 200,
+      };
+    }
+    function tick() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach((p) => {
+        p.y -= p.vy; p.x += p.vx; p.life++;
+        const fade = Math.min(1, Math.min(p.life / 60, (H + 40 - p.y) / 80));
+        ctx.beginPath();
+        ctx.fillStyle = p.c;
+        ctx.globalAlpha = p.a * Math.max(0, fade);
+        ctx.arc(p.x, p.y, p.r, 0, 6.283);
+        ctx.fill();
+        if (p.y < -20) Object.assign(p, spawn(), { y: H + 10 });
+      });
+      ctx.globalAlpha = 1;
+      if (!reduce) requestAnimationFrame(tick);
+    }
+    addEventListener('resize', resize, { passive: true });
+    resize();
+    if (reduce) { tick(); } else { requestAnimationFrame(tick); }
+  })();
 </script>
 </body>
 </html>
