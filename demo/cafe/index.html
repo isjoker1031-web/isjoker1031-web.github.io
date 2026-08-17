@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMARO COFFEE ROASTERS — 自家焙煎珈琲の店（制作サンプル）</title>
+<meta name="description" content="いしはら製作所によるWeb制作サンプルです。AMAROは架空の自家焙煎珈琲店で、実在の店舗ではありません。">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AMARO COFFEE ROASTERS — 制作サンプル">
+<meta property="og:description" content="いしはら製作所によるカフェ・自家焙煎珈琲店向けWeb制作サンプル。">
+<meta property="og:url" content="https://isjoker1031-web.github.io/demo/cafe/">
+<meta property="og:image" content="https://isjoker1031-web.github.io/assets/webwork/sample-cafe.jpg">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1000">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://isjoker1031-web.github.io/assets/webwork/sample-cafe.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f1e4; --bg2:#efe4cd; --panel:#fffbf2; --line:#e3d5b8;
+    --text:#2c1d12; --muted:#7c6a51;
+    --accent:#c1552c; --accent-ink:#fff7ee; --accent-soft:#f2ddc7;
+    --olive:#5c6a3f;
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Work Sans",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic Medium",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+  ::selection{background:var(--accent);color:var(--accent-ink)}
+  img,svg{max-width:100%}
+
+  .sample{position:sticky;top:0;z-index:999;background:#241609;color:#f2e4cf;font-size:13px;padding:10px 16px;text-align:center;border-bottom:1px solid #3a2814}
+  .sample b{color:#fff}
+  .sample a{color:#e8a06f;text-decoration:none;border-bottom:1px solid rgba(232,160,111,.4)}
+  .sample a:hover{border-color:#e8a06f}
+
+  header.top{padding:22px 0 0}
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.01em;display:flex;align-items:center;gap:9px}
+  .brand .mark{width:11px;height:11px;border-radius:50%;background:var(--accent)}
+  .navlinks{display:flex;gap:30px;font-size:14px;color:var(--muted)}
+  .navlinks a{text-decoration:none}
+  .navlinks a:hover{color:var(--text)}
+  .navcta{font-size:13px;font-weight:600;color:var(--accent-ink);background:var(--text);padding:10px 18px;border-radius:100px;text-decoration:none;white-space:nowrap}
+  .navcta:hover{background:var(--accent)}
+  @media(max-width:760px){.navlinks{display:none}}
+
+  /* hero */
+  .hero{position:relative;padding:64px 0 40px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr}}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 11.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  h1{font-family:var(--serif);font-size:clamp(38px,6vw,66px);line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;font-weight:600;font-optical-sizing:auto}
+  h1 i{font-style:italic;color:var(--accent);font-weight:500}
+  .hero-sub{font-size:17px;color:var(--muted);max-width:42ch;margin:0 0 32px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;padding:14px 24px;border-radius:100px;text-decoration:none;border:1px solid transparent}
+  .btn-primary{background:var(--text);color:var(--accent-ink)}
+  .btn-primary:hover{background:var(--accent)}
+  .btn-ghost{border-color:var(--text);color:var(--text)}
+  .btn-ghost:hover{background:var(--text);color:var(--accent-ink)}
+
+  .cup-stage{position:relative;height:400px;display:flex;align-items:flex-end;justify-content:center}
+  #steam{position:absolute;inset:0;width:100%;height:100%}
+  .cup-svg{position:relative;z-index:2;width:220px}
+
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel);overflow:hidden;padding:16px 0;margin-top:56px}
+  .marquee-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 26s linear infinite;width:max-content}
+  .marquee span{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted);display:flex;align-items:center;gap:48px}
+  .marquee span b{color:var(--accent);font-style:normal;font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:.08em}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.marquee-track{animation:none}}
+
+  section{padding:84px 0}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:16px}
+  .sec-num{font:600 12px/1 var(--sans);color:var(--accent);letter-spacing:.12em}
+  h2{font-family:var(--serif);font-size:clamp(26px,3.6vw,40px);letter-spacing:-.01em;margin:0 0 14px;font-weight:600}
+  .sec-sub{color:var(--muted);max-width:58ch;margin:0 0 48px;font-size:15.5px}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:860px){.menu-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.menu-grid{grid-template-columns:1fr}}
+  .mcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;transition:transform .25s ease,box-shadow .25s ease}
+  .mcard:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 24px 50px -28px rgba(44,29,18,.35)}
+  .mcard .tag{font:600 10.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--olive)}
+  .mcard h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;font-weight:600}
+  .mcard p{font-size:14px;color:var(--muted);margin:0 0 16px}
+  .mcard .price{font:700 15px/1 var(--sans);color:var(--accent)}
+
+  .origin{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+  @media(max-width:760px){.origin{grid-template-columns:repeat(2,1fr)}}
+  .origin b{display:block;font-family:var(--serif);font-size:40px;font-weight:600;color:var(--accent)}
+  .origin span{font-size:13px;color:var(--muted)}
+
+  .story{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+  @media(max-width:860px){.story{grid-template-columns:1fr}}
+  .story-art{aspect-ratio:4/5;border-radius:20px;background:linear-gradient(160deg,var(--accent-soft),var(--bg2));position:relative;overflow:hidden}
+  .story-art canvas{width:100%;height:100%;display:block}
+  .story p{font-size:15.5px;color:var(--muted);margin:0 0 16px;max-width:52ch}
+
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:820px){.quotes{grid-template-columns:1fr}}
+  .quote{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;font-size:14.5px}
+  .quote p{margin:0 0 16px;font-family:var(--serif);font-style:italic;font-size:16.5px;line-height:1.5}
+  .quote footer{font-size:13px;color:var(--muted)}
+
+  .locations{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:820px){.locations{grid-template-columns:1fr}}
+  .loc{border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--panel)}
+  .loc b{font-family:var(--serif);font-size:18px;display:block;margin-bottom:6px}
+  .loc span{font-size:13.5px;color:var(--muted);display:block;line-height:1.6}
+
+  .cta-band{background:var(--text);color:var(--accent-ink);border-radius:24px;padding:56px 40px;text-align:center}
+  .cta-band h2{color:var(--accent-ink)}
+  .cta-band p{color:#d9c7ac;margin:0 0 26px}
+
+  footer.site{border-top:1px solid var(--line);padding:36px 0 60px;color:var(--muted);font-size:13px}
+  footer.site a{color:var(--accent);text-decoration:none}
+  footer.site a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="sample">
+  これは<b>いしはら製作所によるWeb制作サンプル</b>です — AMAROは架空の店舗で、実在の企業とは関係ありません。
+  <a href="https://isjoker1031-web.github.io/#webwork">Web制作サービスを見る →</a>
+</div>
+
+<header class="top">
+  <div class="wrap nav">
+    <div class="brand"><span class="mark"></span>AMARO</div>
+    <nav class="navlinks">
+      <a href="#menu">メニュー</a>
+      <a href="#story">こだわり</a>
+      <a href="#locations">店舗</a>
+    </nav>
+    <a class="navcta" href="#locations">来店予約</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">自家焙煎珈琲店</span>
+      <h1>一杯のために、<br>豆と<i>もう一度</i>向き合う。</h1>
+      <p class="hero-sub">AMAROは、焙煎士が毎朝カッピングして仕入れを決める小さな珈琲店です。産地から届いた生豆を、その日の湿度や気温に合わせて焼き直す——そんな手間を、味で返します。</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#menu">本日のメニューを見る</a>
+        <a class="btn btn-ghost" href="#story">豆へのこだわり</a>
+      </div>
+    </div>
+    <div class="cup-stage">
+      <canvas id="steam"></canvas>
+      <svg class="cup-svg" viewBox="0 0 200 200" fill="none">
+        <path d="M40 70h100l-8 78a16 16 0 0 1-16 14H64a16 16 0 0 1-16-14L40 70z" fill="#2c1d12"/>
+        <path d="M140 82h14a20 20 0 0 1 0 40h-10" stroke="#2c1d12" stroke-width="9" fill="none"/>
+        <ellipse cx="90" cy="70" rx="50" ry="9" fill="#c1552c"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="marquee">
+    <div class="wrap">
+      <div class="marquee-track">
+        <span><b>TODAY'S ROAST</b> エチオピア イルガチェフェ <b>·</b> グアテマラ ウェウェテナンゴ <b>·</b> ブラジル セラード <b>·</b> ケニア ニエリ</span>
+        <span><b>TODAY'S ROAST</b> エチオピア イルガチェフェ <b>·</b> グアテマラ ウェウェテナンゴ <b>·</b> ブラジル セラード <b>·</b> ケニア ニエリ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01 · MENU</span></div>
+    <h2 class="reveal">週替わりの一杯</h2>
+    <p class="sec-sub reveal">在庫と焼き上がりに合わせて、毎週メニューが変わります。迷ったら、まずはハンドドリップから。</p>
+    <div class="menu-grid">
+      <div class="mcard reveal"><span class="tag">Hand Drip</span><h3>ハンドドリップ</h3><p>その週いちばん状態の良い豆を、一杯ずつ丁寧に。豆の変更は無料です。</p><span class="price">¥680〜</span></div>
+      <div class="mcard reveal"><span class="tag">Espresso</span><h3>カフェラテ</h3><p>エスプレッソと低温殺菌牛乳。豆の個性がわかるよう、甘さは控えめに。</p><span class="price">¥620</span></div>
+      <div class="mcard reveal"><span class="tag">Cold Brew</span><h3>水出し珈琲</h3><p>12時間かけて抽出。氷を入れても薄まらない、濃いめの仕込みです。</p><span class="price">¥600</span></div>
+      <div class="mcard reveal"><span class="tag">Bakery</span><h3>自家製フィナンシェ</h3><p>コーヒーの搾りかすを使った焼き菓子。廃棄ゼロを目指す小さな工夫です。</p><span class="price">¥320</span></div>
+      <div class="mcard reveal"><span class="tag">Beans</span><h3>豆の量り売り</h3><p>100gから購入可能。焙煎日はラベルに正直に記載しています。</p><span class="price">¥480〜/100g</span></div>
+      <div class="mcard reveal"><span class="tag">Subscription</span><h3>定期便（月1回）</h3><p>その月いちばんのおすすめ豆を、焙煎したてでお届け。休止・解約は自由です。</p><span class="price">¥2,980/月</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="origin">
+      <div class="reveal"><b>7</b><span>取引産地</span></div>
+      <div class="reveal"><b>48h</b><span>焙煎から店頭までの目安</span></div>
+      <div class="reveal"><b>0</b><span>フードロス目標（廃棄豆）</span></div>
+      <div class="reveal"><b>3</b><span>店舗数</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="story">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02 · STORY</span></div>
+    <div class="story">
+      <div class="story-art reveal"><canvas id="beans"></canvas></div>
+      <div class="reveal">
+        <h2>豆は、育てた人がいる。</h2>
+        <p>AMAROが仕入れる豆は、すべて生産者と直接つながりのある農園から。中間業者を減らした分の利益は、翌年の栽培投資として産地に還元しています。</p>
+        <p>店頭では、豆の袋に生産者の名前と標高を必ず記載。「誰が育てたか分かる一杯」を、日常の値段で出し続けることがAMAROの方針です。</p>
+        <a class="btn btn-ghost" href="#locations">店舗を探す</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03 · VOICE</span></div>
+    <h2 class="reveal">常連さんの声</h2>
+    <p class="sec-sub reveal">この制作サンプル用に書き起こした架空の感想です。</p>
+    <div class="quotes">
+      <div class="quote reveal"><p>「豆が変わるたびに味の違いを教えてくれるので、通うのが楽しい。」</p><footer>近隣にお勤めの方</footer></div>
+      <div class="quote reveal"><p>「テイクアウトなのに、ちゃんとハンドドリップで淹れてくれる店は貴重。」</p><footer>週3で利用</footer></div>
+      <div class="quote reveal"><p>「定期便、毎月違う産地が届くのが地味に嬉しい。」</p><footer>定期便会員</footer></div>
+    </div>
+  </div>
+</section>
+
+<section id="locations">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04 · SHOPS</span></div>
+    <h2 class="reveal">店舗案内</h2>
+    <p class="sec-sub reveal">全店、豆売りは営業時間内いつでも承っています。</p>
+    <div class="locations">
+      <div class="loc reveal"><b>本店</b><span>7:30–19:00（月休）<br>焙煎機は店内でご覧いただけます</span></div>
+      <div class="loc reveal"><b>公園通り店</b><span>8:00–18:00（無休）<br>イートインは12席</span></div>
+      <div class="loc reveal"><b>ロースタリー</b><span>10:00–17:00（土日のみ）<br>焙煎見学は予約制</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>今日の一杯、飲みに来ませんか。</h2>
+      <p>豆の相談だけでも大歓迎です。</p>
+      <a class="btn" style="background:var(--accent);color:#fff" href="#locations">店舗情報を見る</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <p><strong style="color:var(--text)">AMARO COFFEE ROASTERS</strong> — 架空店舗の制作サンプルです。</p>
+    <p>制作：<strong style="color:var(--text)">いしはら製作所</strong> — 個人店・小規模店舗のホームページを、動きと世界観のあるデザインで。
+      <a href="https://isjoker1031-web.github.io/#webwork">料金・他のサンプルを見る →</a>
+      · <a href="mailto:is.joker1031@gmail.com?subject=カフェ・飲食店HPのご相談">相談する</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.15});
+    els.forEach(el=>io.observe(el));
+  } else { els.forEach(el=>el.classList.add('in')); }
+
+  // steam particles rising from the cup
+  (function(){
+    const c = document.getElementById('steam');
+    const ctx = c.getContext('2d');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function resize(){ c.width = c.parentElement.clientWidth; c.height = c.parentElement.clientHeight; }
+    resize(); window.addEventListener('resize', resize);
+    if (reduced) return;
+    let particles = [];
+    function spawn(){
+      const cx = c.width/2 + (Math.random()*40-20);
+      particles.push({x:cx, y:c.height*0.42, r:Math.random()*10+6, vy:-(Math.random()*.5+.4), vx:(Math.random()*.4-.2), life:0, max:Math.random()*120+140, drift:Math.random()*.02+.005});
+    }
+    let t=0;
+    function tick(){
+      t++;
+      if (t%18===0) spawn();
+      ctx.clearRect(0,0,c.width,c.height);
+      particles.forEach(p=>{
+        p.life++;
+        p.x += p.vx + Math.sin(p.life*p.drift)*.4;
+        p.y += p.vy;
+        p.r += 0.06;
+        const a = Math.max(0, 0.22 * (1 - p.life/p.max));
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(200,180,160,${a})`;
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+      });
+      particles = particles.filter(p=>p.life < p.max);
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  // drifting coffee beans in the story panel
+  (function(){
+    const c = document.getElementById('beans');
+    if(!c) return;
+    const ctx = c.getContext('2d');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function resize(){ c.width = c.parentElement.clientWidth; c.height = c.parentElement.clientHeight; }
+    resize(); window.addEventListener('resize', resize);
+    const beans = Array.from({length:14}, ()=>({
+      x: Math.random(), y: Math.random(), s: Math.random()*10+8,
+      rot: Math.random()*Math.PI, speed: Math.random()*.0015+.0005, dir: Math.random()>.5?1:-1
+    }));
+    function drawBean(x,y,s,rot){
+      ctx.save(); ctx.translate(x,y); ctx.rotate(rot);
+      ctx.fillStyle = '#3a2412';
+      ctx.beginPath(); ctx.ellipse(0,0,s,s*.62,0,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#c1552c'; ctx.lineWidth = Math.max(1,s*.12);
+      ctx.beginPath(); ctx.moveTo(0,-s*.55); ctx.quadraticCurveTo(s*.15,0,0,s*.55); ctx.stroke();
+      ctx.restore();
+    }
+    function frame(tm){
+      ctx.clearRect(0,0,c.width,c.height);
+      beans.forEach(b=>{
+        if(!reduced) b.rot += b.speed*b.dir;
+        drawBean(b.x*c.width, b.y*c.height, b.s, b.rot);
+      });
+      if(!reduced) requestAnimationFrame(frame);
+    }
+    frame();
+  })();
+</script>
+
+</body>
+</html>

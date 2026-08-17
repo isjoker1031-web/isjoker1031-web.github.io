@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meridian Partners — Growth Advisory (Design Sample)</title>
+<meta name="description" content="A landing page design sample by Ishihara Works. Meridian Partners is a fictional firm — not a real company.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Meridian Partners — Growth Advisory (Design Sample)">
+<meta property="og:description" content="A corporate / consulting landing page design sample by Ishihara Works.">
+<meta property="og:url" content="https://isjoker1031-web.github.io/demo/corporate/">
+<meta property="og:image" content="https://isjoker1031-web.github.io/assets/webwork/sample-corporate.jpg">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1000">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://isjoker1031-web.github.io/assets/webwork/sample-corporate.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --panel2:#f1f3f6; --line:#e3e7ee;
+    --text:#0b1220; --muted:#5b6472;
+    --accent:#3454d1; --accent-ink:#ffffff; --accent-soft:#e8ecfb;
+    --navy:#0b1220;
+    --serif:"Instrument Serif",Georgia,serif;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+  ::selection{background:var(--accent);color:#fff}
+
+  .sample{position:sticky;top:0;z-index:999;background:var(--navy);color:#cfd6e6;font-size:13px;padding:10px 16px;text-align:center;border-bottom:1px solid #1c2537}
+  .sample b{color:#fff}
+  .sample a{color:#8fa2f0;text-decoration:none;border-bottom:1px solid rgba(143,162,240,.4)}
+  .sample a:hover{border-color:#8fa2f0}
+
+  header.top{padding:22px 0 0}
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.01em}
+  .brand .mark{width:26px;height:26px;border-radius:6px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:15px}
+  .navlinks{display:flex;gap:30px;font-size:14px;color:var(--muted)}
+  .navlinks a{text-decoration:none}
+  .navlinks a:hover{color:var(--text)}
+  .navcta{font-size:13.5px;font-weight:600;color:var(--accent-ink);background:var(--navy);padding:10px 18px;border-radius:8px;text-decoration:none;white-space:nowrap}
+  .navcta:hover{background:var(--accent)}
+  @media(max-width:780px){.navlinks{display:none}}
+
+  /* hero */
+  .hero{position:relative;padding:70px 0 20px;isolation:isolate;overflow:hidden}
+  .mesh-stage{position:absolute;inset:-10% -10% auto;height:640px;z-index:-1}
+  #mesh{width:100%;height:100%;display:block;opacity:.55}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font:700 11.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:8px 14px;border-radius:100px;margin-bottom:26px}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(42px,6.4vw,78px);line-height:1.02;letter-spacing:-.01em;margin:0 0 24px;max-width:16ch}
+  h1 i{color:var(--accent);font-style:italic}
+  .hero-sub{font-size:18px;color:var(--muted);max-width:52ch;margin:0 0 36px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;padding:14px 24px;border-radius:8px;text-decoration:none;border:1px solid transparent}
+  .btn-primary{background:var(--navy);color:#fff}
+  .btn-primary:hover{background:var(--accent)}
+  .btn-ghost{border-color:var(--line);color:var(--text);background:#fff}
+  .btn-ghost:hover{border-color:#c3cadb}
+
+  .logostrip{border-top:1px solid var(--line);padding:26px 0;overflow:hidden}
+  .logostrip p{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+  .logo-track{display:flex;gap:64px;white-space:nowrap;animation:scroll 22s linear infinite;width:max-content;align-items:center}
+  .logo-track span{font-family:var(--serif);font-style:italic;font-size:23px;color:#a7afbf}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.logo-track{animation:none}}
+
+  section{padding:92px 0}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .sec-num{font:700 12px/1 var(--sans);color:var(--accent);letter-spacing:.1em}
+  .sec-line{flex:1;height:1px;background:var(--line)}
+  h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4vw,44px);letter-spacing:-.01em;margin:0 0 14px}
+  .sec-sub{color:var(--muted);max-width:58ch;margin:0 0 48px;font-size:16px}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  @media(max-width:820px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--panel);padding:30px 26px}
+  .stat b{font-family:var(--serif);font-weight:400;font-size:46px;display:block;color:var(--navy);line-height:1}
+  .stat span{font-size:13px;color:var(--muted)}
+
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:860px){.svc-grid{grid-template-columns:1fr}}
+  .svc{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+  .svc:hover{transform:translateY(-6px);box-shadow:0 24px 50px -30px rgba(11,18,32,.25);border-color:#c9d1e3}
+  .svc .ico{width:32px;height:32px;color:var(--accent);margin-bottom:18px}
+  .svc h3{font-size:17px;margin:0 0 10px;letter-spacing:-.01em}
+  .svc p{font-size:14.5px;color:var(--muted);margin:0}
+
+  .process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+  @media(max-width:900px){.process{grid-template-columns:1fr}}
+  .process::before{content:"";position:absolute;top:19px;left:9%;right:9%;height:1px;background:var(--line)}
+  @media(max-width:900px){.process::before{display:none}}
+  .pstep{padding:0 14px;position:relative}
+  .pstep b{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;font:600 14px/1 var(--sans);margin-bottom:20px;position:relative;z-index:2}
+  .pstep h3{font-size:15.5px;margin:0 0 8px}
+  .pstep p{font-size:13.5px;color:var(--muted);margin:0}
+
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:820px){.quotes{grid-template-columns:1fr}}
+  .quote{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px}
+  .quote p{font-family:var(--serif);font-size:22px;line-height:1.35;margin:0 0 20px;font-style:italic}
+  .quote footer{font-size:13.5px;color:var(--muted)}
+
+  .cta-band{background:var(--navy);color:#fff;border-radius:22px;padding:60px 44px;text-align:center;position:relative;overflow:hidden}
+  .cta-band h2{color:#fff}
+  .cta-band p{color:#a9b2c9;margin:0 0 28px}
+
+  footer.site{border-top:1px solid var(--line);padding:36px 0 60px;color:var(--muted);font-size:13px}
+  footer.site a{color:var(--accent);text-decoration:none}
+  footer.site a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="sample">
+  This is a <b>portfolio sample by Ishihara Works</b> — Meridian Partners is a fictional firm, not a real company.
+  <a href="https://isjoker1031-web.github.io/#webwork">Web design services →</a>
+</div>
+
+<header class="top">
+  <div class="wrap nav">
+    <div class="brand"><span class="mark">M</span> Meridian</div>
+    <nav class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="navcta" href="#contact">Book a call</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="mesh-stage"><canvas id="mesh"></canvas></div>
+  <div class="wrap">
+    <span class="eyebrow reveal">Growth &amp; operations advisory</span>
+    <h1 class="reveal">Strategy that survives <i>contact</i> with the business.</h1>
+    <p class="hero-sub reveal">Meridian works with founder-led companies past their first hire and before their next round — turning a strategy deck into a plan the operating team can actually run.</p>
+    <div class="hero-ctas reveal">
+      <a class="btn btn-primary" href="#contact">Book an intro call</a>
+      <a class="btn btn-ghost" href="#services">See how we work</a>
+    </div>
+  </div>
+  <div class="logostrip">
+    <div class="wrap">
+      <p>Illustrative client wordmarks — design sample only</p>
+      <div class="logo-track">
+        <span>Northline</span><span>Ferro &amp; Co.</span><span>Basecrest</span><span>Halden Group</span><span>Vantra</span><span>Orchid Labs</span>
+        <span>Northline</span><span>Ferro &amp; Co.</span><span>Basecrest</span><span>Halden Group</span><span>Vantra</span><span>Orchid Labs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="stat-grid">
+      <div class="stat reveal"><b data-count="63">0</b><span>Engagements delivered</span></div>
+      <div class="stat reveal"><b data-count="4" data-suffix=" wks">0</b><span>Avg. time to first plan</span></div>
+      <div class="stat reveal"><b data-count="91" data-suffix="%">0</b><span>Recommendations actually shipped</span></div>
+      <div class="stat reveal"><b data-count="12">0</b><span>Sector specialists</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01 · SERVICES</span><div class="sec-line"></div></div>
+    <h2 class="reveal">Three ways we get involved.</h2>
+    <p class="sec-sub reveal">No standing retainers by default — we scope a defined engagement, deliver it, and step back.</p>
+    <div class="svc-grid">
+      <div class="svc reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18M7 15l4-5 4 3 5-7"/></svg>
+        <h3>Growth diagnostics</h3>
+        <p>A 3-week deep dive into unit economics, funnel, and org bottlenecks — with a prioritized plan, not a 90-slide deck.</p>
+      </div>
+      <div class="svc reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6L3 10l6-1z"/></svg>
+        <h3>Operating model design</h3>
+        <p>We redesign how decisions actually get made as headcount grows past the founder's direct span of control.</p>
+      </div>
+      <div class="svc reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V5m0 14h16M8 15l3-4 3 3 4-6"/></svg>
+        <h3>Fundraise readiness</h3>
+        <p>We pressure-test the narrative and the numbers together, before either one meets an investor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02 · PROCESS</span><div class="sec-line"></div></div>
+    <h2 class="reveal">How an engagement runs.</h2>
+    <p class="sec-sub reveal">Fixed scope, fixed price, agreed before day one.</p>
+    <div class="process">
+      <div class="pstep reveal"><b>1</b><h3>Scoping call</h3><p>45 minutes to confirm this is actually the right problem to solve.</p></div>
+      <div class="pstep reveal"><b>2</b><h3>Diagnostic</h3><p>Interviews, data pulls, and a first-week hypothesis to react to.</p></div>
+      <div class="pstep reveal"><b>3</b><h3>Plan &amp; sign-off</h3><p>A short plan your team could start executing the same week.</p></div>
+      <div class="pstep reveal"><b>4</b><h3>30-day check-in</h3><p>One follow-up call, no charge, to see what actually stuck.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03 · FROM CLIENTS</span><div class="sec-line"></div></div>
+    <h2 class="reveal">Illustrative feedback</h2>
+    <p class="sec-sub reveal">Written for this design sample — Meridian Partners is a fictional firm.</p>
+    <div class="quotes">
+      <div class="quote reveal"><p>"First advisory engagement where the deck actually turned into a Monday-morning task list."</p><footer>COO, Series B logistics platform</footer></div>
+      <div class="quote reveal"><p>"They scoped down to the one decision that was actually blocking growth. Everything else was noise."</p><footer>Founder, vertical SaaS company</footer></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>Bring the real problem to the call.</h2>
+      <p>30 minutes, no deck required from your side.</p>
+      <a class="btn" style="background:#fff;color:var(--navy)" href="mailto:is.joker1031@gmail.com?subject=Corporate%20site%20project">Book an intro call</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <p><strong style="color:var(--text)">Meridian Partners</strong> — a fictional firm, design sample only.</p>
+    <p>Design &amp; build by <strong style="color:var(--text)">Ishihara Works</strong> — confident, fast-loading sites for advisory firms and small consultancies.
+      <a href="https://isjoker1031-web.github.io/#webwork">See rates &amp; more samples →</a>
+      · <a href="https://x.com/pgpg399">@pgpg399</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.15});
+    els.forEach(el=>io.observe(el));
+  } else { els.forEach(el=>el.classList.add('in')); }
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // count-up stats
+  const counters = document.querySelectorAll('[data-count]');
+  const cio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      cio.unobserve(e.target);
+      const target = parseInt(e.target.dataset.count,10);
+      const suffix = e.target.dataset.suffix || '';
+      if (reduced) { e.target.textContent = target + suffix; return; }
+      const dur = 1000; const start = performance.now();
+      function step(t){
+        const p = Math.min(1,(t-start)/dur);
+        const eased = 1 - Math.pow(1-p,3);
+        e.target.textContent = Math.round(target*eased) + suffix;
+        if(p<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  },{threshold:.5});
+  counters.forEach(c=>cio.observe(c));
+
+  // slow rotating gradient mesh behind the hero — Stripe-style ambient motion, not decoration for its own sake
+  (function(){
+    const c = document.getElementById('mesh');
+    const ctx = c.getContext('2d');
+    function resize(){ c.width = c.parentElement.clientWidth; c.height = c.parentElement.clientHeight; }
+    resize(); window.addEventListener('resize', resize);
+    const blobs = [
+      {cx:.72,cy:.18,r:.42,color:'52,84,209'},
+      {cx:.42,cy:.02,r:.30,color:'116,199,214'},
+      {cx:.92,cy:.42,r:.26,color:'52,84,209'}
+    ];
+    if (reduced){
+      blobs.forEach(b=>{
+        const g = ctx.createRadialGradient(b.cx*c.width,b.cy*c.height,0,b.cx*c.width,b.cy*c.height,b.r*c.width);
+        g.addColorStop(0, `rgba(${b.color},.35)`); g.addColorStop(1, `rgba(${b.color},0)`);
+        ctx.fillStyle = g; ctx.fillRect(0,0,c.width,c.height);
+      });
+      return;
+    }
+    function frame(ts){
+      ctx.clearRect(0,0,c.width,c.height);
+      blobs.forEach((b,i)=>{
+        const t = ts/9000 + i*2;
+        const x = (b.cx + Math.sin(t)*.05)*c.width;
+        const y = (b.cy + Math.cos(t*.8)*.04)*c.height;
+        const g = ctx.createRadialGradient(x,y,0,x,y,b.r*c.width);
+        g.addColorStop(0, `rgba(${b.color},.32)`);
+        g.addColorStop(1, `rgba(${b.color},0)`);
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,c.width,c.height);
+      });
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+</script>
+
+</body>
+</html>
