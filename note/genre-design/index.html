@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>同じ人が作ったのに同じに見えない。業種別サイトを5つ作って気づいたこと | いしはら製作所</title>
+<meta name="description" content="カフェ・整体院・ジム・士業・美容室、業種ごとに配色もフォントも動きも全部変えて5サイトを作った記録。「テンプレートに業種の色を乗せる」のではなく、その業種の世界観から逆算する考え方を実例付きで。">
+<meta property="og:title" content="同じ人が作ったのに同じに見えない。業種別サイトを5つ作って気づいたこと">
+<meta property="og:description" content="配色を変えるだけでは「業種に合わせた」ことにならない、という話。5サイトの実例付き。">
+<meta property="og:type" content="article">
+<style>
+  :root{
+    --bg:#0a0c14; --bg2:#10131f; --card:#141827; --line:#232941; --text:#eceef6; --muted:#949cb4;
+    --pink:#ff90e8; --violet:#7c6cff; --cyan:#4dd0e1; --green:#34d399; --amber:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.85;font-size:15.5px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 100px}
+  header.top{padding:26px 0;border-bottom:1px solid var(--line);margin-bottom:10px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--pink),var(--violet));display:flex;align-items:center;justify-content:center;font-weight:800;color:#0a0c14;flex-shrink:0}
+  .brand b{font-size:14.5px}
+  .eyebrow{color:var(--violet);font-size:12px;font-weight:700;letter-spacing:2px;margin:36px 0 10px}
+  h1{font-size:27px;line-height:1.42;margin:0 0 14px;letter-spacing:-.01em;text-wrap:balance}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:28px}
+  h2{font-size:19px;margin:44px 0 14px;padding-top:20px;border-top:1px solid var(--line);letter-spacing:-.005em}
+  h3{font-size:16px;margin:28px 0 10px}
+  p{margin:0 0 16px;color:#dfe2ee}
+  ol,ul{margin:0 0 16px;padding-left:22px;color:#dfe2ee}
+  li{margin-bottom:7px}
+  code{font-family:"SF Mono",Menlo,monospace}
+  p code,li code{background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;color:var(--cyan)}
+  table{width:100%;border-collapse:collapse;margin:8px 0 22px;font-size:13.5px;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+  th{background:var(--card);font-weight:700}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  .samples{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 26px}
+  @media(max-width:520px){.samples{grid-template-columns:1fr}}
+  .sample-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-decoration:none;color:var(--text)}
+  .sample-card:hover{border-color:var(--violet)}
+  .sample-card b{display:block;font-size:14px;margin-bottom:4px}
+  .sample-card span{font-size:12.5px;color:var(--muted)}
+  .warn{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:16px 20px;margin:22px 0}
+  .warn b{color:var(--amber)}
+  .warn p{margin:6px 0 0;font-size:14px}
+  .cta{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:34px 0}
+  .cta h3{margin:0 0 6px;font-size:15px}
+  .cta p{margin:0 0 12px;font-size:13.5px;color:var(--muted)}
+  .btn{display:inline-block;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:700;text-decoration:none}
+  .btn.primary{background:linear-gradient(90deg,var(--pink),var(--violet));color:#0a0c14}
+  footer{border-top:1px solid var(--line);margin-top:50px;padding-top:24px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--muted)}
+  a{color:var(--pink)}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6259976488060504" crossorigin="anonymous"></script>
+<script src="../../assets/js/ads.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/"><span class="mark">石</span><b>いしはら製作所</b></a>
+  </header>
+
+  <div class="eyebrow">制作ノート</div>
+  <h1>同じ人が作ったのに同じに見えない。業種別サイトを5つ作って気づいたこと</h1>
+  <p class="meta">2026年8月 / Web制作・デザイン</p>
+
+  <p>カフェ・整体院・ジム・士業（コンサル）・美容室のホームページを、1週かけて5つ立て続けに作りました。<strong>あえて同じテンプレートを使い回さず、配色もフォントも「動き方」まで業種ごとに作り直しています。</strong>全部実際に開けるページとして公開しているので、先に見てもらったほうが早いと思います。</p>
+
+  <div class="samples">
+    <a class="sample-card" href="/demo/cafe/" target="_blank" rel="noopener"><b>☕ カフェ・自家焙煎珈琲店</b><span>生成り×テラコッタ、湯気が立ちのぼるキャンバス演出</span></a>
+    <a class="sample-card" href="/demo/clinic/" target="_blank" rel="noopener"><b>🌿 整体院・クリニック</b><span>セージグリーン、8秒周期で呼吸する同心円</span></a>
+    <a class="sample-card" href="/demo/gym/" target="_blank" rel="noopener"><b>🔥 パーソナルジム</b><span>黒×ライムグリーン、カウントアップする実績数字</span></a>
+    <a class="sample-card" href="/demo/corporate/" target="_blank" rel="noopener"><b>🏢 士業・経営コンサル</b><span>ネイビー×セリフ体、ゆっくり漂うグラデーション</span></a>
+    <a class="sample-card" href="/demo/salon/" target="_blank" rel="noopener"><b>💇 美容室・サロン</b><span>アイボリー×ゴールド、常時揺らめくシマー粒子</span></a>
+  </div>
+
+  <p>見比べると、同じ制作者が同じ週に作ったとは思えないくらいバラバラのはずです。それは狙って作った結果で、今回はその考え方の話です。</p>
+
+  <h2>「業種に合わせる」を配色だけで済ませない</h2>
+  <p>ホームページ制作でよくある進め方は、<strong>1つの型を決めておいて、業種ごとに色だけ差し替える</strong>というやり方です。青にすれば誠実な雰囲気、緑にすれば健康的な雰囲気——たしかに間違いではないのですが、これだけだと「なんとなくそれっぽい」止まりで終わります。</p>
+  <p>実際にやっているのは、色より前の段階です。<strong>その業種の世界で本当に使われている道具・所作・空気を先に洗い出してから、そこから配色とフォントと動きを逆算します。</strong>カフェなら湯気とカップ、整体院なら呼吸のリズム、ジムなら鍛錬の反復——先に「その業種の身体感覚」を決めて、それをどう画面の動きに翻訳するかを考えます。</p>
+
+  <h2>業種ごとの分解表</h2>
+  <p>5サイトそれぞれ、何を手がかりにしたかをまとめるとこうなります。</p>
+  <table>
+    <tr><th>業種</th><th>手がかりにした感覚</th><th>動きへの翻訳</th></tr>
+    <tr><td>カフェ</td><td>抽出を待つ間の静けさ</td><td>湯気がゆっくり立ちのぼる粒子アニメーション</td></tr>
+    <tr><td>整体院</td><td>施術中の深い呼吸</td><td>8秒周期で拡大・縮小する同心円（吸って吐くリズムと同じ長さ）</td></tr>
+    <tr><td>ジム</td><td>追い込む瞬間の勢い</td><td>数字が一気にカウントアップ、マーキーが途切れず流れ続ける</td></tr>
+    <tr><td>士業・コンサル</td><td>データに基づく静かな説得力</td><td>グラデーションがごくゆっくり漂う（速いと安っぽくなるので抑えた）</td></tr>
+    <tr><td>美容室</td><td>仕上がりを待つ贅沢な時間</td><td>金色の粒子が常に揺らめく、写真を使わず質感だけで魅せる</td></tr>
+  </table>
+
+  <h3>参考にしたのは「同業種の海外大手」であって、素材サイトではない</h3>
+  <p>配色見本やテンプレート集は一切見ていません。代わりに見たのは、<strong>その業種で実際に世界的な支持を得ているブランドが、自社サイトでどんな「間」と「動き」を選んでいるか</strong>です。カフェならBlue Bottle Coffeeのような編集的な余白の取り方、ジムならNikeのような勢いのあるタイポグラフィ、士業ならStripeのような静かに漂うグラデーション——ジャンルは違っても、共通するのは<strong>「動きに理由がある」</strong>という点でした。飾りで動かしているところは1つもありません。</p>
+
+  <div class="warn">
+    <b>AIでよく出てくる「それっぽい」デザインには、実は共通の癖があります。</b>
+    <p>クリーム色の背景にセリフ体、紫〜青のグラデーション、中央揃えの見出し、角丸カード、絵文字の見出しアイコン——このあたりを無自覚に選んでしまうと、業種を変えても結局似た雰囲気になります。今回の5つで一番気をつけたのは、実はここでした。</p>
+  </div>
+
+  <h2>動きは「つけた方が印象に残る」ではなく「削れないものだけ残す」</h2>
+  <p>5サイトとも動きの要素は1つか2つに絞っています。ジムのページなら数字のカウントアップとマーキー、それ以外は静止したままです。<strong>動きを足せば足すほど「AIっぽさ」も同時に増えます。</strong>本当に効くのは物量ではなく、その業種を象徴する動きを1つだけ丁寧に作ることでした。</p>
+  <p>技術的には、5サイトとも外部の画像ファイルを一切使っていません。湯気も、呼吸する円も、揺らめく粒子も、すべて<code>&lt;canvas&gt;</code>でその場で計算して描いています。画像がゼロなので表示も軽く、スマートフォンでも遅延なく動きます（画像を軽くする話は<a href="/note/site-speed/">別の記事</a>にまとめています）。</p>
+
+  <h2>まとめ</h2>
+  <ol>
+    <li>配色だけで「業種対応」を済ませない。<strong>その業種の身体感覚を先に言語化する</strong></li>
+    <li>参考にするのは素材集ではなく、<strong>その業種で実際に支持されているブランドの「動きの理由」</strong></li>
+    <li>動きは物量で足さず、<strong>象徴的な1つだけを丁寧に作る</strong></li>
+    <li>画像を使わず計算描画にすれば、<strong>動きを足しても表示は軽いまま</strong></li>
+  </ol>
+
+  <div class="cta">
+    <h3>業種に合わせたホームページ・LPを作りたい方へ</h3>
+    <p>上の5サンプルはすべて架空の店舗ですが、同じ考え方でそのまま実店舗・実サービス向けに作れます。参考にしたい既存サイトがあれば、そのURLを添えて相談いただくとイメージがすり合わせやすいです。</p>
+    <a class="btn primary" href="/#webwork">制作・見積りのご相談 →</a>
+  </div>
+
+  <p>他の記事もどうぞ。<a href="/note/site-speed/">サイトが重い原因の9割は画像</a>、<a href="/note/obs-stinger-webm/">OBSのスティンガーと透過WebM</a>、<a href="/note/dungeon-generator/">バトルマップの自動生成</a>。</p>
+
+  <div data-ad="default" style="margin:34px 0"></div>
+
+  <footer>
+    <span>いしはら製作所の制作ノート</span>
+    <a href="/">トップへ戻る →</a>
+  </footer>
+</div>
+</body>
+</html>
