@@ -8,7 +8,7 @@
 <meta name="keywords" content="もしも,もしもの人生,人生やり直し,if 人生,AI 小説,短編小説 AI,人生 シミュレーション,別の人生">
 <link rel="canonical" href="https://isjoker1031-web.github.io/moshimo/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="いしはら製作所">
+<meta property="og:site_name" content="どんぐりラボ">
 <meta property="og:title" content="もしも — もうひとつの人生をAIが綴る">
 <meta property="og:description" content="もし、あの選択をしていたら？ あなたの“もうひとつの人生”を、AIが約10分の短編小説に。">
 <meta property="og:url" content="https://isjoker1031-web.github.io/moshimo/">
@@ -30,7 +30,7 @@
   "operatingSystem": "Web",
   "inLanguage": "ja",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
-  "publisher": { "@type": "Organization", "name": "いしはら製作所" }
+  "publisher": { "@type": "Organization", "name": "どんぐりラボ" }
 }
 </script>
 <script type="application/ld+json">
@@ -332,7 +332,7 @@
     </dl>
   </section>
 
-  <footer>いしはら製作所 — もしも　·　<a href="privacy/" style="color:var(--soft)">プライバシーポリシー</a></footer>
+  <footer>どんぐりラボ — もしも　·　<a href="privacy/" style="color:var(--soft)">プライバシーポリシー</a></footer>
 </div>
 
 <script>
@@ -658,7 +658,7 @@ $("again").onclick = () => { $("story").classList.remove("show"); $("form").styl
   window.scrollTo({top:0,behavior:"smooth"}); };
 $("copy").onclick = () => {
   if(!current) return;
-  const t = `${current.title}\n\n【起】${current.ki}\n\n【承】${current.sho}\n\n【転】${current.ten}\n\n【結】${current.ketsu}\n\n— もしも / いしはら製作所`;
+  const t = `${current.title}\n\n【起】${current.ki}\n\n【承】${current.sho}\n\n【転】${current.ten}\n\n【結】${current.ketsu}\n\n— もしも / どんぐりラボ`;
   navigator.clipboard.writeText(t).then(()=>{ $("copy").textContent="コピーしました"; setTimeout(()=>$("copy").textContent="コピー",1500); });
 };
 
@@ -709,7 +709,7 @@ async function shareImage(){
   c.fillStyle = "#c8a06a"; c.font = '28px "Hiragino Mincho ProN", serif';
   c.fillText("あなたの『もしも』も。", W/2, H-122);
   c.fillStyle = "#7f7160"; c.font = '22px "Hiragino Mincho ProN", serif';
-  c.fillText("もしも  —  いしはら製作所", W/2, H-72);
+  c.fillText("もしも  —  どんぐりラボ", W/2, H-72);
 
   const blob = await new Promise(r => cv.toBlob(r, "image/png"));
   const file = new File([blob], "moshimo.png", { type:"image/png" });
