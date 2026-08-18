@@ -87,7 +87,7 @@
       display: grid; place-items: center; font-weight: 900; font-size: 15px; color: #fff;
     }
     .brand b { font-size: 15px; letter-spacing: .5px; }
-    .brand small { display: block; font-size: 10px; color: var(--muted); letter-spacing: 2px; line-height: 1; }
+    .brand small { display: block !important; font-size: 10px; color: var(--muted); letter-spacing: 2px; line-height: 1; }
     .lang-tab { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
     .lang-tab button {
       background: none; border: none; color: var(--muted); font-size: 12.5px; font-weight: 700;
@@ -99,8 +99,11 @@
     [data-en], [data-ja] { display: none; }
     html.en [data-en] { display: revert; }
     html.ja [data-ja] { display: revert; }
-    /* 非表示言語は詳細度の高いルールでも確実に隠す（.flow-step b 等の display 上書き対策） */
-    html.ja [data-en], html.en [data-ja] { display: none; }
+    /* 非表示言語は詳細度の高いルールでも確実に隠す（.flow-step b 等の display 上書き対策）。
+       !important にしているのは、各コンポーネント側で display:block !important 等を
+       個別に付けている場合（revert が inline に戻してしまうバグの対策）でも、
+       非アクティブ言語側は必ず隠れるようにするため。 */
+    html.ja [data-en], html.en [data-ja] { display: none !important; }
 
     /* ヒーロー */
     /* スクロール進捗バー */
@@ -206,8 +209,8 @@
     .workcard:hover { transform: translateY(-4px); border-color: rgba(224,67,31,.45); box-shadow: 0 12px 40px -16px rgba(224,67,31,.25); }
     .workcard img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; object-position: top; }
     .wc-body { padding: 12px 14px 14px; font-size: 12px; color: var(--muted); }
-    .wc-body b { color: var(--text); display: block; font-size: 12.5px; margin-bottom: 2px; }
-    .wc-open { display: block; margin-top: 8px; color: var(--pink); font-weight: 700; font-size: 12px; }
+    .wc-body b { color: var(--text); display: block !important; font-size: 12.5px; margin-bottom: 2px; }
+    .wc-open { display: block !important; margin-top: 8px; color: var(--pink); font-weight: 700; font-size: 12px; }
     @media (max-width: 700px) { .works-grid { grid-template-columns: 1fr; } }
 
     /* 受注フロー */
@@ -221,7 +224,7 @@
       color: #fff; font-weight: 900; font-size: 14px;
       display: grid; place-items: center;
     }
-    .flow-step b { display: block; font-size: 14.5px; margin-bottom: 3px; }
+    .flow-step b { display: block !important; font-size: 14.5px; margin-bottom: 3px; }
     .flow-step p { font-size: 13px; color: var(--muted); }
     .cta-btn {
       display: block; text-align: center; margin-top: 28px; padding: 16px;
@@ -249,6 +252,14 @@
     @media (max-width: 560px) {
       .stat { padding: 14px 20px; }
       header { padding: 64px 0 48px; }
+    }
+    @media (max-width: 480px) {
+      .nav-in { height: auto; min-height: 56px; padding: 8px 0; flex-wrap: nowrap; }
+      .brand { gap: 8px; }
+      .brand-mark { width: 26px; height: 26px; font-size: 13px; border-radius: 7px; }
+      .brand b { font-size: 12.5px; letter-spacing: .2px; white-space: nowrap; }
+      .brand small { display: none !important; }
+      .lang-tab button { padding: 6px 11px; font-size: 11px; }
     }
   </style>
 </head>
